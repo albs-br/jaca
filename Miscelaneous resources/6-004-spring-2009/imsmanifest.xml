@@ -1,0 +1,2270 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:cwsp="http://www.dspace.org/xmlns/cwspace_imscp"
+          xmlns:ocw="https://ocw.mit.edu/xmlns/ocw_imscp"
+          xmlns:lom="https://ocw.mit.edu/xmlns/LOM"
+          identifier="urn_edu.mit.ocw_6-004-computation-structures-spring-2009"
+          version="2016-9-18T0:42:14"
+          cwsp:packageType="Course"
+          xml:base="6-004-spring-2009/"
+          xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 http://www.imsglobal.org/xsd/imscp_v1p1.xsd  http://www.adlnet.org/xsd/adlcp_rootv1p2 http://www.adlnet.org/xsd/adlcp_rootv1p2.xsd http://www.dspace.org/xmlns/cwspace_imscp http://www.dspace.org/xsd/cwspace_imscp/version10/cwspace_imscpv10.xsd https://ocw.mit.edu/xmlns/ocw_imscp https://ocw.mit.edu/xsd/ocw_imscp/version10/ocw_imscpv10.xsd https://ocw.mit.edu/xmlns/LOM https://ocw.mit.edu/xsd/LOM/lomv1.0/lomv1.0.xsd">
+   	<metadata>
+   		<schema>IMS Content</schema>
+        <schemaversion>1.1</schemaversion>
+        <cwsp:packageMetadata>
+            <cwsp:sourceSystem>OCW</cwsp:sourceSystem>
+            <cwsp:profile>CWSpace</cwsp:profile>
+            <cwsp:profileVersion>0.1</cwsp:profileVersion>
+        </cwsp:packageMetadata>
+        <lom:general uniqueElementName="general">
+            <lom:title uniqueElementName="title">
+				<lom:string language="en">Computation Structures</lom:string>
+			</lom:title>
+			<lom:identifier>
+				<lom:catalog uniqueElementName="catalog">OCW Master Course Number</lom:catalog>
+		      	<lom:entry uniqueElementName="entry">6.004</lom:entry>
+			</lom:identifier>
+        </lom:general>
+        <lom:lifecycle uniqueElementName="lifeCycle">
+            <lom:version uniqueElementName="version">
+				<lom:string language="en">Spring 2009</lom:string>
+			</lom:version>
+            <lom:contribute>
+	            <lom:role>
+	                <lom:source uniqueElementName="source">OCW_LOMv1.0</lom:source>
+	                <lom:value uniqueElementName="value">Author</lom:value>
+	            </lom:role>
+	            <lom:entity>Ward, Steve</lom:entity>
+	            <lom:date uniqueElementName="date">
+	                <lom:dateTime uniqueElementName="dateTime">2016-9-18</lom:dateTime>
+	            </lom:date>
+        	</lom:contribute>
+        </lom:lifecycle>
+        <lom:relation uniqueElementName="relation">
+        	<lom:kind uniqueElementName="kind">
+        		<lom:source uniqueElementName="source">OCW_LOMv1.0</lom:source>
+        		<lom:value uniqueElementName="value">isbasedon</lom:value>
+        	</lom:kind>
+        	<lom:resource uniqueElementName="resource">
+        		<lom:identifier>
+        			<lom:catalog uniqueElementName="catalog">URI</lom:catalog>
+        			<lom:entry uniqueElementName="entry">http://hdl.handle.net/1721.1/56573</lom:entry>
+        		</lom:identifier>
+        		<lom:description uniqueElementName="description">
+        			<lom:string language="en">Previous version of the course</lom:string>
+        		</lom:description>
+        	</lom:resource>
+        </lom:relation>
+        <lom:taxonPath>
+            <lom:source uniqueElementName="source">
+                <lom:string language="en">OCW Course Topics</lom:string>
+            </lom:source>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Mathematics</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Computation</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            
+        </lom:taxonPath>
+        <lom:taxonPath>
+            <lom:source uniqueElementName="source">
+                <lom:string language="en">OCW Course Topics</lom:string>
+            </lom:source>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Engineering</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Electrical Engineering</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Digital Systems</lom:string>
+                </lom:entry>
+            </lom:taxon>
+        </lom:taxonPath>
+        <lom:taxonPath>
+            <lom:source uniqueElementName="source">
+                <lom:string language="en">OCW Course Topics</lom:string>
+            </lom:source>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Engineering</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Computer Science</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Computer Design and Engineering</lom:string>
+                </lom:entry>
+            </lom:taxon>
+        </lom:taxonPath>
+        <lom:taxonPath>
+            <lom:source uniqueElementName="source">
+                <lom:string language="en">OCW Course Topics</lom:string>
+            </lom:source>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Engineering</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Computer Science</lom:string>
+                </lom:entry>
+            </lom:taxon>
+            <lom:taxon>
+                <lom:entry uniqueElementName="entry">
+                    <lom:string language="en">Computer Design and Engineering</lom:string>
+                </lom:entry>
+            </lom:taxon>
+        </lom:taxonPath>        
+        <adlcp:location>contents/index.htm.xml</adlcp:location>
+    </metadata>
+    <organizations default="ocw_6-004-computation-structures-spring-2009">
+        <organization identifier="ocw_6-004-computation-structures-spring-2009">
+            <title>Computation Structures</title>
+            <item identifier="i_6-004-computation-structures-spring-2009.CourseHome"
+                  identifierref="r_contents.index.htm"
+                  ocw:sectionTemplateType="CourseHomePage"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Computation Structures</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.6-004s09.jpg"
+          identifierref="r_contents.6-004s09.jpg">
+				<title>Cartoon of a student taking a part out of the Beta Kit and wondering where it goes</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.6-004s09-th.jpg"
+          identifierref="r_contents.6-004s09-th.jpg">
+				<title>Cartoon of a student taking a part out of the Beta Kit and wondering where it goes</title>
+				</item>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.syllabus"
+                  identifierref="r_contents.syllabus.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Syllabus</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.syllabus.MIT6_004s09_syll_objectives.pdf"
+          identifierref="r_contents.syllabus.MIT6_004s09_syll_objectives.pdf">
+				<title>Learning Objectives and Measurable Outcomes</title>
+				</item>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.calendar"
+                  identifierref="r_contents.calendar.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Calendar</title>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.lecture-notes"
+                  identifierref="r_contents.lecture-notes.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Lecture Notes</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec11.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec11.pdf">
+				<title>Machine Language, Assemblers, and Compilers</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec05.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec05.pdf">
+				<title>Sequential Logic</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec14.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec14.pdf">
+				<title>Building the Beta </title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec18.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec18.pdf">
+				<title>Virtual Machines</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec16.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec16.pdf">
+				<title>Cache Issues</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec06.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec06.pdf">
+				<title>Finite State Machines</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec02.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec02.pdf">
+				<title>The Digital Abstraction</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec23.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec23.pdf">
+				<title>Pipeline Issues</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec04.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec04.pdf">
+				<title>Synthesis of Combinational Logic</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec10.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec10.pdf">
+				<title>Designing an Instruction Set</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec20.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec20.pdf">
+				<title>Interconnect &amp; Communication </title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec25.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec25.pdf">
+				<title>Computer Architecture: Exciting Times Ahead!</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec19.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec19.pdf">
+				<title>Devices &amp; Interrupts</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec03.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec03.pdf">
+				<title>CMOS Technology</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec15.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec15.pdf">
+				<title>The Memory Hierarchy </title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec21.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec21.pdf">
+				<title>Processes, Synchronization, &amp; Deadlock</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec17.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec17.pdf">
+				<title>Virtual Memory</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec07.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec07.pdf">
+				<title>Synchronization, Metastability and Arbitration </title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec13.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec13.pdf">
+				<title>Stacks and Procedures</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec22.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec22.pdf">
+				<title>Pipelining the Beta</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec09.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec09.pdf">
+				<title>Cost/Performance Tradeoffs</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec08.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec08.pdf">
+				<title>Pipelining</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec01.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec01.pdf">
+				<title>Welcome to 6.004!</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec12.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec12.pdf">
+				<title>Programmability</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.lecture-notes.MIT6_004s09_lec24.pdf"
+          identifierref="r_contents.lecture-notes.MIT6_004s09_lec24.pdf">
+				<title>Parallel Processing</title>
+				</item>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems"
+                  identifierref="r_contents.tutorial-problems.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Tutorial Problems</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor11_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor11_sol.pdf">
+				<title>Programmable machines - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor05sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor05sol.pdf">
+				<title>Synthesis of combinational logic - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor16.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor16.pdf">
+				<title>Caches</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor19.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor19.pdf">
+				<title>Interrupts and real time</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor13_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor13_sol.pdf">
+				<title>Stacks and procedures - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor13.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor13.pdf">
+				<title>Stacks and procedures</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor02_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor02_sol.pdf">
+				<title>The digital abstraction - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor11.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor11.pdf">
+				<title>Programmable machines</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor14_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor14_sol.pdf">
+				<title>Building the Beta - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor15_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor15_sol.pdf">
+				<title>Memory hierarchy - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor01_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor01_sol.pdf">
+				<title>Basics of information - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor08sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor08sol.pdf">
+				<title>Synchronization and metastability - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor05.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor05.pdf">
+				<title>Synthesis of combinational logic</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor06.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor06.pdf">
+				<title>Sequential logic and memory components</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor17_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor17_sol.pdf">
+				<title>Virtual memory - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor21_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor21_sol.pdf">
+				<title>Pipelined Beta - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor18.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor18.pdf">
+				<title>Operating system issues</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor14.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor14.pdf">
+				<title>Building the Beta</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor12_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor12_sol.pdf">
+				<title>Machine language - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor03_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor03_sol.pdf">
+				<title>CMOS technology - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor10.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor10.pdf">
+				<title>Models of computation</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor07.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor07.pdf">
+				<title>Finite State Machines</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor02.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor02.pdf">
+				<title>The digital abstraction</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor21.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor21.pdf">
+				<title>Pipelined Beta</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor15.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor15.pdf">
+				<title>Memory hierarchy</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor07sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor07sol.pdf">
+				<title>Finite State Machines - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor04_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor04_sol.pdf">
+				<title>Gates and Boolean logic - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor19_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor19_sol.pdf">
+				<title>Interrupts and real time - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor08.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor08.pdf">
+				<title>Synchronization and metastability</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor17.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor17.pdf">
+				<title>Virtual memory</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor12.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor12.pdf">
+				<title>Machine language</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor20_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor20_sol.pdf">
+				<title>Semaphores - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor10_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor10_sol.pdf">
+				<title>Models of computation - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor16_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor16_sol.pdf">
+				<title>Caches - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor18_sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor18_sol.pdf">
+				<title>Operating system issues - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor03.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor03.pdf">
+				<title>CMOS technology</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor01.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor01.pdf">
+				<title>Basics of information</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor04.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor04.pdf">
+				<title>Gates and Boolean logic</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor09sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor09sol.pdf">
+				<title>Pipelining - Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor09.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor09.pdf">
+				<title>Pipelining</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6_004s09_tutor20.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6_004s09_tutor20.pdf">
+				<title>Semaphores</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tutorial-problems.MIT6004s09tutor06sol.pdf"
+          identifierref="r_contents.tutorial-problems.MIT6004s09tutor06sol.pdf">
+				<title>Sequential logic and memory components - Solutions</title>
+				</item>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.labs"
+                  identifierref="r_contents.labs.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Labs</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab02.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab02.pdf">
+				<title>Lab #2</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab_tool_jsim.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab_tool_jsim.pdf">
+				<title>JSim</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab_tool_bsim.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab_tool_bsim.pdf">
+				<title>BSim</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab06.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab06.pdf">
+				<title>Lab #6</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab_beta_doc.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab_beta_doc.pdf">
+				<title>β Documentation</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab07.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab07.pdf">
+				<title>Lab #7</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab03.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab03.pdf">
+				<title>Lab #3</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab05.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab05.pdf">
+				<title>Lab #5</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab_beta_diagram.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab_beta_diagram.pdf">
+				<title>Unpipelined Beta</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab08_writeup.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab08_writeup.pdf">
+				<title>Lab #8 Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab08.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab08.pdf">
+				<title>Lab #8</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab_pbeta_diagram.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab_pbeta_diagram.pdf">
+				<title>5-stage Pipelined Beta</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab01.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab01.pdf">
+				<title>Lab #1</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab_beta_summary.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab_beta_summary.pdf">
+				<title>Summary of β Instruction Formats</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab_project.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab_project.pdf">
+				<title>Design Project</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.labs.MIT6_004s09_lab04.pdf"
+          identifierref="r_contents.labs.MIT6_004s09_lab04.pdf">
+				<title>Lab #4</title>
+				</item>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.exams"
+                  identifierref="r_contents.exams.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Exams</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz01.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz01.pdf">
+				<title>Quiz #1</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz04_sol.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz04_sol.pdf">
+				<title>Quiz #4 Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz03_sol.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz03_sol.pdf">
+				<title>Quiz #3 Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz02.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz02.pdf">
+				<title>Quiz #2</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz05_sol.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz05_sol.pdf">
+				<title>Quiz #5 Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz02_sol.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz02_sol.pdf">
+				<title>Quiz #2 Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz01_sol.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz01_sol.pdf">
+				<title>Quiz #1 Solutions</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz05.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz05.pdf">
+				<title>Quiz #5</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.exams.MIT6_004s09_quiz03.pdf"
+          identifierref="r_contents.exams.MIT6_004s09_quiz03.pdf">
+				<title>Quiz #3</title>
+				</item>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.study-materials"
+                  identifierref="r_contents.study-materials.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Study Materials</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.study-materials.MIT6_004s09_study_digital_guide.pdf"
+          identifierref="r_contents.study-materials.MIT6_004s09_study_digital_guide.pdf">
+				<title>A Student’s Guide to the Digital World</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.study-materials.MIT6_004s09_study_c_overview.pdf"
+          identifierref="r_contents.study-materials.MIT6_004s09_study_c_overview.pdf">
+				<title>C Overview</title>
+				</item>
+			</item>
+            <item identifier="i_6-004-computation-structures-spring-2009.tools"
+                  identifierref="r_contents.tools.index.htm"
+                  ocw:sectionTemplateType="CourseSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Tools</title>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab3compare.jsim"
+          identifierref="r_contents.tools.lab3compare.jsim">
+				<title>Lab #3: compare</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab8.uasm"
+          identifierref="r_contents.tools.lab8.uasm">
+				<title>Lab #8: Simple OS demo for 6.004 Beta processor</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.stdcell.jsim"
+          identifierref="r_contents.tools.stdcell.jsim">
+				<title>6.004 standard cell library</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab3multiply.jsim"
+          identifierref="r_contents.tools.lab3multiply.jsim">
+				<title>Lab #3: Multiply</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.6004.tgz"
+          identifierref="r_contents.tools.6004.tgz">
+				<title>6004</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab6basicblock.uasm"
+          identifierref="r_contents.tools.lab6basicblock.uasm">
+				<title>Lab #6: Basic Block</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab6basicblock.jsim"
+          identifierref="r_contents.tools.lab6basicblock.jsim">
+				<title>Lab #6: Basic Block</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.projcheckoff.bin"
+          identifierref="r_contents.tools.projcheckoff.bin">
+				<title>Project Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.projcheckoff.uasm"
+          identifierref="r_contents.tools.projcheckoff.uasm">
+				<title>Project Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab7checkoff.uasm"
+          identifierref="r_contents.tools.lab7checkoff.uasm">
+				<title>Lab #7: Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.ant.jar"
+          identifierref="r_contents.tools.ant.jar">
+				<title>Ant</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab7macros.uasm"
+          identifierref="r_contents.tools.lab7macros.uasm">
+				<title>Lab #7: Macros</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.nominal.jsim"
+          identifierref="r_contents.tools.nominal.jsim">
+				<title>Nominal Device Models</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab3boolean.jsim"
+          identifierref="r_contents.tools.lab3boolean.jsim">
+				<title>Lab #3: Boolean</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab3checkoff_6.jsim"
+          identifierref="r_contents.tools.lab3checkoff_6.jsim">
+				<title>Lab #3: Checkoff 6</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab3shifter.jsim"
+          identifierref="r_contents.tools.lab3shifter.jsim">
+				<title>Lab #3: Shifter</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.beta.uasm"
+          identifierref="r_contents.tools.beta.uasm">
+				<title>BETA Macro package</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.jsim.el"
+          identifierref="r_contents.tools.jsim.el">
+				<title>Syntax table for use in JSim-mode buffers</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.8clocks.jsim"
+          identifierref="r_contents.tools.8clocks.jsim">
+				<title>8 clocks</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab6ctl.jsim"
+          identifierref="r_contents.tools.lab6ctl.jsim">
+				<title>Lab #6: Control</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab6.uasm"
+          identifierref="r_contents.tools.lab6.uasm">
+				<title>Lab #6</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab6checkoff.jsim"
+          identifierref="r_contents.tools.lab6checkoff.jsim">
+				<title>Lab #6: Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab3adder.jsim"
+          identifierref="r_contents.tools.lab3adder.jsim">
+				<title>Lab #3: Adder</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.swapregs.uasm"
+          identifierref="r_contents.tools.swapregs.uasm">
+				<title>Lab #7: Swap Regs</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab4header.txt"
+          identifierref="r_contents.tools.lab4header.txt">
+				<title>Lab #4: Header</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab1checkoff.jsim"
+          identifierref="r_contents.tools.lab1checkoff.jsim">
+				<title>Lab #1: Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab6pc.jsim"
+          identifierref="r_contents.tools.lab6pc.jsim">
+				<title>Lab #6: PC</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab2checkoff.jsim"
+          identifierref="r_contents.tools.lab2checkoff.jsim">
+				<title>Lab #2: Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.jsim.jar"
+          identifierref="r_contents.tools.jsim.jar">
+				<title>JSim</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.projcheckoff.jsim"
+          identifierref="r_contents.tools.projcheckoff.jsim">
+				<title>Project Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.tmsim.jar"
+          identifierref="r_contents.tools.tmsim.jar">
+				<title>TMSim</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab6regfile.jsim"
+          identifierref="r_contents.tools.lab6regfile.jsim">
+				<title>Lab #6: Reg File</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab5checkoff.uasm"
+          identifierref="r_contents.tools.lab5checkoff.uasm">
+				<title>Lab #5: Checkoff</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.bsim.jar"
+          identifierref="r_contents.tools.bsim.jar">
+				<title>BSim</title>
+				</item>
+				<item identifier="i_6-004-computation-structures-spring-2009.tools.lab3checkoff_10.jsim"
+          identifierref="r_contents.tools.lab3checkoff_10.jsim">
+				<title>Lab #3: Checkoff 10</title>
+				</item>
+			</item>
+            <item identifier="i_terms"
+                  identifierref="r_common.terms.index.htm"
+                  ocw:sectionTemplateType="GlobalSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Legal Notices</title>
+			</item>
+            <item identifier="i_terms"
+                  identifierref="r_common.terms.index.htm"
+                  ocw:sectionTemplateType="GlobalSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Privacy Statement</title>
+			</item>
+            <item identifier="i_terms.trademarks"
+                  identifierref="r_common.terms.trademarks.index.htm"
+                  ocw:sectionTemplateType="GlobalSection"
+                  ocw:sectionTemplateVersion="2016-9-18">
+				<title>Trademark Notices</title>
+			</item>
+        </organization>
+    </organizations>
+    <resources>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor11_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor11_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor11_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor11_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz05_sol.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz05_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz05_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz05_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab_tool_jsim.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab_tool_jsim.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab_tool_jsim.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab_tool_jsim.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec23.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec23.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec23.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec23.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab3checkoff_6.jsim"
+                  type="other"
+                  href="contents/tools/lab3checkoff_6.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab3checkoff_6.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab3checkoff_6.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec12.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec12.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec12.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec12.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor09sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor09sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor09sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor09sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz02_sol.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz02_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz02_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz02_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab_tool_bsim.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab_tool_bsim.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab_tool_bsim.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab_tool_bsim.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec14.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec14.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec14.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec14.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab6checkoff.jsim"
+                  type="other"
+                  href="contents/tools/lab6checkoff.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab6checkoff.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab6checkoff.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab6.uasm"
+                  type="other"
+                  href="contents/tools/lab6.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/lab6.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab6.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor08sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor08sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor08sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor08sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab01.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab01.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab01.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab01.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab06.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab06.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab06.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab06.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec22.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec22.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec22.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec22.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor21_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor21_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor21_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor21_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab3adder.jsim"
+                  type="other"
+                  href="contents/tools/lab3adder.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab3adder.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab3adder.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor10.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor10.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor10.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor10.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab_beta_doc.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab_beta_doc.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab_beta_doc.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab_beta_doc.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor11.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor11.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor11.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor11.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.swapregs.uasm"
+                  type="other"
+                  href="contents/tools/swapregs.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/swapregs.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/swapregs.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec21.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec21.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec21.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec21.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec13.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec13.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec13.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec13.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz03.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz03.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz03.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz03.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab07.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab07.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab07.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab07.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab4header.txt"
+                  type="other"
+                  href="contents/tools/lab4header.txt">
+            <metadata>
+                <adlcp:location>contents/tools/lab4header.txt.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab4header.txt"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec19.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec19.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec19.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec19.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.index.htm"
+                  type="webcontent"
+                  href="contents/tutorial-problems/index.htm">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor20.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor20.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor20.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor20.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor01.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor01.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor01.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor01.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.study-materials.MIT6_004s09_study_digital_guide.pdf"
+                  type="other"
+                  href="contents/study-materials/MIT6_004s09_study_digital_guide.pdf">
+            <metadata>
+                <adlcp:location>contents/study-materials/MIT6_004s09_study_digital_guide.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/study-materials/MIT6_004s09_study_digital_guide.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.study-materials.index.htm"
+                  type="webcontent"
+                  href="contents/study-materials/index.htm">
+            <metadata>
+                <adlcp:location>contents/study-materials/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/study-materials/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor19.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor19.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor19.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor19.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab1checkoff.jsim"
+                  type="other"
+                  href="contents/tools/lab1checkoff.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab1checkoff.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab1checkoff.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.study-materials.MIT6_004s09_study_c_overview.pdf"
+                  type="other"
+                  href="contents/study-materials/MIT6_004s09_study_c_overview.pdf">
+            <metadata>
+                <adlcp:location>contents/study-materials/MIT6_004s09_study_c_overview.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/study-materials/MIT6_004s09_study_c_overview.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec04.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec04.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec04.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec04.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor06sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor06sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor06sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor06sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab04.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab04.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab04.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab04.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab6pc.jsim"
+                  type="other"
+                  href="contents/tools/lab6pc.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab6pc.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab6pc.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec24.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec24.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec24.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec24.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab3compare.jsim"
+                  type="other"
+                  href="contents/tools/lab3compare.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab3compare.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab3compare.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor06.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor06.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor06.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor06.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab3shifter.jsim"
+                  type="other"
+                  href="contents/tools/lab3shifter.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab3shifter.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab3shifter.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab2checkoff.jsim"
+                  type="other"
+                  href="contents/tools/lab2checkoff.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab2checkoff.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab2checkoff.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor05.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor05.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor05.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor05.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor12_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor12_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor12_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor12_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab8.uasm"
+                  type="other"
+                  href="contents/tools/lab8.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/lab8.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab8.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor08.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor08.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor08.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor08.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.jsim.jar"
+                  type="other"
+                  href="contents/tools/jsim.jar">
+            <metadata>
+                <adlcp:location>contents/tools/jsim.jar.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/jsim.jar"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor15.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor15.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor15.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor15.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz01_sol.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz01_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz01_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz01_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab08.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab08.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab08.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab08.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec11.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec11.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec11.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec11.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec08.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec08.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec08.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec08.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab5checkoff.uasm"
+                  type="other"
+                  href="contents/tools/lab5checkoff.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/lab5checkoff.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab5checkoff.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec17.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec17.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec17.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec17.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab_pbeta_diagram.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab_pbeta_diagram.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab_pbeta_diagram.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab_pbeta_diagram.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor18_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor18_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor18_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor18_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor16.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor16.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor16.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor16.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor07.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor07.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor07.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor07.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec05.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec05.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec05.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec05.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor04.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor04.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor04.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor04.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.syllabus.MIT6_004s09_syll_objectives.pdf"
+                  type="other"
+                  href="contents/syllabus/MIT6_004s09_syll_objectives.pdf">
+            <metadata>
+                <adlcp:location>contents/syllabus/MIT6_004s09_syll_objectives.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/syllabus/MIT6_004s09_syll_objectives.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab6regfile.jsim"
+                  type="other"
+                  href="contents/tools/lab6regfile.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab6regfile.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab6regfile.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec18.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec18.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec18.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec18.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor12.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor12.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor12.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor12.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab6basicblock.uasm"
+                  type="other"
+                  href="contents/tools/lab6basicblock.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/lab6basicblock.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab6basicblock.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor14.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor14.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor14.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor14.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor13_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor13_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor13_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor13_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.index.htm"
+                  type="webcontent"
+                  href="contents/index.htm">
+            <metadata>
+                <adlcp:location>contents/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab03.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab03.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab03.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab03.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor20_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor20_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor20_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor20_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab6basicblock.jsim"
+                  type="other"
+                  href="contents/tools/lab6basicblock.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab6basicblock.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab6basicblock.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.bsim.jar"
+                  type="other"
+                  href="contents/tools/bsim.jar">
+            <metadata>
+                <adlcp:location>contents/tools/bsim.jar.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/bsim.jar"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec03.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec03.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec03.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec03.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz05.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz05.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz05.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz05.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec06.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec06.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec06.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec06.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.projcheckoff.bin"
+                  type="other"
+                  href="contents/tools/projcheckoff.bin">
+            <metadata>
+                <adlcp:location>contents/tools/projcheckoff.bin.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/projcheckoff.bin"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor17.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor17.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor17.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor17.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor19_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor19_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor19_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor19_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab3checkoff_10.jsim"
+                  type="other"
+                  href="contents/tools/lab3checkoff_10.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab3checkoff_10.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab3checkoff_10.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.nominal.jsim"
+                  type="other"
+                  href="contents/tools/nominal.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/nominal.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/nominal.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor16_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor16_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor16_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor16_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor10_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor10_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor10_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor10_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.index.htm"
+                  type="webcontent"
+                  href="contents/tools/index.htm">
+            <metadata>
+                <adlcp:location>contents/tools/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor15_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor15_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor15_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor15_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec07.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec07.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec07.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec07.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.syllabus.index.htm"
+                  type="webcontent"
+                  href="contents/syllabus/index.htm">
+            <metadata>
+                <adlcp:location>contents/syllabus/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/syllabus/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.tools.lab7checkoff.uasm"
+                  type="other"
+                  href="contents/tools/lab7checkoff.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/lab7checkoff.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab7checkoff.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.6004.tgz"
+                  type="other"
+                  href="contents/tools/6004.tgz">
+            <metadata>
+                <adlcp:location>contents/tools/6004.tgz.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/6004.tgz"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor14_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor14_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor14_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor14_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec15.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec15.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec15.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec15.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.index.htm"
+                  type="webcontent"
+                  href="contents/labs/index.htm">
+            <metadata>
+                <adlcp:location>contents/labs/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.tools.ant.jar"
+                  type="other" href="contents/tools/ant.jar">
+            <metadata>
+                <adlcp:location>contents/tools/ant.jar.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/ant.jar"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor13.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor13.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor13.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor13.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.8clocks.jsim"
+                  type="other"
+                  href="contents/tools/8clocks.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/8clocks.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/8clocks.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor17_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor17_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor17_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor17_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab_beta_summary.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab_beta_summary.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab_beta_summary.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab_beta_summary.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab7macros.uasm"
+                  type="other"
+                  href="contents/tools/lab7macros.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/lab7macros.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab7macros.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.stdcell.jsim"
+                  type="other"
+                  href="contents/tools/stdcell.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/stdcell.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/stdcell.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab_beta_diagram.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab_beta_diagram.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab_beta_diagram.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab_beta_diagram.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor03_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor03_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor03_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor03_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor01_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor01_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor01_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor01_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor21.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor21.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor21.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor21.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor05sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor05sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor05sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor05sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab_project.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab_project.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab_project.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab_project.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec10.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec10.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec10.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec10.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor07sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor07sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor07sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor07sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.6-004s09.jpg"
+                  type="other" href="contents/6-004s09.jpg">
+            <metadata>
+                <adlcp:location>contents/6-004s09.jpg.xml</adlcp:location>
+            </metadata>
+            <file href="contents/6-004s09.jpg"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec02.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec02.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec02.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec02.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec20.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec20.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec20.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec20.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec01.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec01.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec01.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec01.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.projcheckoff.jsim"
+                  type="other"
+                  href="contents/tools/projcheckoff.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/projcheckoff.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/projcheckoff.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.index.htm"
+                  type="webcontent"
+                  href="contents/lecture-notes/index.htm">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.exams.index.htm"
+                  type="webcontent"
+                  href="contents/exams/index.htm">
+            <metadata>
+                <adlcp:location>contents/exams/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6004s09tutor09.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6004s09tutor09.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6004s09tutor09.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6004s09tutor09.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec25.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec25.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec25.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec25.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab3boolean.jsim"
+                  type="other"
+                  href="contents/tools/lab3boolean.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab3boolean.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab3boolean.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab02.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab02.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab02.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab02.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.calendar.index.htm"
+                  type="webcontent"
+                  href="contents/calendar/index.htm">
+            <metadata>
+                <adlcp:location>contents/calendar/index.htm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/calendar/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz01.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz01.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz01.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz01.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor04_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor04_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor04_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor04_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.projcheckoff.uasm"
+                  type="other"
+                  href="contents/tools/projcheckoff.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/projcheckoff.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/projcheckoff.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec16.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec16.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec16.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec16.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz04_sol.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz04_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz04_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz04_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.beta.uasm"
+                  type="other"
+                  href="contents/tools/beta.uasm">
+            <metadata>
+                <adlcp:location>contents/tools/beta.uasm.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/beta.uasm"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab3multiply.jsim"
+                  type="other"
+                  href="contents/tools/lab3multiply.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab3multiply.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab3multiply.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor02_sol.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor02_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor02_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor02_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab05.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab05.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab05.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab05.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz03_sol.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz03_sol.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz03_sol.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz03_sol.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.jsim.el"
+                  type="other" href="contents/tools/jsim.el">
+            <metadata>
+                <adlcp:location>contents/tools/jsim.el.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/jsim.el"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor02.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor02.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor02.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor02.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.labs.MIT6_004s09_lab08_writeup.pdf"
+                  type="other"
+                  href="contents/labs/MIT6_004s09_lab08_writeup.pdf">
+            <metadata>
+                <adlcp:location>contents/labs/MIT6_004s09_lab08_writeup.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/labs/MIT6_004s09_lab08_writeup.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor18.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor18.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor18.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor18.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.6-004s09-th.jpg"
+                  type="other"
+                  href="contents/6-004s09-th.jpg">
+            <metadata>
+                <adlcp:location>contents/6-004s09-th.jpg.xml</adlcp:location>
+            </metadata>
+            <file href="contents/6-004s09-th.jpg"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tutorial-problems.MIT6_004s09_tutor03.pdf"
+                  type="other"
+                  href="contents/tutorial-problems/MIT6_004s09_tutor03.pdf">
+            <metadata>
+                <adlcp:location>contents/tutorial-problems/MIT6_004s09_tutor03.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tutorial-problems/MIT6_004s09_tutor03.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.lecture-notes.MIT6_004s09_lec09.pdf"
+                  type="other"
+                  href="contents/lecture-notes/MIT6_004s09_lec09.pdf">
+            <metadata>
+                <adlcp:location>contents/lecture-notes/MIT6_004s09_lec09.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/lecture-notes/MIT6_004s09_lec09.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.exams.MIT6_004s09_quiz02.pdf"
+                  type="other"
+                  href="contents/exams/MIT6_004s09_quiz02.pdf">
+            <metadata>
+                <adlcp:location>contents/exams/MIT6_004s09_quiz02.pdf.xml</adlcp:location>
+            </metadata>
+            <file href="contents/exams/MIT6_004s09_quiz02.pdf"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.lab6ctl.jsim"
+                  type="other"
+                  href="contents/tools/lab6ctl.jsim">
+            <metadata>
+                <adlcp:location>contents/tools/lab6ctl.jsim.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/lab6ctl.jsim"/>
+                        
+        </resource>
+        <resource identifier="r_contents.tools.tmsim.jar"
+                  type="other"
+                  href="contents/tools/tmsim.jar">
+            <metadata>
+                <adlcp:location>contents/tools/tmsim.jar.xml</adlcp:location>
+            </metadata>
+            <file href="contents/tools/tmsim.jar"/>
+                        
+        </resource>        
+        <resource identifier="r_common.search.AdvancedSearch.htm"
+                  type="webcontent"
+                  href="common/search/AdvancedSearch.htm">
+            <file href="common/search/AdvancedSearch.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_common.jsp.feedback.htm"
+                  type="webcontent"
+                  href="common/jsp/feedback.htm">
+            <file href="common/jsp/feedback.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_common.terms.index.htm"
+                  type="webcontent"
+                  href="common/terms/index.htm">
+            <file href="common/terms/by.png"/>
+            <file href="common/terms/nc.png"/>
+            <file href="common/terms/sa.png"/>
+            <file href="common/terms/deedheadyellow.png"/>
+            <file href="common/terms/freedomsheader.png"/>
+            <file href="common/terms/limitationsheader.png"/>
+            <file href="common/terms/understandingheader.jpg"/>
+            <file href="common/terms/deedfootyellow.png"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="r_common.terms.trademarks.index.htm"
+                  type="webcontent"
+                  href="common/terms/trademarks/index.htm">
+            <file href="common/terms/trademarks/index.htm"/>
+            <dependency identifierref="webrenderrequirements.6-004-computation-structures-spring-2009"/>            
+        </resource>
+        <resource identifier="webrenderrequirements.6-004-computation-structures-spring-2009"
+                  type="webcontent">
+        	<file href="common/styles/base.css"/>
+        	<file href="common/styles/courses.css"/>
+        	<file href="common/styles/courses_new.css"/>
+        	<file href="common/styles/educator.css"/>
+        	<file href="common/styles/global.css"/>
+        	<file href="common/styles/grid.css"/>
+        	<file href="common/styles/highslide.css"/>
+        	<file href="common/styles/highslide-ie6.css"/>
+        	<file href="common/styles/jquery.bubblepopup.css"/>
+        	<file href="common/styles/jquery.jscrollpane.css"/>
+        	<file href="common/styles/jquery-ui.css"/>
+        	<file href="common/styles/menu.css"/>
+        	<file href="common/styles/scholar2.css"/>
+        	<file href="common/styles/media_tabs.css"/>
+        	<file href="common/styles/three_play.css"/>
+        	<file href="common/scripts/bubble-popup-offline.js"/>
+        	<file href="common/scripts/jquery.js"/>
+        	<file href="common/scripts/ocw-media-utils.js"/>
+        	<file href="common/scripts/ocw-media-utils-offline.js"/>
+        	<file href="common/scripts/highslide-with-gallery.js"/>
+        	<file href="common/scripts/jquery.bubblepopup.min.js"/>
+        	<file href="common/scripts/jquery.jscrollpane.min.js"/>
+        	<file href="common/scripts/jquery-ui.min.js"/>
+        	<file href="common/scripts/jQuizMe-uncompressed.js"/>
+        	<file href="common/scripts/ocw-offline.js"/>
+        	<file href="common/scripts/expandy.js"/>
+        	<file href="common/scripts/chart.js"/>
+        	<file href="common/scripts/jquery.anythingslider.js"/>
+        	<file href="common/images/ocw_mast.png"/>
+        	<file href="common/images/button_subscribe.png"/>
+        	<file href="common/images/icon_fb.png"/>
+        	<file href="common/images/icon_gp.png"/>
+        	<file href="common/images/icon_pin.png"/>
+        	<file href="common/images/icon_tw.png"/>
+        	<file href="common/images/icon-question-ovt.png"/>
+        	<file href="common/images/icon-question-svt.png"/>
+        	<file href="common/images/icon-question-avt.png"/>
+        	<file href="common/images/icon-question-cl.png"/>
+        	<file href="common/images/top-nav_home.png"/>
+        	<file href="common/images/button_search.png"/>
+        	<file href="common/images/bg_top.png"/>
+        	<file href="common/images/bg_social.png"/>
+        	<file href="common/images/bg_social2.png"/>
+        	<file href="common/images/bg_mega-courses.png"/>
+        	<file href="common/images/bg_center2.png"/>
+        	<file href="common/images/bg_course-nav_current.png"/>
+        	<file href="common/images/button_donate-now.png"/>
+        	<file href="common/images/logo_mit.png"/>
+        	<file href="common/images/logo_ocwc.gif"/>
+        	<file href="common/images/cc_by-nc-sa.png"/>
+        	<file href="common/images/logo_dow.png"/>
+        	<file href="common/images/logo_lockheed.png"/>
+        	<file href="common/images/logo_mathworks.png"/>
+        	<file href="common/images/logo_abinitio.png"/>
+        	<file href="common/images/logo_sapient.png"/>
+        	<file href="common/images/bg_bottom.png"/>
+        	<file href="common/images/nav_arrow.png"/>
+        	<file href="common/images/news-subscibe_bg.png"/>
+        	<file href="common/images/3play_logo.png"/>
+        	<file href="common/images/black-arrow.gif"/>
+        	<file href="common/images/trans.gif"/>
+        	<file href="common/images/arrow-bullet.gif"/>
+        	<file href="common/images/apple-touch-icon.png"/>
+        	<file href="common/images/highslide/graphics/zoomin.cur"/>
+        	<file href="common/images/highslide/graphics/zoomout.cur"/>
+        	<file href="common/images/highslide/graphics/controlbar2.gif"/>
+        	<file href="common/images/highslide/graphics/controlbar3.gif"/>
+        	<file href="common/images/highslide/graphics/controlbar4.gif"/>
+        	<file href="common/images/highslide/graphics/controlbar4-hover.gif"/>
+        	<file href="common/images/highslide/graphics/controlbar-black-border.gif"/>
+        	<file href="common/images/highslide/graphics/controlbar-white.gif"/>
+        	<file href="common/images/highslide/graphics/controlbar-white-small.gif"/>
+        	<file href="common/images/highslide/graphics/fullexpand.gif"/>
+        	<file href="common/images/highslide/graphics/icon.gif"/>
+        	<file href="common/images/highslide/graphics/loader.gif"/>
+        	<file href="common/images/highslide/graphics/loader.white.gif"/>
+        	<file href="common/images/highslide/graphics/resize.gif"/>
+        	<file href="common/images/highslide/graphics/close.png"/>
+        	<file href="common/images/highslide/graphics/closeX.png"/>
+        	<file href="common/images/highslide/graphics/controlbar-text-buttons.png"/>
+        	<file href="common/images/highslide/graphics/geckodimmer.png"/>
+        	<file href="common/images/highslide/graphics/scrollarrows.png"/>
+        	<file href="common/images/highslide/graphics/outlines/beveled.png"/>
+        	<file href="common/images/highslide/graphics/outlines/drop-shadow.png"/>
+        	<file href="common/images/highslide/graphics/outlines/glossy-dark.png"/>
+        	<file href="common/images/highslide/graphics/outlines/outer-glow.png"/>
+        	<file href="common/images/highslide/graphics/outlines/rounded-black.png"/>
+        	<file href="common/images/highslide/graphics/outlines/rounded-white.png"/>
+        	<file href="common/images/highslide/graphics/outlines/Outlines.psd"/>
+        	<file href="common/images/button_continue.jpg"/>
+        	<file href="common/images/button_donate.jpg"/>
+        	<file href="common/images/button_start.jpg"/>
+        	<file href="common/images/scholar_bar_chp.png"/>
+        	<file href="common/images/scholar_bar.png"/>
+        	<file href="common/images/logo_pdf.jpg"/>
+        	<file href="common/images/h2_trigger_open_close.gif"/>
+        	<file href="common/images/bookmark.gif"/>
+        	<file href="common/images/check.png"/>
+        	<file href="common/images/lightbulb.png"/>
+        	<file href="common/images/audio_file.gif"/>
+        	<file href="common/images/audio_only_slate.gif"/>
+        	<file href="common/images/video_file.gif"/>
+        	<file href="common/images/back-5.png"/>
+        	<file href="common/images/btn_next_resource.png"/>
+        	<file href="common/images/btn_previous_resource.png"/>
+        	<file href="common/images/close.png"/>
+        	<file href="common/images/inacessible.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/bottom-left.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/bottom-middle.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/bottom-right.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/middle-left.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/middle-right.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/tail-bottom.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/tail-left.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/tail-right.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/tail-top.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/top-left.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/top-middle.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/ie/top-right.gif"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/bottom-left.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/bottom-middle.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/bottom-right.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/middle-left.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/middle-right.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/tail-bottom.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/tail-left.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/tail-right.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/tail-top.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/top-left.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/top-middle.png"/>
+        	<file href="common/images/jquerybubblepopup-theme/grey/top-right.png"/>
+        	<file href="common/images/educator/classroom_next.png"/>
+        	<file href="common/images/educator/classroom_next_dim.png"/>
+        	<file href="common/images/educator/classroom_prev.png"/>
+        	<file href="common/images/educator/classroom_prev_dim.png"/>
+        	<file href="common/images/educator/edu_b-blank.png"/>
+        	<file href="common/images/educator/edu_b-blank-key.png"/>
+        	<file href="common/images/educator/edu_b-duedate.png"/>
+        	<file href="common/images/educator/edu_b-duedate-key.png"/>
+        	<file href="common/images/educator/edu_b-exam.png"/>
+        	<file href="common/images/educator/edu_b-exam-key.png"/>
+        	<file href="common/images/educator/edu_b-lab.png"/>
+        	<file href="common/images/educator/edu_b-lab-key.png"/>
+        	<file href="common/images/educator/edu_b-lab-team.png"/>
+        	<file href="common/images/educator/edu_b-lab-duedate.png"/>
+        	<file href="common/images/educator/edu_b-leclab.png"/>
+        	<file href="common/images/educator/edu_b-leclab-key.png"/>
+        	<file href="common/images/educator/edu_b-lecture.png"/>
+        	<file href="common/images/educator/edu_b-lecture-duedate.png"/>
+        	<file href="common/images/educator/edu_b-lecture-exam.png"/>
+        	<file href="common/images/educator/edu_b-lecture-key.png"/>
+        	<file href="common/images/educator/edu_b-lecture-lunch.png"/>
+        	<file href="common/images/educator/edu_b-lecture-preslab.png"/>
+        	<file href="common/images/educator/edu_b-lecture-quiz.png"/>
+        	<file href="common/images/educator/edu_b-lecture-team.png"/>
+        	<file href="common/images/educator/edu_b-lecrec-key.png"/>
+        	<file href="common/images/educator/edu_b-leclab-duedate.png"/>
+        	<file href="common/images/educator/edu_b-lecrec.png"/>
+        	<file href="common/images/educator/edu_b-lecrec-duedate.png"/>
+        	<file href="common/images/educator/edu_b-noclass-quiz.png"/>
+        	<file href="common/images/educator/edu_b-lunch.png"/>
+        	<file href="common/images/educator/edu_b-lunch-key.png"/>
+        	<file href="common/images/educator/edu_b-noclass.png"/>
+        	<file href="common/images/educator/edu_b-noclass-duedate.png"/>
+        	<file href="common/images/educator/edu_b-noclass-exam.png"/>
+        	<file href="common/images/educator/edu_b-noclass-key.png"/>
+        	<file href="common/images/educator/edu_b-office.png"/>
+        	<file href="common/images/educator/edu_b-office-key.png"/>
+        	<file href="common/images/educator/edu_b-present.png"/>
+        	<file href="common/images/educator/edu_b-present-duedate.png"/>
+        	<file href="common/images/educator/edu_b-present-key.png"/>
+        	<file href="common/images/educator/edu_b-preslab.png"/>
+        	<file href="common/images/educator/edu_b-preslab-key.png"/>
+        	<file href="common/images/educator/edu_b-quiz-key.png"/>
+        	<file href="common/images/educator/edu_b-reclab-key.png"/>
+        	<file href="common/images/educator/edu_b-reclab-concert.png"/>
+        	<file href="common/images/educator/edu_b-reclab.png"/>
+        	<file href="common/images/educator/edu_b-noclass-concert.png"/>
+        	<file href="common/images/educator/edu_b-leclab-concert.png"/>
+        	<file href="common/images/educator/edu_b-concert-key.png"/>
+        	<file href="common/images/educator/edu_b-concert.png"/>
+        	<file href="common/images/educator/edu_b-recitation.png"/>
+        	<file href="common/images/educator/edu_b-recitation-duedate.png"/>
+        	<file href="common/images/educator/edu_b-recitation-exam.png"/>
+        	<file href="common/images/educator/edu_b-recitation-key.png"/>
+        	<file href="common/images/educator/edu_b-team.png"/>
+        	<file href="common/images/educator/edu_b-team-key.png"/>
+        	<file href="common/images/educator/edu_b-team-preslab.png"/>
+        	<file href="common/images/educator/edu_b-work.png"/>
+        	<file href="common/images/educator/edu_b-work-key.png"/>
+        	<file href="common/images/educator/icon-question-cih.png"/>
+        	<file href="common/images/educator/icon-question-cihw.png"/>
+        	<file href="common/images/educator/icon-question-cim.png"/>
+        	<file href="common/images/educator/icon-question-collab.png"/>
+        	<file href="common/images/educator/icon-question-coop.png"/>
+        	<file href="common/images/educator/icon-question-fas.png"/>
+        	<file href="common/images/educator/icon-question-gir.png"/>
+        	<file href="common/images/educator/icon-question-hass.png"/>
+        	<file href="common/images/educator/icon-question-hass-s.png"/>
+        	<file href="common/images/educator/icon-question-iap.png"/>
+        	<file href="common/images/educator/icon-question-lab.png"/>
+        	<file href="common/images/educator/icon-question-urop.png"/>
+        	<file href="common/images/educator/icon-question-active.png"/>
+        	<file href="common/images/educator/icon-question-clickq.png"/>
+        	<file href="common/images/educator/icon-question-conq.png"/>
+        	<file href="common/images/educator/icon-question-flip.png"/>
+        	<file href="common/images/educator/icon-question-form.png"/>
+        	<file href="common/images/educator/icon-question-immed.png"/>
+        	<file href="common/images/educator/icon-question-learn.png"/>
+        	<file href="common/images/educator/icon-question-ped.png"/>
+        	<file href="common/images/educator/icon-question-readq.png"/>
+        	<file href="common/images/educator/icon-question-service.png"/>
+        	<file href="common/images/educator/icon-question-sum.png"/>
+        	<file href="common/webfonts/TitilliumText22L002-webfont.woff"/>
+        	<file href="common/webfonts/TitilliumText22L002-webfont.ttf"/>
+        	<file href="common/webfonts/TitilliumText22L002-webfont.svg"/>
+        	<file href="common/webfonts/TitilliumText22L002-webfont.eot"/>
+        	<file href="common/webfonts/TitilliumText22L003-webfont.woff"/>
+        	<file href="common/webfonts/TitilliumText22L003-webfont.ttf"/>
+        	<file href="common/webfonts/TitilliumText22L003-webfont.eot"/>
+        	<file href="common/webfonts/TitilliumText22L003-webfont.svg"/>
+        	<file href="common/webfonts/TitilliumText22L005-webfont.woff"/>
+        	<file href="common/webfonts/TitilliumText22L005-webfont.ttf"/>
+        	<file href="common/webfonts/TitilliumText22L005-webfont.svg"/>
+        	<file href="common/webfonts/TitilliumText22L005-webfont.eot"/>
+        </resource>        
+  </resources>
+</manifest>

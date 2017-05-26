@@ -1,0 +1,3 @@
+-OPCODE 0 should always be NO OP
+-use fixed opcode size
+-only one kind of register selection

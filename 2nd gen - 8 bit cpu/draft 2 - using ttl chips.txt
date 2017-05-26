@@ -1,0 +1,23 @@
+8 bit ALU = 74181 x 2
+
+all registers = 74HC574
+
+registers:	8 general use (8 bit)
+
+
+IR = 24 bit	with overlap, 32 without overlap
+	opcode	4 bits
+	alu func	6 bits
+	r1	3 bits
+	r2	3 bits
+	addr	16 bits
+
+PC = 16 bit
+
+RAM = CY62256 32k x 8bit
+
+FRAM = 
+
+--------------------------------------------
+
+chip count so far: 2 + 8 + 3 + 2 + 1 = 16

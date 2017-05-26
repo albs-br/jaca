@@ -1,0 +1,49 @@
+[right]
+ld a, [pos_x]
+sub a, 15
+jp z, [right_ret]
+add a, 1
+[right_ret]
+st [pos_x], a
+ret
+
+[verify key pressed]
+ld a, 0010 0000 0000 0000 // constant corresponding to the key to be tested
+and a, ks
+sub a, 0010 0000 0000 0000
+call z, #addr
+ret
+
+-----------
+
+opcode = 5 bits
+R1 = 2 bits		<!--- there will be needed many more registers
+data/addr = 9 bits
+aaaaa|bb|aaaaaaaaa
+
+512 words of 16 bits = 1 KB
+
+opcode = 5 bits
+R1 = 3 bits
+data/addr = 8 bits
+aaaaa|bbb|aaaaaaaa
+
+256 words of 16 bits = 512 bytes
+
+opcode = 7 bits
+R1 = 5 bits
+data/addr = 20 bits
+
+1M words of 32 bits = 4 MB (max)
+
+
+--------------------------
+
+KS (keyboard state) = 16 bits register, one bit for each key
+
+
+
+KS	1010 0010 0000 0000
+key	0010 0000 0000 0000
+XOR	1000 0010
+AND	0010 0000 0000 0000

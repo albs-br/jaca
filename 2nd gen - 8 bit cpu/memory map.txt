@@ -1,0 +1,23 @@
+FRAM		0000		48 kb
+		BFFF
+
+RAM		C000		16 kb
+		FFFF
+
+
+
+FAT (inside FRAM):
+	bytes
+name 	8
+start addr	2
+size	2
+
+
+
+VRAM (inside RAM)
+
+
+
+
+- address 0x0000 will contain boot code, which will copy a certain program code from FRAM to RAM and execute
+- except from the boot code, all code will run from RAM, not from FRAM (to preserve the flash memory from unnecessary wear), therefore should be copied into RAM before execution

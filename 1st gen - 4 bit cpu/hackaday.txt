@@ -1,0 +1,22 @@
+The ultimate goal is to make (phisically build) from scratch a complete computer as simple as possible, but powerful enough to run old games such as Tetris, Pong, Arkanoid or Snakes on a LED matrix (probabily 16x16).
+
+In order to do this (and have something working earlier) I decided to make first, as a POC, a very simple 4 bit CPU in a simulation software (Logisim).
+
+This 4 bit CPU has the barely minimum to do some useful computing, in this case I chose a multiplication of two 4 bit numbers.
+Hardware specifications:
+-4 general registers of 4 bits (A to D)
+-RAM memory of 16 words of 8 bits
+-initially just 8 instructions, with 3 addressing modes (no instructions of memory access at this point) (*)
+-fixed instruction size (8 bits, one cell of memory)
+
+This last point I consider vital for the simplicity of the circuit, since I need only one access to the memory to get all the instruction, making the Fetch fase the simpler I could imagine.
+
+There are only two steps cycles per instruction, Fetch and Execute. Two clock lines are used, one to properly set the inputs of the devices and other to trigger the clocks and commit the changes.
+
+The ISA is heavilly influenced by that of MSX, which I used to program back in the early 90's. That was an 8 bit computer hugelly popular in my country (Brazil), despite almost unknown in the rest of the world.
+
+It uses a Load/Store architecture, meant that all operations are done over the registers, the only instructions to access memory are Load/Store to or from a register. There is is no way to add two numbers in memory directly, for example. As all other design decisions that was for the sake of simplicity.
+
+(*) Later in the project I could squeeze even more the ISA and insert two instructions to make memory access, but this is not necessary to the initial goal (multiply two registers).
+
+Initial research and study on the subject was done late March 2017, I spent maybe two weeks choosing the simulation project (there are lots of options, even web based ones). Circuit project itself started one month ago, and, as of May is, I'd say 80% done. The pace seems very slow, but I could manage to effectively work on the project just 1-3 hours/week...
