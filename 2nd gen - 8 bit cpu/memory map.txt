@@ -1,3 +1,5 @@
+16 bit memory addressing:
+
 FRAM		0000		48 kb
 		BFFF
 
