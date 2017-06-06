@@ -1,0 +1,9 @@
+https://leo1cpu.wordpress.com/tag/ttl/
+
+Keep wires as short as possible, don’t run signal wires too close to each other, separate ribbon cable signals with interleaved ground signals, and so on.
+
+“…employing HCT instead of HC devices in pure CMOS systems cannot be recommended. "
+
+
+http://www.radio-electronics.com/info/circuits/logic-digital-design-guidelines-tips/overview.php
+
