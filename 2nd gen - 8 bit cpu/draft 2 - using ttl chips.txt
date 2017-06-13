@@ -20,4 +20,14 @@ FRAM =
 
 --------------------------------------------
 
-chip count so far: 2 + 8 + 3 + 2 + 1 = 16
+chip count so far:
+IR	3
+PC	2
+regs	8
+alu	3 (2+1)
+ram	1
+and	2 for regs clks
+or
+buff
+
+=19
