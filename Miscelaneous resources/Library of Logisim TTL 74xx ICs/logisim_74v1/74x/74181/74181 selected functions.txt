@@ -1,0 +1,5 @@
+74181
+
+	Function		M	Cn
+ADD	1001		0	1
+SUB	0110		0	0
