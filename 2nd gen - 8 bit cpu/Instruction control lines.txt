@@ -1,2 +1,0 @@
-LD R1, data	Enable R1 select addr, data to Register In, Enable Registers Clk
-ADD R1, data	

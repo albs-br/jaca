@@ -1,9 +1,0 @@
-4 opcode
-6 alu
-3 r1
-3 r2
-16 data/addr
-
-74als874
-
-SN74ALS874B - DUAL 4-BIT D-TYPE EDGE-TRIGGERED FLIP-FLOPS with asynchronous clear and 3 state output
