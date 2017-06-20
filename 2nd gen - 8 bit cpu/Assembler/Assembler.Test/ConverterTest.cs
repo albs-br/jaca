@@ -9,7 +9,7 @@ namespace Assembler.Test
         Converter converter = new Converter();
         
         [TestMethod]
-        public void ConvertLine_ImediateInstruction_Test()
+        public void ConvertLine_ImediateInstruction_1_Test()
         {
             // Arrange
             var line = "LD    A, 0x01";
@@ -24,10 +24,10 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_ImediateInstruction1_Test()
+        public void ConvertLine_ImediateInstruction_2_Test()
         {
             // Arrange
-            var line = "LD B, 0x0A";
+            var line = "LD B, 0x0a"; // address in lower case should work
 
             // Act
             var bytes = converter.ConvertLine(line);
@@ -39,10 +39,10 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_ImediateInstruction2_Test()
+        public void ConvertLine_ImediateInstruction_3_Test()
         {
             // Arrange
-            var line = "LD C, 0xFF";
+            var line = "LD C, 0XFF"; // X in upper case shoul work
 
             // Act
             var bytes = converter.ConvertLine(line);
@@ -54,7 +54,7 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_ByRegisterInstruction_Test()
+        public void ConvertLine_ByRegisterInstruction_1_Test()
         {
             // Arrange
             var line = "LD A, B";
@@ -68,5 +68,124 @@ namespace Assembler.Test
             Assert.AreEqual(0, bytes[2]);
         }
 
+        [TestMethod]
+        public void ConvertLine_ByRegisterInstruction_2_Test()
+        {
+            // Arrange
+            var line = "LD B, A";
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(8, bytes[0]);
+            Assert.AreEqual(128, bytes[1]);
+            Assert.AreEqual(0, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_ByRegisterInstruction_3_Test()
+        {
+            // Arrange
+            var line = "LD D, F";
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(9, bytes[0]);
+            Assert.AreEqual(208, bytes[1]);
+            Assert.AreEqual(0, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_ByRegisterInstruction_4_Test()
+        {
+            // Arrange
+            var line = "LD E, G";
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(10, bytes[0]);
+            Assert.AreEqual(96, bytes[1]);
+            Assert.AreEqual(0, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_ByRegisterInstruction_5_Test()
+        {
+            // Arrange
+            var line = "LD A, H";
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(8, bytes[0]);
+            Assert.AreEqual(16 + 32 + 64, bytes[1]);
+            Assert.AreEqual(0, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_DirectInstruction_1_Test()
+        {
+            // Arrange
+            var line = "LD A, [0x00C]"; // address with 12 bits (3 hexadecimal digits)
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(12, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(12, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_DirectInstruction_2_Test()
+        {
+            // Arrange
+            var line = "LD B, [0x8]";  // address with 4 bits (1 hexadecimal digit)
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(12, bytes[0]);
+            Assert.AreEqual(128, bytes[1]);
+            Assert.AreEqual(8, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_DirectInstruction_3_Test()
+        {
+            // Arrange
+            var line = "LD C, [0xFF]";
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(13, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(255, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_DirectInstruction_4_Test()
+        {
+            // Arrange
+            var line = "LD C, [0xFFF]";  // max addr possible with 12 bits
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(13, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(4095, bytes[2]);
+        }
     }
 }

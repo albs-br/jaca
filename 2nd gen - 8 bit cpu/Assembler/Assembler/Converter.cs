@@ -45,7 +45,7 @@ namespace Assembler
                     opcode = 1;
                     byte data = Convert.ToByte(thirdPart.Replace("0X", "").ToString(), 16);
 
-                    // return 3 byte of immediate instruction
+                    // return 3 bytes of immediate instruction
                     return ImediateInstruction(opcode, r1Addr, data);
                 }
                 else if(registers.Contains(thirdPart))
@@ -56,8 +56,32 @@ namespace Assembler
                     return ByRegisterInstruction(opcode, r1Addr, r2Addr);
                 }
                 else if (thirdPart.StartsWith("[0X") && thirdPart.EndsWith("]"))
-                { 
-                    // Direct
+                {
+                    opcode = 3;
+                    thirdPart = thirdPart.Replace("[0X", "").Replace("]", "");
+                    
+                    if (thirdPart.Length > 3)
+                    {
+                        throw new Exception("Max address possible is 12 bits");
+                    }
+
+                    byte addr;
+
+                    //if (thirdPart.Length == 3)
+                    //{
+                    //    var addrHi = thirdPart.Substring(0, 4);
+                    //    var addrLo = thirdPart.Substring(4, 8);
+                        
+                    //    r1Addr = Convert.ToByte(addrHi.ToString(), 16);
+
+
+                    //}
+                    //else
+                    {
+                        addr = Convert.ToByte(thirdPart.ToString(), 16);
+                    }
+                    
+                    return DirectInstruction(opcode, r1Addr, addr);
                 }
             }
 
@@ -138,6 +162,27 @@ namespace Assembler
             return bytes;
         }
 
+        private byte[] DirectInstruction(byte opcode, byte r1Adrr, byte addr)
+        {
+            string opcodeBinary = Convert.ToString(opcode, 2);
+            opcodeBinary = opcodeBinary.PadLeft(6, '0');
+
+            string r1AddrBinary = Convert.ToString(r1Adrr, 2);
+            r1AddrBinary = r1AddrBinary.PadLeft(3, '0');
+
+            string addrBinary = Convert.ToString(addr, 2);
+            addrBinary = addrBinary.PadLeft(12, '0');
+
+
+
+            string instructionBinary = opcodeBinary + r1AddrBinary + "000" + addrBinary;
+
+
+
+            byte[] bytes = InstructionBinaryToBytes(instructionBinary);
+
+            return bytes;
+        }
         private byte[] InstructionBinaryToBytes(string instructionBinary)
         {
             byte[] bytes = new byte[3];
