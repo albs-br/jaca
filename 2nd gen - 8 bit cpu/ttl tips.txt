@@ -1,0 +1,20 @@
+Interfacing considerations
+
+Like DTL, TTL is a current-sinking logic since a current must be drawn from inputs to bring them to a logic 0 level. At low input voltage, the TTL input sources current which must be absorbed by the previous stage. The maximum value of this input current is about 1.6 mA for a standard TTL gate.[19] The input source has to be low-resistive enough (<500 O) so that the flowing current creates only a negligible voltage drop (<0.4 V) across it, for the input to be considered as a logical "0" (with a 0.4 V "noise margin", see below). The output stage of the most common TTL gates is specified to function correctly when driving up to 10 standard input stages (a fanout of 10). TTL inputs are sometimes simply left floating to provide a logical "1", though this usage is not recommended.
+
+Standard TTL circuits operate with a 5-volt power supply. A TTL input signal is defined as "low" when between 0 V and 0.8 V with respect to the ground terminal, and "high" when between 2 V and VCC (5 V),[20][21] and if a voltage signal ranging between 0.8 V and 2.0 V is sent into the input of a TTL gate, there is no certain response from the gate and therefore it is considered "uncertain" (precise logic levels vary slightly between sub-types and by temperature). TTL outputs are typically restricted to narrower limits of between 0.0 V and 0.4 V for a "low" and between 2.4 V and VCC for a "high", providing at least 0.4 V of noise immunity. Standardization of the TTL levels is so ubiquitous that complex circuit boards often contain TTL chips made by many different manufacturers selected for availability and cost, compatibility being assured; two circuit board units off the same assembly line on different successive days or weeks might have a different mix of brands of chips in the same positions on the board; repair is possible with chips manufactured years (sometimes over a decade) later than original components. Within usefully broad limits, logic gates can be treated as ideal Boolean devices without concern for electrical limitations. The 0.4V noise margins are adequate because of the low output impedance of the driver stage, that is, a large amount of noise power superimposed on the output is needed to drive an input into an undefined region.
+
+In some cases (e.g., when the output of a TTL logic gate needs to be used for driving the input of a CMOS gate), the voltage level of the "totem-pole" output stage at output logical "1" can be increased closer to VCC by connecting an external resistor between the V3 collector and the positive rail. It pulls up the V5 cathode and cuts-off the diode.[22] However, this technique actually converts the sophisticated "totem-pole" output into a simple output stage having significant output resistance when driving a high level (determined by the external resistor).
+
+https://en.wikipedia.org/wiki/Transistor%E2%80%93transistor_logic#Interfacing_considerations
+
+----------------------------------
+
+Pull-down resistors can be safely used with CMOS logic gates because the inputs are voltage-controlled. TTL logic inputs that are left un-connected inherently float high, and require a much lower valued pull-down resistor to force the input low. A standard TTL input at logic "1" is normally operated assuming a source current of 40 µA, and a voltage level above 2.4 V, allowing a pull-up resistor of no more than 50 Kohms; whereas the ttl input at logic "0" will be expected to sink 1.6 mA at a voltage below 0.8 V, requiring a pull-down resistor less than 500 ohms.[1] Holding unused TTL inputs low consumes more current. For that reason, pull-up resistors are preferred in TTL circuits.
+
+https://en.wikipedia.org/wiki/Pull-up_resistor
+
+------------------------------------
+
+http://www.electronics-tutorials.ws/logic/pull-up-resistor.html
+
