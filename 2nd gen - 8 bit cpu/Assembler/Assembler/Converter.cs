@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assembler.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,13 @@ namespace Assembler
         public byte[] ConvertLine(string line)
         {
             line = line.Trim().ToUpper();
+
+            // Ignore Comments
+            if (line.StartsWith("//"))
+            {
+                throw new NotCommandLineException("Commented line");
+            }
+
 
             // Replace all double spaces
             do

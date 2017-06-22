@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Assembler.Exceptions;
 
 namespace Assembler.Test
 {
@@ -58,6 +59,36 @@ namespace Assembler.Test
         {
             // Arrange
             var line = "LD A, B";
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(8, bytes[0]);
+            Assert.AreEqual(16, bytes[1]);
+            Assert.AreEqual(0, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_ByRegisterInstruction_1a_Test()
+        {
+            // Arrange
+            var line = "LD A,B"; // Same as before, without space after comma
+
+            // Act
+            var bytes = converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(8, bytes[0]);
+            Assert.AreEqual(16, bytes[1]);
+            Assert.AreEqual(0, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_ByRegisterInstruction_1b_Test()
+        {
+            // Arrange
+            var line = "LD A, B"; // put crlf here
 
             // Act
             var bytes = converter.ConvertLine(line);
@@ -186,6 +217,17 @@ namespace Assembler.Test
             Assert.AreEqual(13, bytes[0]);
             Assert.AreEqual(0, bytes[1]);
             Assert.AreEqual(4095, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotCommandLineException))]
+        public void ConvertLine_CommentedLine_Test()
+        {
+            // Arrange
+            var line = "// Commented line";
+
+            // Act
+            var bytes = converter.ConvertLine(line);
         }
     }
 }

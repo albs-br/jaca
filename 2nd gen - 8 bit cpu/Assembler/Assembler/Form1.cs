@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assembler.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,21 +20,36 @@ namespace Assembler
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            var lines = textBox1.Lines;
+            var lines = textBoxAssembly.Lines;
+            textBoxBytes.Clear();
             var converter = new Converter();
             byte[] program;
 
             foreach (var line in lines)
-            { 
-                // Ignore Comments
-                if (line.StartsWith("//"))
+            {
+                try
                 {
-                    continue;
+                    var instruction = converter.ConvertLine(line);
+
+                    textBoxBytes.Text += instruction[0].ToString("X").PadLeft(2);
+                    textBoxBytes.Text += " " + instruction[1].ToString("X").PadLeft(2);
+                    textBoxBytes.Text += " " + instruction[2].ToString("X").PadLeft(2);
+
+                    //program.Concat(instruction);
                 }
-
-                var instruction = converter.ConvertLine(line);
-
-                //program.Concat(instruction);
+                catch (NotCommandLineException)
+                {
+                    // do nothing
+                    textBoxBytes.Text += "not command line";
+                }
+                catch (Exception)
+                {
+                    //textBoxBytes.Text += "exception";
+                }
+                finally
+                {
+                    textBoxBytes.Text += Environment.NewLine;
+                }
             }
         }
 
