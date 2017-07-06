@@ -1,0 +1,23 @@
+	r1	r2/r3hi	r3lo
+1	dest	-
+2	dest	src
+3	d	-
+4	d	H	L (addr)
+5	dest/src	src
+7	dest/src
+
+e	src	H	L (addr)
+
+r1 a b c d
+r2 e f H L
+
+---------
+
+2 exec steps
+alu ops:
+1st put r1 in input register to alu a
+2nd put r2 in alu 2 and alu out in r1
+
+direct by reg ops:
+1st put r3hi in input reg to addr mem Hi
+2nt put r3lo in addr mem Lo and mem out/in to r1 in/out

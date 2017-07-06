@@ -1,4 +1,6 @@
-12 bit memory addressing:
+12 bit addressing memory (4kb, 4096 bytes), (0x000 to 0xfff addresses):
+
+		Hex	Dec
 
 FRAM/EEPROM	000	      0		3 kb
 		BFF	3071
@@ -16,10 +18,17 @@ size	2
 
 
 
+FRAM addr:
+0x000	boot code (copies program from 0x100 to RAM-0xC00 and execute it)
+0x100	prompt/home menu
+0x200	function library
+0x300	FAT
+0x400	file system
+
 
 
 
 
 
 - address 0x000 will contain boot code, which will copy a certain program code from FRAM to RAM and execute
-- except from the boot code, all code will run from RAM, not from FRAM (to preserve the flash memory from unnecessary wear / improve performance), therefore should be copied into RAM before execution
+- except from the boot code, all code will run from RAM, not from FRAM (to preserve the flash memory from unnecessary wear / improve performance (??) ), therefore should be copied into RAM before execution
