@@ -1,0 +1,30 @@
+=BINAHEX(C2 & D2 & E2 & F2 & G2 & H2 & I2 & J2)
+=BINAHEX(K2 & L2 & M2 & N2 & S2 & T2 & U2 & V2 & W2 & X2)
+=BINAHEX(W2 & X2)
+
+SE(S2="x"; 0; S2) & SE(t2="x"; 0; t2)
+
+--------------------
+
+https://jsfiddle.net/
+
+var start = 'A';
+var end = 'Z';
+
+//console.info(String.fromCharCode(64));
+//console.info('A'.charCodeAt(0));
+
+var text = '';
+//var text = 'BINAHEX(';
+
+for(var i=start.charCodeAt(0); i<=end.charCodeAt(0); i++) {
+  var char = String.fromCharCode(i);
+	
+  text += 'SE(' + char + '2="x"; 0; ' + char + '2) & ';
+}
+
+console.info(text);
+
+
+----------------------------
+
