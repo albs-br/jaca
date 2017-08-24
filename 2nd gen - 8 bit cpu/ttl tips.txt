@@ -18,3 +18,17 @@ https://en.wikipedia.org/wiki/Pull-up_resistor
 
 http://www.electronics-tutorials.ws/logic/pull-up-resistor.html
 
+Single Gate Pull-up Resistor Value
+RMAX = 150K
+(...)Then we can see that while there may be a maximum allowable resistive value, the resistance value for pull-up resistors is not usually that critical with values ranging from about 10k to 100k ohms.
+
+Multiple Gate Pull-up Resistor Value (10 inputs)
+RMAX = 15K
+(...)Again as before, this 15kO resistance may be the exact calculated value, but leaves no room for error so reducing the voltage drop to one volt (or any value you want) gives a resistive value of only 5kO’s.
+
+Single Gate Pull-down Resistor Value
+RMAX = 2K
+(...)Therefore if we assume a voltage drop of only 0.4 volts across the resistor, a quick calculation would give us a single pull-down resistor value of 1kO’s
+(...)Also, connecting inputs together will result in a larger current through the resistor. For example, a fan-in of 10 will result in 10 x 400uA = 4.0mA requiring a pull-down resistance of 100O’s.
+
+But you might be thinking, why use a pull-down resistor at all when a direct connection to ground (0V) would produce the required LOW?. A direct connection to ground without the pull-down resistor would certainly work in most cases, but as the gates input is permanently tied to ground, the use of a resistor limits the current flowing out of the input thereby reducing power loss while still maintaining a logic “0” condition.
