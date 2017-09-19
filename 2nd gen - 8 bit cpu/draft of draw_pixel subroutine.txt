@@ -1,0 +1,36 @@
+draw_pixel
+
+inputs
+	register A: x coord
+	register B: y coord
+destroys:
+	H, L, C
+
+result:
+	-
+
+
+	LD H, 0x1	// load H register with 00000001 pattern (one pixel at the far right of the line)
+	LD C, 0x7
+loop:
+	LD L, A		// saves register A value
+	SUB L, C
+	JP Z, end_sub
+	ADD H, H	// shift left H register (brings the pixel one pixel to the left)
+	INC A
+	JP loop
+
+end sub:
+	OUT 1, H, B
+	RET
+
+
+A
+0	7
+1	6
+2	5
+3	4
+4	3
+5	2
+6	1
+7	0

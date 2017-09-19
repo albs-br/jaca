@@ -7,3 +7,12 @@ Keep wires as short as possible, don’t run signal wires too close to each other,
 
 http://www.radio-electronics.com/info/circuits/logic-digital-design-guidelines-tips/overview.php
 
+
+------------------------------------------
+
+Put project in CPU webring!
+
+David Brooks, designer of the Simplex-III homebrew computer, has founded the Homebrew CPUs Web Ring. To join, drop David a line, mentioning your page's URL. He'll then add it to the list.
+You will need to copy this code fragment into your page. 
+
+http://www.homebrewcpu.com/
