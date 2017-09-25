@@ -1,0 +1,8 @@
+jumpers			OK
+2 mm led yellow and blue
+8 bit or 10 bit counters
+crystal 20 MHz and others	OK
+7414 (schmitt trigger inverter)
+4,7K resistors		OK
+2M2 resistors		?
+wire stripper plier
