@@ -1,6 +1,15 @@
 jumpers			OK
-2 mm led yellow and blue
+2 mm led yellow and blue	OK
+
 8 bit or 10 bit counters
+	74269 	1 	8-bit bidirectional binary counter
+	74393 	2 	dual 4-bit binary counter
+	74453 	2 	dual binary counter, synchronous
+	74455 	2 	dual binary up/down counter, synchronous, preset input
+	74461 	1 	8-bit presettable binary counter, three-state outputs
+	74469 	1 	8-bit synchronous up/down counter, parallel load and hold capability
+
+
 crystal 20 MHz and others	OK
 7414 (schmitt trigger inverter)
 4,7K resistors		OK

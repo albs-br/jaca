@@ -1,0 +1,8 @@
+Things to do as of september, 26, 2017:
+
+Logisim project:
+-ret_addr register
+-more flags (Carry, etc)
+-input device (keyboard)
+-magnitude comparison instructions
+-implement "DO NOTHING WITH A" ALU operation (S0 to S3 = L, M = L, C = L), useful to set flags without change register
