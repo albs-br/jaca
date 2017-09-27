@@ -5,4 +5,4 @@ Logisim project:
 -more flags (Carry, etc)
 -input device (keyboard)
 -magnitude comparison instructions
--implement "DO NOTHING WITH A" ALU operation (S0 to S3 = L, M = L, C = L), useful to set flags without change register
+-implement "DO NOTHING WITH A" or "RETURN A"ALU operation (S0 to S3 = L, M = L, C = L), useful to set flags without change register

@@ -13,5 +13,5 @@ jumpers			OK
 crystal 20 MHz and others	OK
 7414 (schmitt trigger inverter)
 4,7K resistors		OK
-2M2 resistors		?
+2M2 resistors		OK
 wire stripper plier
