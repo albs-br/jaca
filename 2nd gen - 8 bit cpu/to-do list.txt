@@ -1,7 +1,7 @@
 Things to do as of september, 26, 2017:
 
 Logisim project:
--ret_addr register
+-ret_addr register		OK
 -more flags (Carry, etc)
 -input device (keyboard)
 -magnitude comparison instructions
