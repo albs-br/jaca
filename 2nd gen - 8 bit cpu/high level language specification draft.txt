@@ -1,0 +1,47 @@
+// comment
+
+byte a;
+string text;
+
+const byte c;
+
+// Atribution instructions:
+text = "abc";
+
+a = 1;
+a = b;
+a++;
+a--;
+a = a + 2;
+a = b + c;
+a += 3;
+a += b;
+
+// bitwise operators:
+ ~b;
+ a & b;
+ a | b;
+ a^b;
+
+// comparison operators:
+a == b
+a > b
+a < b
+a >= b
+a <= b
+
+
+// Complex instructions
+if (a == 1) {
+
+}
+
+for (i=0; i<8; i++) {
+
+}
+
+byte FunctionName(byte a, byte b) {
+	return;
+	// or
+	return a;
+}
