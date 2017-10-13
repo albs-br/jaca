@@ -16,4 +16,4 @@ crystal 20 MHz and others	OK
 2M2 resistors		OK
 wire stripper plier
 assorted capacitors		OK
-ps/2 female connector	
+ps/2 female connector		OK
