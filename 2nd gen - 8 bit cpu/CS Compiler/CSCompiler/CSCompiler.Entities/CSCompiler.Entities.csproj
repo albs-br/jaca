@@ -39,7 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllClasses.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="CS\CSProgram.cs" />
+    <Compile Include="CS\Tokens\Token.cs" />
+    <Compile Include="MachineCode\MachineCodeProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
