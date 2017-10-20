@@ -13,7 +13,30 @@ namespace CSCompiler.Entities
         public const int BASE_ADDR_SUBROUTINES = 1000;
         public const int BASE_ADDR_VARIABLES = 2000;
 
-        public string[] VALID_TYPES = { "byte" };
+        public static string[] VALID_TYPES = { "byte" };
+
+        public static bool IsValidType(string text)
+        {
+            foreach (string t in Constants.VALID_TYPES)
+            {
+                if (text == t)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns true to Space, New Line and Tab characters
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static bool IsIrrelevantChar(char c)
+        {
+            return (c == ' ' || c == '\r' || c == '\n' || c == '\t');
+        }
     }
 
 }

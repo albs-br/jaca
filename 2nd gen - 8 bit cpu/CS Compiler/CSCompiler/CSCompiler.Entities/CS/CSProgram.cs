@@ -19,8 +19,8 @@ namespace CSCompiler.Entities.CS
         private enum States
         {
             None,
-            IdentifierTokenStarted,
-            NumberTokenStarted,
+            TypeOrIdentifierTokenStarted,
+            LiteralTokenStarted,
             //TokenEnd,
         }
 
@@ -37,7 +37,7 @@ namespace CSCompiler.Entities.CS
                 switch (currentState)
                 {
                     case States.None:
-                        if (currentChar == ' ')
+                        if (Constants.IsIrrelevantChar(currentChar))
                         {
                             continue;
                         }
@@ -45,50 +45,57 @@ namespace CSCompiler.Entities.CS
                         {
                             if (Char.IsLetter(currentChar))
                             {
-                                currentToken += currentChar;
-                                currentState = States.IdentifierTokenStarted;
+                                currentState = States.TypeOrIdentifierTokenStarted;
+                                currentToken = currentChar.ToString();
                             }
                             else if (Char.IsNumber(currentChar))
                             {
-                                currentToken += currentChar;
-                                currentState = States.NumberTokenStarted;
+                                currentState = States.LiteralTokenStarted;
+                                currentToken = currentChar.ToString();
                             }
                             else if (currentChar == '=')
                             {
+                                tokens.Add(new EqualToken { Text = currentChar.ToString() });
                                 currentToken = "";
-                                tokens.Add(new EqualToken { Text = currentToken });
                             }
                             else if (currentChar == ';')
                             {
+                                tokens.Add(new SemicolonToken { Text = currentChar.ToString() });
                                 currentToken = "";
-                                tokens.Add(new SemicolonToken { Text = currentToken });
                             }
                         }
                         break;
 
-                    case States.IdentifierTokenStarted:
+                    case States.TypeOrIdentifierTokenStarted:
                         if (Char.IsLetterOrDigit(currentChar))
                         {
+                            // Identifier continues
                             currentToken += currentChar;
                         }
                         else
                         {
-                            //if (Constants.VALID_TYPES.Contains(currentToken))
-                            if (currentToken == "byte")
+                            // Identifier ends
+                            if (Constants.IsValidType(currentToken))
                             {
                                 tokens.Add(new TypeToken { Text = currentToken });
                             }
                             else
                             {
                                 tokens.Add(new IdentifierToken { Text = currentToken });
+
+                                if (currentChar == '=')
+                                {
+                                    tokens.Add(new EqualToken { Text = currentChar.ToString() });
+                                    //currentToken = "";
+                                }
                             }
 
-                            currentToken = "";
+                            currentToken = currentChar.ToString();
                             currentState = States.None;
                         }
                         break;
 
-                    case States.NumberTokenStarted:
+                    case States.LiteralTokenStarted:
                         if (Char.IsNumber(currentChar))
                         {
                             currentToken += currentChar;
@@ -97,9 +104,10 @@ namespace CSCompiler.Entities.CS
                         {
                             tokens.Add(new LiteralToken { Text = currentToken });
 
-                            if (currentToken == ";")
+                            if (currentChar == ';')
                             {
-                                tokens.Add(new SemicolonToken { Text = currentToken });
+                                tokens.Add(new SemicolonToken { Text = currentChar.ToString() });
+                                //currentToken = "";
                             }
                             
                             currentToken = "";
@@ -111,6 +119,7 @@ namespace CSCompiler.Entities.CS
 
             return tokens;
         }
+
     }
 
     public abstract class Command
