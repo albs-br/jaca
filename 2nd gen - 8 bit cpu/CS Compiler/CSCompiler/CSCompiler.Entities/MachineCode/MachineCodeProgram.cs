@@ -11,15 +11,15 @@ namespace CSCompiler.Entities.MachineCode
         // Constructor
         public MachineCodeProgram()
         {
-            this.bytes = new List<byte>(Constants.SIZE_RAM_MEMORY);
+            this.Bytes = new List<byte>(Constants.SIZE_RAM_MEMORY);
 
             // Initialize array filled of zeroes
             for (int i = 0; i < Constants.SIZE_RAM_MEMORY; i++)
             {
-                this.bytes.Add(0);
+                this.Bytes.Add(0);
             }
         }
 
-        public IList<byte> bytes { get; set; }
+        public IList<byte> Bytes { get; set; }
     }
 }

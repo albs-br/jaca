@@ -40,8 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="CS\Command.cs" />
+    <Compile Include="CS\ComplexCommand.cs" />
     <Compile Include="CS\CSProgram.cs" />
+    <Compile Include="CS\SimpleCommand.cs" />
     <Compile Include="CS\Tokens\Token.cs" />
+    <Compile Include="CS\Variable.cs" />
     <Compile Include="MachineCode\MachineCodeProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

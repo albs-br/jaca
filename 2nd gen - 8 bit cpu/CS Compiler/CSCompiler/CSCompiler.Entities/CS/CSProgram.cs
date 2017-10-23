@@ -14,6 +14,7 @@ namespace CSCompiler.Entities.CS
         public string SourceCodeText;
 
         public IList<Command> Commands { get; set; }
+        public IList<Variable> Variables { get; set; }
 
         // State Machine
         private enum States
@@ -24,7 +25,7 @@ namespace CSCompiler.Entities.CS
             //TokenEnd,
         }
 
-        public IList<Token> ConvertToTokens()
+        public IList<Token> ConvertSourceToTokens()
         {
             States currentState = States.None;
 
@@ -55,12 +56,17 @@ namespace CSCompiler.Entities.CS
                             }
                             else if (currentChar == '=')
                             {
-                                tokens.Add(new EqualToken { Text = currentChar.ToString() });
+                                tokens.Add(new EqualToken(currentChar.ToString()));
+                                currentToken = "";
+                            }
+                            else if (Constants.IsArithmeticSignal(currentChar))
+                            {
+                                tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
                                 currentToken = "";
                             }
                             else if (currentChar == ';')
                             {
-                                tokens.Add(new SemicolonToken { Text = currentChar.ToString() });
+                                tokens.Add(new SemicolonToken(currentChar.ToString()));
                                 currentToken = "";
                             }
                         }
@@ -77,15 +83,25 @@ namespace CSCompiler.Entities.CS
                             // Identifier ends
                             if (Constants.IsValidType(currentToken))
                             {
-                                tokens.Add(new TypeToken { Text = currentToken });
+                                tokens.Add(new TypeToken(currentToken));
                             }
                             else
                             {
-                                tokens.Add(new IdentifierToken { Text = currentToken });
+                                tokens.Add(new IdentifierToken(currentToken));
 
                                 if (currentChar == '=')
                                 {
-                                    tokens.Add(new EqualToken { Text = currentChar.ToString() });
+                                    tokens.Add(new EqualToken(currentChar.ToString()));
+                                    //currentToken = "";
+                                }
+                                else if (Constants.IsArithmeticSignal(currentChar))
+                                {
+                                    tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
+                                    //currentToken = "";
+                                }
+                                if (currentChar == ';')
+                                {
+                                    tokens.Add(new SemicolonToken(currentChar.ToString()));
                                     //currentToken = "";
                                 }
                             }
@@ -102,14 +118,19 @@ namespace CSCompiler.Entities.CS
                         }
                         else
                         {
-                            tokens.Add(new LiteralToken { Text = currentToken });
+                            tokens.Add(new LiteralToken(currentToken));
 
                             if (currentChar == ';')
                             {
-                                tokens.Add(new SemicolonToken { Text = currentChar.ToString() });
+                                tokens.Add(new SemicolonToken(currentChar.ToString()));
                                 //currentToken = "";
                             }
-                            
+                            else if (Constants.IsArithmeticSignal(currentChar))
+                            {
+                                tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
+                                //currentToken = "";
+                            }
+
                             currentToken = "";
                             currentState = States.None;
                         }
@@ -120,18 +141,27 @@ namespace CSCompiler.Entities.CS
             return tokens;
         }
 
-    }
+        public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens)
+        {
+            var machineCodeProgram = new MachineCodeProgram();
 
-    public abstract class Command
-    {
-    }
+            var currentCommandTokens = new List<Token>();
+            foreach (var token in tokens)
+            {
+                currentCommandTokens.Add(token);
+                if (token is SemicolonToken)
+                {
+                    if (currentCommandTokens.Count == 5)
+                    {
+                        // Test whether is an Atribution Command
+                        this.Commands.Add(new SimpleCommand());
+                    }
+                    currentCommandTokens.Clear();
+                }
+            }
 
-    public class SimpleCommand : Command
-    {
-    }
+            return machineCodeProgram;
+        }
 
-    public class ComplexCommand : Command
-    {
-        IList<Command> InnerCommands { get; set; }
     }
 }
