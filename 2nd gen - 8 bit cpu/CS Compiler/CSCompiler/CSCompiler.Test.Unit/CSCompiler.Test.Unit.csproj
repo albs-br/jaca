@@ -59,6 +59,10 @@
       <Project>{e7b564f5-bba7-41d6-bcb2-4012fa1f0639}</Project>
       <Name>CSCompiler.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CSCompiler.Exceptions\CSCompiler.Exceptions.csproj">
+      <Project>{adabdfca-5db1-4d4b-8a1b-6c8104c410c6}</Project>
+      <Name>CSCompiler.Exceptions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

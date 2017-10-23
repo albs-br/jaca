@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E7B564F5-BBA7-41D6-BCB2-4012FA1F0639}</ProjectGuid>
+    <ProjectGuid>{ADABDFCA-5DB1-4D4B-8A1B-6C8104C410C6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CSCompiler.Entities</RootNamespace>
-    <AssemblyName>CSCompiler.Entities</AssemblyName>
+    <RootNamespace>CSCompiler.Exceptions</RootNamespace>
+    <AssemblyName>CSCompiler.Exceptions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,22 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
-    <Compile Include="CS\Command.cs" />
-    <Compile Include="CS\ComplexCommand.cs" />
-    <Compile Include="CS\CSProgram.cs" />
-    <Compile Include="CS\SimpleCommand.cs" />
-    <Compile Include="CS\Tokens\Token.cs" />
-    <Compile Include="CS\VarDefinitionInstruction.cs" />
-    <Compile Include="CS\Variable.cs" />
-    <Compile Include="MachineCode\MachineCodeProgram.cs" />
+    <Compile Include="VariableAlreadyDefinedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CSCompiler.Exceptions\CSCompiler.Exceptions.csproj">
-      <Project>{adabdfca-5db1-4d4b-8a1b-6c8104c410c6}</Project>
-      <Name>CSCompiler.Exceptions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,11 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSCompiler.Entities;
+using CSCompiler.Exceptions;
 
 namespace CSCompiler.Entities.CS
 {
     public class CSProgram
     {
+        // Constructor
+        public CSProgram()
+        {
+            this.Commands = new List<Command>();
+            this.Variables = new List<Variable>();
+        }
+
         public string SourceCodeText;
 
         public IList<Command> Commands { get; set; }
@@ -151,10 +159,33 @@ namespace CSCompiler.Entities.CS
                 currentCommandTokens.Add(token);
                 if (token is SemicolonToken)
                 {
-                    if (currentCommandTokens.Count == 5)
+                    // Test whether is a Var Definition Instruction
+                    if (currentCommandTokens.Count == 5
+                        && currentCommandTokens[0] is TypeToken
+                        && currentCommandTokens[1] is IdentifierToken
+                        && currentCommandTokens[2] is EqualToken
+                        && currentCommandTokens[3] is LiteralToken
+                        && currentCommandTokens[4] is SemicolonToken)
                     {
-                        // Test whether is an Atribution Command
-                        this.Commands.Add(new SimpleCommand());
+                        var command = new SimpleCommand();
+                        command.csProgram = this;
+                        command.Tokens = currentCommandTokens;
+                        this.Commands.Add(command);
+
+                        var variableName = currentCommandTokens[1].Text;
+
+                        if (this.Variables.Where(x => x.Name == variableName).Count() > 0)
+                        {
+                            throw new VariableAlreadyDefinedException(String.Format("Variable {0} already defined.", variableName));
+                        }
+
+                        var variable = new Variable();
+                        variable.Name = variableName;
+                        this.Variables.Add(variable);
+
+                        var variableValue = currentCommandTokens[3].Text;
+
+                        machineCodeProgram.Bytes[Constants.BASE_ADDR_VARIABLES + this.Variables.Count - 1] = Convert.ToByte(variableValue);
                     }
                     currentCommandTokens.Clear();
                 }
