@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InvalidInstructionFormatException.cs" />
+    <Compile Include="UndefinedVariableException.cs" />
     <Compile Include="VariableOutsideOfRangeException.cs" />
     <Compile Include="VariableAlreadyDefinedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

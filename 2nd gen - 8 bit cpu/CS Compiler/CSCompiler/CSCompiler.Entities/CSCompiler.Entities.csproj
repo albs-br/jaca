@@ -45,6 +45,7 @@
     <Compile Include="CS\CSProgram.cs" />
     <Compile Include="CS\SimpleCommand.cs" />
     <Compile Include="CS\Tokens\Token.cs" />
+    <Compile Include="CS\AtributionInstruction.cs" />
     <Compile Include="CS\VarDefinitionInstruction.cs" />
     <Compile Include="CS\Variable.cs" />
     <Compile Include="EnumOpCodes.cs" />

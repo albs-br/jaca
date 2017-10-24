@@ -169,21 +169,15 @@ namespace CSCompiler.Entities.CS
                         && currentCommandTokens[3] is LiteralToken
                         && currentCommandTokens[4] is SemicolonToken)
                     {
-                        var command = new VarDefinitionInstruction();
-                        command.csProgram = this;
-                        command.Tokens = currentCommandTokens;
-
-
-
-
                         var variableName = currentCommandTokens[1].Text;
+                        var variableValue = currentCommandTokens[3].Text;
+
 
                         if (this.Variables.Where(x => x.Name == variableName).Count() > 0)
                         {
                             throw new VariableAlreadyDefinedException(variableName);
                         }
 
-                        var variableValue = currentCommandTokens[3].Text;
 
                         if (int.Parse(variableValue) > 255)
                         {
@@ -191,14 +185,13 @@ namespace CSCompiler.Entities.CS
                         }
 
 
-                        // put bytes of program
+                        var command = new VarDefinitionInstruction();
+                        command.csProgram = this;
+                        command.Tokens = currentCommandTokens;
+
+                        // add bytes of program
                         var bytesOfCommand = command.MachineCode();
-                        var j = 0;
-                        for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
-                        {
-                            machineCodeProgram.Bytes[i] = bytesOfCommand[j++];
-                        }
-                        currentProgramAddr = currentProgramAddr + bytesOfCommand.Count;
+                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
 
 
@@ -206,13 +199,53 @@ namespace CSCompiler.Entities.CS
                         variable.Name = variableName;
                         variable.Address = currentVariableAddr;
                         this.Variables.Add(variable);
-                        currentVariableAddr++; // TODO: check type of var and incremen it according to size of the type
+                        currentVariableAddr++; // TODO: check type of var and increment it according to size of the type
 
 
 
                         this.Commands.Add(command);
 
-                        machineCodeProgram.Bytes[Constants.BASE_ADDR_VARIABLES + this.Variables.Count - 1] = Convert.ToByte(variableValue);
+                        machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(variableValue);
+                    }
+                    // Test whether is a Atribution Instru0tion
+                    else if (currentCommandTokens.Count == 4
+                        && currentCommandTokens[0] is IdentifierToken
+                        && currentCommandTokens[1] is EqualToken
+                        && currentCommandTokens[2] is LiteralToken
+                        && currentCommandTokens[3] is SemicolonToken)
+                    {
+                        var variableName = currentCommandTokens[0].Text;
+                        var variableValue = currentCommandTokens[2].Text;
+
+
+
+
+
+                        var variable = this.Variables.Where(x => x.Name == variableName).FirstOrDefault();
+                        if (variable == null)
+                        {
+                            throw new UndefinedVariableException(variableName);
+                        }
+
+
+                        if (int.Parse(variableValue) > 255)
+                        {
+                            throw new VariableOutsideOfRangeException(variableName);
+                        }
+
+                        var command = new AtributionInstruction();
+                        command.csProgram = this;
+                        command.Tokens = currentCommandTokens;
+                        command.VariableResult = variable;
+
+
+                        // add bytes of program
+                        var bytesOfCommand = command.MachineCode();
+                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
+                        this.Commands.Add(command);
+
+                        machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(variableValue);
                     }
                     else
                     {
@@ -226,6 +259,23 @@ namespace CSCompiler.Entities.CS
             }
 
             return machineCodeProgram;
+        }
+
+        private static int AddBytesOfProgram(MachineCodeProgram machineCodeProgram, int currentProgramAddr, IList<byte> bytesOfCommand)
+        {
+            var j = 0;
+            for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
+            {
+                machineCodeProgram.Bytes[i] = bytesOfCommand[j++];
+            }
+            currentProgramAddr = currentProgramAddr + bytesOfCommand.Count;
+            return currentProgramAddr;
+        }
+
+        private int GetNextVariableAddress()
+        {
+            // TODO: this should sum the sizes of each variable
+            return Constants.BASE_ADDR_VARIABLES + this.Variables.Count - 1;
         }
 
     }

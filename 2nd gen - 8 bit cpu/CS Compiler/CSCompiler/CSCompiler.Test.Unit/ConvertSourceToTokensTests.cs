@@ -102,7 +102,7 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
-        public void Test_SourceToTokens_Simple_ArithmeticionInstruction_1()
+        public void Test_SourceToTokens_Simple_ArithmeticInstruction_1()
         {
             // Arrange
             string[] csSourceCodeArray = {
@@ -151,7 +151,7 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
-        public void Test_SourceToTokens_Simple_ArithmeticionInstruction_2()
+        public void Test_SourceToTokens_Simple_ArithmeticInstruction_2()
         {
             // Arrange
             string[] csSourceCodeArray = {

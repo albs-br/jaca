@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSCompiler.Entities
 {
-    public class Constants
+    public static class Constants
     {
         public const int SIZE_RAM_MEMORY = 65536;
         public const int BASE_ADDR_PROGRAM = 32768;
