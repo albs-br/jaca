@@ -153,6 +153,7 @@ namespace CSCompiler.Entities.CS
         {
             var machineCodeProgram = new MachineCodeProgram();
             var currentProgramAddr = Constants.BASE_ADDR_PROGRAM;
+            var currentVariableAddr = Constants.BASE_ADDR_VARIABLES;
 
             var currentCommandTokens = new List<Token>();
             foreach (var token in tokens)
@@ -171,15 +172,9 @@ namespace CSCompiler.Entities.CS
                         var command = new VarDefinitionInstruction();
                         command.csProgram = this;
                         command.Tokens = currentCommandTokens;
-                        this.Commands.Add(command);
 
-                        // put bytes of program
-                        var bytesOfCommand = command.MachineCode();
-                        var j = 0;
-                        for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
-                        {
-                            machineCodeProgram.Bytes[i] = bytesOfCommand[j++];
-                        }
+
+
 
                         var variableName = currentCommandTokens[1].Text;
 
@@ -188,13 +183,43 @@ namespace CSCompiler.Entities.CS
                             throw new VariableAlreadyDefinedException(variableName);
                         }
 
-                        var variable = new Variable();
-                        variable.Name = variableName;
-                        this.Variables.Add(variable);
-
                         var variableValue = currentCommandTokens[3].Text;
 
+                        if (int.Parse(variableValue) > 255)
+                        {
+                            throw new VariableOutsideOfRangeException(variableName);
+                        }
+
+
+                        // put bytes of program
+                        var bytesOfCommand = command.MachineCode();
+                        var j = 0;
+                        for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
+                        {
+                            machineCodeProgram.Bytes[i] = bytesOfCommand[j++];
+                        }
+                        currentProgramAddr = currentProgramAddr + bytesOfCommand.Count;
+
+
+
+                        var variable = new Variable();
+                        variable.Name = variableName;
+                        variable.Address = currentVariableAddr;
+                        this.Variables.Add(variable);
+                        currentVariableAddr++; // TODO: check type of var and incremen it according to size of the type
+
+
+
+                        this.Commands.Add(command);
+
                         machineCodeProgram.Bytes[Constants.BASE_ADDR_VARIABLES + this.Variables.Count - 1] = Convert.ToByte(variableValue);
+                    }
+                    else
+                    {
+                        IList<string> items = currentCommandTokens.Select(x => x.Text).ToList();
+                        string instruction = items.Aggregate((i, j) => i + " " + j);
+
+                        throw new InvalidInstructionFormatException(instruction);
                     }
                     currentCommandTokens.Clear();
                 }

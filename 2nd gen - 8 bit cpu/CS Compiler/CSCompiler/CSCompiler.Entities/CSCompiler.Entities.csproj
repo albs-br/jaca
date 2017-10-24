@@ -48,6 +48,7 @@
     <Compile Include="CS\VarDefinitionInstruction.cs" />
     <Compile Include="CS\Variable.cs" />
     <Compile Include="EnumOpCodes.cs" />
+    <Compile Include="EnumRegisters.cs" />
     <Compile Include="MachineCode\MachineCodeProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

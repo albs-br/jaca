@@ -14,7 +14,7 @@ namespace CSCompiler.Entities.CS
         // ST [HL], A
         
         // TODO:
-        // ST [addr], A
+        // change last 3 instructions to ST [addr], A (depends on correrct implementation in circuit)
 
         public override IList<byte> MachineCode()
         {
@@ -25,6 +25,8 @@ namespace CSCompiler.Entities.CS
             byte addr_lo = LowByteOf(addr);
 
             var bytes = new List<byte>();
+
+            //var test = GetInstructionBytes(EnumOpCodes.LD_R1_data, EnumRegisters.A, null, null, null, value);
 
             bytes.Add(0x04);           // LD A, value
             bytes.Add(0x00);   
@@ -44,5 +46,14 @@ namespace CSCompiler.Entities.CS
 
             return bytes;
         }
+
+        //protected IList<byte> GetInstructionBytes(EnumOpCodes opcode, EnumRegisters? r1, EnumRegisters? r2, int? io_addr, int? addr, byte? data)
+        //{
+        //    var bytes = new List<byte>();
+
+        //    int firstByte = (((int)opcode) << 2) & ((int)r1 ;
+
+        //    return bytes;
+        //}
     }
 }

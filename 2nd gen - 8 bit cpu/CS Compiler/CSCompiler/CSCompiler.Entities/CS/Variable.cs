@@ -8,6 +8,7 @@ namespace CSCompiler.Entities.CS
 {
     public class Variable
     {
-        public String Name;
+        public String Name { get; set; }
+        public int Address { get; set; }
     }
 }

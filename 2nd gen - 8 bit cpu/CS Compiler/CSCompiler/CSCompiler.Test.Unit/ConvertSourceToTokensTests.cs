@@ -10,7 +10,7 @@ namespace CSCompiler.Test.Unit
     public class ConvertSourceToTokensTests
     {
         [TestMethod]
-        public void Test_Simple_VarDefinitionInstruction_1()
+        public void Test_SourceToTokens_Simple_VarDefinitionInstruction_1()
         {
             // Arrange
             string[] csSourceCodeArray = { 
@@ -57,7 +57,7 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
-        public void Test_Simple_AtributionInstruction_1()
+        public void Test_SourceToTokens_Simple_AtributionInstruction_1()
         {
             // Arrange
             string[] csSourceCodeArray = {
@@ -102,7 +102,7 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
-        public void Test_Simple_ArithmeticionInstruction_1()
+        public void Test_SourceToTokens_Simple_ArithmeticionInstruction_1()
         {
             // Arrange
             string[] csSourceCodeArray = {
@@ -151,7 +151,7 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
-        public void Test_Simple_ArithmeticionInstruction_2()
+        public void Test_SourceToTokens_Simple_ArithmeticionInstruction_2()
         {
             // Arrange
             string[] csSourceCodeArray = {
@@ -199,25 +199,5 @@ namespace CSCompiler.Test.Unit
             }
         }
 
-
-        //Assert.AreEqual(32768, machineCodeProgram.bytes.Count);
-        //Assert.AreEqual(1, machineCodeProgram.bytes[2000]);
-
-
-        //[TestMethod]
-        //public void TestMethod2()
-        //{
-        //    // Arrange
-        //    var csSourceCode = " byte myVar = 17;";
-
-        //    // Act
-        //    var csProgram = new CSProgram();
-        //    csProgram.SourceCodeText = csSourceCode;
-        //    var machineCodeProgram = csProgram.ConvertToTokens();
-
-        //    // Assert
-        //    Assert.AreEqual(32768, machineCodeProgram.bytes.Count);
-        //    Assert.AreEqual(1, machineCodeProgram.bytes[2000]);
-        //}
     }
 }
