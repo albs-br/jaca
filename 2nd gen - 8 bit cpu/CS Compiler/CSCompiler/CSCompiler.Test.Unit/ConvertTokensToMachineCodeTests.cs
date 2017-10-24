@@ -28,7 +28,20 @@ namespace CSCompiler.Test.Unit
 
 
             // Assert
-            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+            Assert.AreEqual(65536,  machineCodeProgram.Bytes.Count);
+            Assert.AreEqual(0x04,   machineCodeProgram.Bytes[32768]);
+            Assert.AreEqual(0x00,   machineCodeProgram.Bytes[32769]);
+            Assert.AreEqual(17,     machineCodeProgram.Bytes[32770]);
+            Assert.AreEqual(0x05,   machineCodeProgram.Bytes[32771]);
+            Assert.AreEqual(0x00,   machineCodeProgram.Bytes[32772]);
+            Assert.AreEqual(0xce,   machineCodeProgram.Bytes[32773]);
+            Assert.AreEqual(0x05,   machineCodeProgram.Bytes[32774]);
+            Assert.AreEqual(0x80,   machineCodeProgram.Bytes[32775]);
+            Assert.AreEqual(0x20,   machineCodeProgram.Bytes[32776]);
+            Assert.AreEqual(0xa0,   machineCodeProgram.Bytes[32777]);
+            Assert.AreEqual(0x80,   machineCodeProgram.Bytes[32778]);
+            Assert.AreEqual(0x00,   machineCodeProgram.Bytes[32779]);
+
             Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
             Assert.AreEqual(1, csProgram.Commands.Count);
             Assert.AreEqual(1, csProgram.Variables.Count);

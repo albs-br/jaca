@@ -19,5 +19,16 @@ namespace CSCompiler.Entities.CS
         public IList<Token> Tokens { get; set; }
 
         public abstract IList<byte> MachineCode();
+
+        protected byte HiByteOf(int number)
+        {
+            return (byte)(number >> 8);
+        }
+
+        protected byte LowByteOf(int number)
+        {
+            return (byte)(number & 0xFF);
+        }
+
     }
 }

@@ -8,6 +8,9 @@ namespace CSCompiler.Entities.CS
 {
     public class SimpleCommand : Command
     {
-
+        public override IList<byte> MachineCode()
+        {
+            return null;
+        }
     }
 }

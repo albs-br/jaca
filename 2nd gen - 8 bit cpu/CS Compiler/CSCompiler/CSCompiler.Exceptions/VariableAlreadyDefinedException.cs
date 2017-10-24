@@ -8,8 +8,8 @@ namespace CSCompiler.Exceptions
 {
     public class VariableAlreadyDefinedException : Exception
     {
-        public VariableAlreadyDefinedException(string msg)
-            : base(msg)
+        public VariableAlreadyDefinedException(string variableName)
+            : base(String.Format("Variable {0} already defined.", variableName))
         { }
     }
 }

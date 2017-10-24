@@ -9,5 +9,11 @@ namespace CSCompiler.Entities.CS
     public class ComplexCommand : Command
     {
         IList<Command> InnerCommands { get; set; }
+
+        public override IList<byte> MachineCode()
+        {
+            return null;
+        }
+
     }
 }

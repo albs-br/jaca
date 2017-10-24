@@ -152,6 +152,7 @@ namespace CSCompiler.Entities.CS
         public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens)
         {
             var machineCodeProgram = new MachineCodeProgram();
+            var currentProgramAddr = Constants.BASE_ADDR_PROGRAM;
 
             var currentCommandTokens = new List<Token>();
             foreach (var token in tokens)
@@ -167,16 +168,24 @@ namespace CSCompiler.Entities.CS
                         && currentCommandTokens[3] is LiteralToken
                         && currentCommandTokens[4] is SemicolonToken)
                     {
-                        var command = new SimpleCommand();
+                        var command = new VarDefinitionInstruction();
                         command.csProgram = this;
                         command.Tokens = currentCommandTokens;
                         this.Commands.Add(command);
+
+                        // put bytes of program
+                        var bytesOfCommand = command.MachineCode();
+                        var j = 0;
+                        for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
+                        {
+                            machineCodeProgram.Bytes[i] = bytesOfCommand[j++];
+                        }
 
                         var variableName = currentCommandTokens[1].Text;
 
                         if (this.Variables.Where(x => x.Name == variableName).Count() > 0)
                         {
-                            throw new VariableAlreadyDefinedException(String.Format("Variable {0} already defined.", variableName));
+                            throw new VariableAlreadyDefinedException(variableName);
                         }
 
                         var variable = new Variable();
