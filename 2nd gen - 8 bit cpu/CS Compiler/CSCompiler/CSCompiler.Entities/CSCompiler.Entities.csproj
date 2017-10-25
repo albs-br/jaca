@@ -40,12 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="CS\AtributionFromVarInstruction.cs" />
     <Compile Include="CS\Command.cs" />
     <Compile Include="CS\ComplexCommand.cs" />
     <Compile Include="CS\CSProgram.cs" />
     <Compile Include="CS\SimpleCommand.cs" />
     <Compile Include="CS\Tokens\Token.cs" />
-    <Compile Include="CS\AtributionInstruction.cs" />
+    <Compile Include="CS\AtributionFromLiteralInstruction.cs" />
     <Compile Include="CS\VarDefinitionInstruction.cs" />
     <Compile Include="CS\Variable.cs" />
     <Compile Include="EnumOpCodes.cs" />

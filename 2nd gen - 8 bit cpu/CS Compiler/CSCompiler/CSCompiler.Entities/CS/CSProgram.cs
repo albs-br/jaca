@@ -207,45 +207,76 @@ namespace CSCompiler.Entities.CS
 
                         machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(variableValue);
                     }
-                    // Test whether is a Atribution Instru0tion
+                    // Test whether is an Atribution Instruction
                     else if (currentCommandTokens.Count == 4
                         && currentCommandTokens[0] is IdentifierToken
                         && currentCommandTokens[1] is EqualToken
-                        && currentCommandTokens[2] is LiteralToken
+                        && currentCommandTokens[2] is OperandToken
                         && currentCommandTokens[3] is SemicolonToken)
                     {
-                        var variableName = currentCommandTokens[0].Text;
-                        var variableValue = currentCommandTokens[2].Text;
+                        var variableDestinyName = currentCommandTokens[0].Text;
 
 
 
 
 
-                        var variable = this.Variables.Where(x => x.Name == variableName).FirstOrDefault();
-                        if (variable == null)
+                        var variableDestiny = this.Variables.Where(x => x.Name == variableDestinyName).FirstOrDefault();
+                        if (variableDestiny == null)
                         {
-                            throw new UndefinedVariableException(variableName);
+                            throw new UndefinedVariableException(variableDestinyName);
                         }
 
 
-                        if (int.Parse(variableValue) > 255)
+                        if (currentCommandTokens[2] is LiteralToken)
                         {
-                            throw new VariableOutsideOfRangeException(variableName);
+                            var literalValue = currentCommandTokens[2].Text;
+                            
+                            if (int.Parse(literalValue) > 255)
+                            {
+                                throw new VariableOutsideOfRangeException(variableDestinyName);
+                            }
+
+                            var command = new AtributionFromLiteralInstruction();
+                            command.csProgram = this;
+                            command.Tokens = currentCommandTokens;
+                            command.VariableResult = variableDestiny;
+
+
+                            // add bytes of program
+                            var bytesOfCommand = command.MachineCode();
+                            currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
+                            this.Commands.Add(command);
+                            
+                            // Atribution intruction DON'T change memory var area!
+                            //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
                         }
+                        else if (currentCommandTokens[2] is IdentifierToken)
+                        {
+                            var variableSourceName = currentCommandTokens[2].Text;
 
-                        var command = new AtributionInstruction();
-                        command.csProgram = this;
-                        command.Tokens = currentCommandTokens;
-                        command.VariableResult = variable;
+                            var variableSource = this.Variables.Where(x => x.Name == variableSourceName).FirstOrDefault();
+                            if (variableSource == null)
+                            {
+                                throw new UndefinedVariableException(variableSourceName);
+                            }
+
+                            var command = new AtributionFromVarInstruction();
+                            command.csProgram = this;
+                            command.Tokens = currentCommandTokens;
+                            command.VariableSource = variableSource;
+                            command.VariableDestiny = variableDestiny;
 
 
-                        // add bytes of program
-                        var bytesOfCommand = command.MachineCode();
-                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                            // add bytes of program
+                            var bytesOfCommand = command.MachineCode();
+                            currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
-                        this.Commands.Add(command);
+                            this.Commands.Add(command);
 
-                        machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(variableValue);
+                            // Atribution intruction DON'T change memory var area!
+                            //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
+                        }
                     }
                     else
                     {

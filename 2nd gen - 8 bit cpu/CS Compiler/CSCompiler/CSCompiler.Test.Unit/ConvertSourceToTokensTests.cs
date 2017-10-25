@@ -102,6 +102,51 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
+        public void Test_SourceToTokens_Simple_AtributionInstruction_2()
+        {
+            // Arrange
+            string[] csSourceCodeArray = {
+                                        "myVar = myVar2;",
+                                        " myVar = myVar2;",        // One trailing space
+                                        "   myVar = myVar2;",      // Many trailing spaces
+                                        "       myVar = myVar2;",  // with Tabs
+                                        "myVar=myVar2;",           // without some spaces
+                                        "myVar    =     myVar2;",  // with some intermediary spaces
+                                        "myVar =        myVar2;",  // with some intermediary tabs
+                                        "myVar = myVar2    ;",
+                                        "myVar = myVar2;      ",
+                                        "myVar = " + Environment.NewLine + "myVar2;",
+                                    };
+
+
+
+            foreach (string csSourceCode in csSourceCodeArray)
+            {
+                // Act
+                var csProgram = new CSProgram();
+                csProgram.SourceCodeText = csSourceCode;
+                var tokens = csProgram.ConvertSourceToTokens();
+
+
+
+                // Assert
+                var errorMsg = string.Format("Error testing \"{0}\"", csSourceCode);
+
+                Assert.AreEqual(4, tokens.Count, errorMsg);
+
+                Assert.IsInstanceOfType(tokens[0], typeof(IdentifierToken), errorMsg);
+                Assert.IsInstanceOfType(tokens[1], typeof(EqualToken), errorMsg);
+                Assert.IsInstanceOfType(tokens[2], typeof(IdentifierToken), errorMsg);
+                Assert.IsInstanceOfType(tokens[3], typeof(SemicolonToken), errorMsg);
+
+                Assert.AreEqual("myVar", tokens[0].Text, errorMsg);
+                Assert.AreEqual("=", tokens[1].Text, errorMsg);
+                Assert.AreEqual("myVar2", tokens[2].Text, errorMsg);
+                Assert.AreEqual(";", tokens[3].Text, errorMsg);
+            }
+        }
+
+        [TestMethod]
         public void Test_SourceToTokens_Simple_ArithmeticInstruction_1()
         {
             // Arrange

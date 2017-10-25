@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSCompiler.Entities.CS
 {
-    public class AtributionInstruction : SimpleCommand
+    public class AtributionFromLiteralInstruction : SimpleCommand
     {
         // LD A, value
         // LD H, addr_hi

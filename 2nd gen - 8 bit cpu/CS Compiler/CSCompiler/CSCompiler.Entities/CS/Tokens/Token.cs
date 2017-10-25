@@ -11,6 +11,10 @@ namespace CSCompiler.Entities.CS.Tokens
         public string Text { get; set; }
     }
 
+    public abstract class OperandToken : Token
+    {
+    }
+
     public class TypeToken : Token
     {
         public TypeToken(string text)
@@ -19,7 +23,7 @@ namespace CSCompiler.Entities.CS.Tokens
         }
     }
 
-    public class IdentifierToken : Token
+    public class IdentifierToken : OperandToken
     {
         public IdentifierToken(string text)
         {
@@ -35,7 +39,7 @@ namespace CSCompiler.Entities.CS.Tokens
         }
     }
 
-    public class LiteralToken : Token
+    public class LiteralToken : OperandToken
     {
         public LiteralToken(string text)
         {
