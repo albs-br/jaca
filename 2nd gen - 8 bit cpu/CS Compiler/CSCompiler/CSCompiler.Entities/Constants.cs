@@ -9,9 +9,9 @@ namespace CSCompiler.Entities
     public static class Constants
     {
         public const int SIZE_RAM_MEMORY = 65536;
-        public const int BASE_ADDR_PROGRAM = 32768;
-        public const int BASE_ADDR_SUBROUTINES = 32768 + 10000;
-        public const int BASE_ADDR_VARIABLES = 32768 + 20000;
+        public const int BASE_ADDR_PROGRAM = 32768;         // 0x8000
+        public const int BASE_ADDR_SUBROUTINES = 32768 + 10000; // TODO: convert to a base 2 "round" number
+        public const int BASE_ADDR_VARIABLES = 32768 + 20000; // TODO: convert to a base 2 "round" number
 
         public static string[] VALID_TYPES = { "byte" };
 

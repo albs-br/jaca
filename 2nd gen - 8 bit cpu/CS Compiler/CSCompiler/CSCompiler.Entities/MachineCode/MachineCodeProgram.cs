@@ -21,5 +21,15 @@ namespace CSCompiler.Entities.MachineCode
         }
 
         public IList<byte> Bytes { get; set; }
+
+        // TODO:
+        //public string GetBytesAsString()
+        //{
+        //    var output = "";
+        //    foreach (var b in bytes)
+        //    {
+        //        output += C
+        //    }
+        //}
     }
 }

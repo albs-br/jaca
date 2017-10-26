@@ -64,7 +64,7 @@ namespace CSCompiler.Entities.CS
                             }
                             else if (currentChar == '=')
                             {
-                                tokens.Add(new EqualToken(currentChar.ToString()));
+                                tokens.Add(new EqualToken());
                                 currentToken = "";
                             }
                             else if (Constants.IsArithmeticSignal(currentChar))
@@ -74,7 +74,7 @@ namespace CSCompiler.Entities.CS
                             }
                             else if (currentChar == ';')
                             {
-                                tokens.Add(new SemicolonToken(currentChar.ToString()));
+                                tokens.Add(new SemicolonToken());
                                 currentToken = "";
                             }
                         }
@@ -99,7 +99,7 @@ namespace CSCompiler.Entities.CS
 
                                 if (currentChar == '=')
                                 {
-                                    tokens.Add(new EqualToken(currentChar.ToString()));
+                                    tokens.Add(new EqualToken());
                                     //currentToken = "";
                                 }
                                 else if (Constants.IsArithmeticSignal(currentChar))
@@ -109,7 +109,7 @@ namespace CSCompiler.Entities.CS
                                 }
                                 if (currentChar == ';')
                                 {
-                                    tokens.Add(new SemicolonToken(currentChar.ToString()));
+                                    tokens.Add(new SemicolonToken());
                                     //currentToken = "";
                                 }
                             }
@@ -130,7 +130,7 @@ namespace CSCompiler.Entities.CS
 
                             if (currentChar == ';')
                             {
-                                tokens.Add(new SemicolonToken(currentChar.ToString()));
+                                tokens.Add(new SemicolonToken());
                                 //currentToken = "";
                             }
                             else if (Constants.IsArithmeticSignal(currentChar))
@@ -156,10 +156,11 @@ namespace CSCompiler.Entities.CS
             var currentVariableAddr = Constants.BASE_ADDR_VARIABLES;
 
             var currentCommandTokens = new List<Token>();
+            var lastToken = tokens.Last();
             foreach (var token in tokens)
             {
                 currentCommandTokens.Add(token);
-                if (token is SemicolonToken)
+                if (token is SemicolonToken || token == lastToken)
                 {
                     // Test whether is a Var Definition Instruction
                     if (currentCommandTokens.Count == 5

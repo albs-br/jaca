@@ -244,5 +244,31 @@ namespace CSCompiler.Test.Unit
             }
         }
 
+        [TestMethod]
+        public void Test_SourceToTokens_VarDefinitionInstruction_InvalidType()
+        {
+            // Arrange
+            string csSourceCode = "invalidType myVar = 208;";
+
+            // Act
+            var csProgram = new CSProgram();
+            csProgram.SourceCodeText = csSourceCode;
+            var tokens = csProgram.ConvertSourceToTokens();
+
+            // Assert
+            Assert.AreEqual(5, tokens.Count);
+
+            Assert.IsInstanceOfType(tokens[0], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[1], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[2], typeof(EqualToken));
+            Assert.IsInstanceOfType(tokens[3], typeof(LiteralToken));
+            Assert.IsInstanceOfType(tokens[4], typeof(SemicolonToken));
+
+            Assert.AreEqual("invalidType", tokens[0].Text);
+            Assert.AreEqual("myVar", tokens[1].Text);
+            Assert.AreEqual("=", tokens[2].Text);
+            Assert.AreEqual("208", tokens[3].Text);
+            Assert.AreEqual(";", tokens[4].Text);
+        }
     }
 }

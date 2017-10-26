@@ -10,5 +10,20 @@ namespace CSCompiler.Entities.CS
     {
         public String Name { get; set; }
         public int Address { get; set; }
+        
+        // TODO:
+        //public EnumVarType VarType { get; set; }
+
+        //public int GetSize()
+        //{
+        //    switch (VarType)
+        //    {
+        //        case EnumVarType.Byte:
+        //            return 1;
+
+        //        default:
+        //            break;
+        //    }
+        //}
     }
 }

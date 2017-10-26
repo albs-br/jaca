@@ -14,12 +14,14 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_Simple_VarDefinitionInstruction_1()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("17"));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -45,17 +47,19 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_Two_VarDefinitionInstructions()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("17"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar2"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("88"));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("88"),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -87,21 +91,23 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_Two_VarDefinitionInstructions_OneAtributionInstruction()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("17"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar2"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("88"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new IdentifierToken("myVar2"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("99"));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("88"),
+                new SemicolonToken(),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("99"),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -113,9 +119,20 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
 
             var expected = new List<byte>(new byte[] {
-                0x04, 0x00, 17, 0x05, 0x00, 0xce, 0x05, 0x80, 0x20, 0xa0, 0x80, 0x00,
-                0x04, 0x00, 88, 0x05, 0x00, 0xce, 0x05, 0x80, 0x21, 0xa0, 0x80, 0x00,
-                0x04, 0x00, 99, 0x05, 0x00, 0xce, 0x05, 0x80, 0x21, 0xa0, 0x80, 0x00,
+                0x04, 0x00, 17,
+                0x05, 0x00, 0xce,
+                0x05, 0x80, 0x20,
+                0xa0, 0x80, 0x00,
+
+                0x04, 0x00, 88,
+                0x05, 0x00, 0xce,
+                0x05, 0x80, 0x21,
+                0xa0, 0x80, 0x00,
+
+                0x04, 0x00, 99,
+                0x05, 0x00, 0xce,
+                0x05, 0x80, 0x21,
+                0xa0, 0x80, 0x00,
             });
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
@@ -134,21 +151,23 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_Two_VarDefinitionInstructions_OneAtributionFromVarInstruction()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("17"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar2"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("88"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new IdentifierToken("myVar2"));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("88"),
+                new SemicolonToken(),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new IdentifierToken("myVar2"),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -163,14 +182,16 @@ namespace CSCompiler.Test.Unit
                 0x04, 0x00, 17,     // LD A, 17     // byte myVar = 17;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
+                0xa0, 0x80, 0x00,   // ST [HL], A
 
                 0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x21,   // LD L, 0x21
+                0xa0, 0x80, 0x00,   // ST [HL], A
                 
                 0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar2;
                 0x05, 0x80, 0x21,   // LD L, 0x21
-                0x10, 0x80, 0x00,   // LD A, [HL]
+                0x10, 0x00, 0x00,   // LD A, [HL]
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
                 0xa0, 0x80, 0x00,   // ST [HL], A
@@ -193,21 +214,23 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_Two_VarDefinitionInstructions_OneAtributionInstruction_UndefinedVariable_ThrowsException()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("17"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar2"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("88"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new IdentifierToken("myVar3"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("99"));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("88"),
+                new SemicolonToken(),
+                new IdentifierToken("myVar3"),
+                new EqualToken(),
+                new LiteralToken("99"),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -220,17 +243,19 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_Two_VarDefinitionInstructions_VariableAlreadyDefined_ThrowsException()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("17"));
-            tokens.Add(new SemicolonToken(";"));
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("199"));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("199"),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -243,12 +268,14 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_VarDefinitionInstruction_VariableOutsideOfRange_ThrowsException()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new LiteralToken("256"));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("256"),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -261,11 +288,13 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_InvalidInstructionFormatException_ThrowsException()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
-            tokens.Add(new SemicolonToken(";"));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new SemicolonToken()
+            };
 
 
             // Act
@@ -278,10 +307,52 @@ namespace CSCompiler.Test.Unit
         public void Test_TokensToMachineCode_InvalidInstructionFormatException_1_ThrowsException()
         {
             // Arrange
-            var tokens = new List<Token>();
-            tokens.Add(new TypeToken("byte"));
-            tokens.Add(new IdentifierToken("myVar"));
-            tokens.Add(new EqualToken("="));
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken()
+            };
+
+
+            // Act
+            var csProgram = new CSProgram();
+            var machineCodeProgram = csProgram.ConvertTokensToMachineCode(tokens);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidInstructionFormatException))]
+        public void Test_TokensToMachineCode_InvalidInstructionFormatException_2_ThrowsException()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17")
+            };
+
+
+            // Act
+            var csProgram = new CSProgram();
+            var machineCodeProgram = csProgram.ConvertTokensToMachineCode(tokens);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidInstructionFormatException))]
+        public void Test_TokensToMachineCode_InvalidInstructionFormatException_3_ThrowsException()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new IdentifierToken("invalidType"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken()
+            };
 
 
             // Act

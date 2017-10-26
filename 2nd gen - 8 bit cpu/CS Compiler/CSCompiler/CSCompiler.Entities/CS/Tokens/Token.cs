@@ -33,9 +33,9 @@ namespace CSCompiler.Entities.CS.Tokens
 
     public class EqualToken : Token
     {
-        public EqualToken(string text)
+        public EqualToken()
         {
-            Text = text;
+            Text = "=";
         }
     }
 
@@ -49,9 +49,9 @@ namespace CSCompiler.Entities.CS.Tokens
 
     public class SemicolonToken : Token
     {
-        public SemicolonToken(string text)
+        public SemicolonToken()
         {
-            Text = text;
+            Text = ";";
         }
     }
 
