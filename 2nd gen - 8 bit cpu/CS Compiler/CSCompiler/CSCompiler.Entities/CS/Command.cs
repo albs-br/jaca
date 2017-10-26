@@ -20,11 +20,21 @@ namespace CSCompiler.Entities.CS
 
         public abstract IList<byte> MachineCode();
 
+        /// <summary>
+        /// Get High Byte of a 16 bit number
+        /// </summary>
+        /// <param name="number">16 bit number (0 to 65535)</param>
+        /// <returns></returns>
         protected byte HiByteOf(int number)
         {
             return (byte)(number >> 8);
         }
 
+        /// <summary>
+        /// Get Low Byte of a 16 bit number
+        /// </summary>
+        /// <param name="number">16 bit number (0 to 65535)</param>
+        /// <returns></returns>
         protected byte LowByteOf(int number)
         {
             return (byte)(number & 0xFF);

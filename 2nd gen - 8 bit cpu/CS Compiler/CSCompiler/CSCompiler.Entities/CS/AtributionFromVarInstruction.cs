@@ -61,14 +61,5 @@ namespace CSCompiler.Entities.CS
 
             return bytes;
         }
-
-        //protected IList<byte> GetInstructionBytes(EnumOpCodes opcode, EnumRegisters? r1, EnumRegisters? r2, int? io_addr, int? addr, byte? data)
-        //{
-        //    var bytes = new List<byte>();
-
-        //    int firstByte = (((int)opcode) << 2) & ((int)r1 ;
-
-        //    return bytes;
-        //}
     }
 }

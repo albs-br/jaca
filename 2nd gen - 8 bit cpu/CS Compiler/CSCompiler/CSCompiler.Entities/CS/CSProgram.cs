@@ -206,7 +206,8 @@ namespace CSCompiler.Entities.CS
 
                         this.Commands.Add(command);
 
-                        machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(variableValue);
+                        // NO intruction change memory var area in compile-time
+                        //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(variableValue);
                     }
                     // Test whether is an Atribution Instruction
                     else if (currentCommandTokens.Count == 4

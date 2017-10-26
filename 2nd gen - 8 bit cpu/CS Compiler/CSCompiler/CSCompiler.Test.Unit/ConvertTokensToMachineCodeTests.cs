@@ -36,7 +36,7 @@ namespace CSCompiler.Test.Unit
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
 
-            Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
+            //Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
             Assert.AreEqual(1, csProgram.Commands.Count);
             Assert.AreEqual(1, csProgram.Variables.Count);
             Assert.AreEqual("myVar", csProgram.Variables[0].Name);
@@ -77,8 +77,8 @@ namespace CSCompiler.Test.Unit
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
 
-            Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
-            Assert.AreEqual(88, machineCodeProgram.Bytes[52769]);
+            //Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
+            //Assert.AreEqual(88, machineCodeProgram.Bytes[52769]);
             Assert.AreEqual(2, csProgram.Commands.Count);
             Assert.AreEqual(2, csProgram.Variables.Count);
             Assert.AreEqual("myVar", csProgram.Variables[0].Name);
@@ -137,8 +137,8 @@ namespace CSCompiler.Test.Unit
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
 
-            Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
-            Assert.AreEqual(88, machineCodeProgram.Bytes[52769]);
+            //Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
+            //Assert.AreEqual(88, machineCodeProgram.Bytes[52769]);
             Assert.AreEqual(3, csProgram.Commands.Count);
             Assert.AreEqual(2, csProgram.Variables.Count);
             Assert.AreEqual("myVar", csProgram.Variables[0].Name);
@@ -199,8 +199,76 @@ namespace CSCompiler.Test.Unit
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
 
-            Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
-            Assert.AreEqual(88, machineCodeProgram.Bytes[52769]);
+            //Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
+            //Assert.AreEqual(88, machineCodeProgram.Bytes[52769]);
+            Assert.AreEqual(3, csProgram.Commands.Count);
+            Assert.AreEqual(2, csProgram.Variables.Count);
+            Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            Assert.AreEqual(52768, csProgram.Variables[0].Address);
+            Assert.AreEqual("myVar2", csProgram.Variables[1].Name);
+            Assert.AreEqual(52769, csProgram.Variables[1].Address);
+        }
+
+        [TestMethod]
+        public void Test_TokensToMachineCode_Two_VarDefinitionInstructions_OneArithmeticInstruction()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("88"),
+                new SemicolonToken(),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new IdentifierToken("myVar"),
+                new ArithmeticSignalToken("+"),
+                new IdentifierToken("myVar2"),
+                new SemicolonToken()
+            };
+
+
+            // Act
+            var csProgram = new CSProgram();
+            var machineCodeProgram = csProgram.ConvertTokensToMachineCode(tokens);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 17,     // LD A, 17     // byte myVar = 17;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0xa0, 0x80, 0x00,   // ST [HL], A
+
+                0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0xa0, 0x80, 0x00,   // ST [HL], A
+                
+                0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar + myVar2;
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x10, 0x00, 0x00,   // LD A, [HL]
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x12, 0x00, 0x00,   // LD C, [HL]
+                0x80, 0x40, 0x00,   // ADD A, C
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0xa0, 0x80, 0x00,   // ST [HL], A
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+
+            //Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
+            //Assert.AreEqual(88, machineCodeProgram.Bytes[52769]);
             Assert.AreEqual(3, csProgram.Commands.Count);
             Assert.AreEqual(2, csProgram.Variables.Count);
             Assert.AreEqual("myVar", csProgram.Variables[0].Name);
