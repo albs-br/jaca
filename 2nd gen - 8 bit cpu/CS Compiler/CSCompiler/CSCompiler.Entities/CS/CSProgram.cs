@@ -280,6 +280,83 @@ namespace CSCompiler.Entities.CS
                             //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
                         }
                     }
+                    else if (currentCommandTokens.Count == 6
+                        && currentCommandTokens[0] is IdentifierToken
+                        && currentCommandTokens[1] is EqualToken
+                        && currentCommandTokens[2] is OperandToken
+                        && currentCommandTokens[3] is ArithmeticSignalToken
+                        && currentCommandTokens[4] is OperandToken
+                        && currentCommandTokens[5] is SemicolonToken)
+                    {
+                        var variableDestinyName = currentCommandTokens[0].Text;
+
+
+
+
+
+                        var variableDestiny = this.Variables.Where(x => x.Name == variableDestinyName).FirstOrDefault();
+                        if (variableDestiny == null)
+                        {
+                            throw new UndefinedVariableException(variableDestinyName);
+                        }
+
+
+                        if (currentCommandTokens[2] is LiteralToken)
+                        {
+                            //var literalValue = currentCommandTokens[2].Text;
+
+                            //if (int.Parse(literalValue) > 255)
+                            //{
+                            //    throw new VariableOutsideOfRangeException(variableDestinyName);
+                            //}
+
+                            //var command = new AtributionFromLiteralInstruction();
+                            //command.csProgram = this;
+                            //command.Tokens = currentCommandTokens;
+                            //command.VariableResult = variableDestiny;
+
+
+                            //// add bytes of program
+                            //var bytesOfCommand = command.MachineCode();
+                            //currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
+                            //this.Commands.Add(command);
+
+                            //// Atribution intruction DON'T change memory var area!
+                            ////machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
+                        }
+                        else if (currentCommandTokens[2] is IdentifierToken)
+                        {
+                            var variableLeftOperandName = currentCommandTokens[2].Text;
+                            var variableRightOperandName = currentCommandTokens[4].Text;
+
+                            var variableLeftOperand = this.Variables.Where(x => x.Name == variableLeftOperandName).FirstOrDefault();
+                            if (variableLeftOperand == null)
+                            {
+                                throw new UndefinedVariableException(variableLeftOperandName);
+                            }
+
+                            var variableRightOperand = this.Variables.Where(x => x.Name == variableRightOperandName).FirstOrDefault();
+                            if (variableRightOperand == null)
+                            {
+                                throw new UndefinedVariableException(variableRightOperandName);
+                            }
+
+                            var command = new ArithmeticInstruction();
+                            command.csProgram = this;
+                            command.Tokens = currentCommandTokens;
+                            command.VariableLeftOperand = variableLeftOperand;
+                            command.VariableRightOperand = variableRightOperand;
+                            command.VariableDestiny = variableDestiny;
+
+
+                            // add bytes of program
+                            var bytesOfCommand = command.MachineCode();
+                            currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
+                            this.Commands.Add(command);
+                        }
+                    }
                     else
                     {
                         IList<string> items = currentCommandTokens.Select(x => x.Text).ToList();

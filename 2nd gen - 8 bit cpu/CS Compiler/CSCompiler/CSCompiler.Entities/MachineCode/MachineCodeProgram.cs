@@ -22,14 +22,15 @@ namespace CSCompiler.Entities.MachineCode
 
         public IList<byte> Bytes { get; set; }
 
-        // TODO:
-        //public string GetBytesAsString()
-        //{
-        //    var output = "";
-        //    foreach (var b in bytes)
-        //    {
-        //        output += C
-        //    }
-        //}
+        public string GetBytesAsString(int start, int count)
+        {
+            var output = "";
+            foreach (var b in ((List<byte>)Bytes).GetRange(start, count))
+            {
+                output += string.Format("{0:x2} ", b);
+            }
+
+            return output;
+        }
     }
 }

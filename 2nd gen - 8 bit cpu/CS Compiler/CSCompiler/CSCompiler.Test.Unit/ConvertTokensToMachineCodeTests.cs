@@ -32,9 +32,12 @@ namespace CSCompiler.Test.Unit
             // Assert
             Assert.AreEqual(65536,  machineCodeProgram.Bytes.Count);
 
-            var expected = new List<byte>(new byte[] { 0x04, 0x00, 17, 0x05, 0x00, 0xce, 0x05, 0x80, 0x20, 0xa0, 0x80, 0x00});
+            var expected = new List<byte>(new byte[] { 0x04, 0x00, 17, 0x05, 0x00, 0xce, 0x05, 0x80, 0x20, 0x2c, 0x00, 0x00});
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
+
+            var stringOutput = machineCodeProgram.GetBytesAsString(32768, expected.Count);
+            Assert.AreEqual("04 00 11 05 00 ce 05 80 20 2c 00 00 ", stringOutput);
 
             //Assert.AreEqual(17, machineCodeProgram.Bytes[52768]);
             Assert.AreEqual(1, csProgram.Commands.Count);
@@ -71,8 +74,8 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
 
             var expected = new List<byte>(new byte[] { 
-                0x04, 0x00, 17, 0x05, 0x00, 0xce, 0x05, 0x80, 0x20, 0xa0, 0x80, 0x00,
-                0x04, 0x00, 88, 0x05, 0x00, 0xce, 0x05, 0x80, 0x21, 0xa0, 0x80, 0x00 
+                0x04, 0x00, 17, 0x05, 0x00, 0xce, 0x05, 0x80, 0x20, 0x2c, 0x00, 0x00,
+                0x04, 0x00, 88, 0x05, 0x00, 0xce, 0x05, 0x80, 0x21, 0x2c, 0x00, 0x00 
             });
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
@@ -122,17 +125,17 @@ namespace CSCompiler.Test.Unit
                 0x04, 0x00, 17,
                 0x05, 0x00, 0xce,
                 0x05, 0x80, 0x20,
-                0xa0, 0x80, 0x00,
+                0x2c, 0x00, 0x00,
 
                 0x04, 0x00, 88,
                 0x05, 0x00, 0xce,
                 0x05, 0x80, 0x21,
-                0xa0, 0x80, 0x00,
+                0x2c, 0x00, 0x00,
 
                 0x04, 0x00, 99,
                 0x05, 0x00, 0xce,
                 0x05, 0x80, 0x21,
-                0xa0, 0x80, 0x00,
+                0x2c, 0x00, 0x00,
             });
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
@@ -182,19 +185,19 @@ namespace CSCompiler.Test.Unit
                 0x04, 0x00, 17,     // LD A, 17     // byte myVar = 17;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
-                0xa0, 0x80, 0x00,   // ST [HL], A
+                0x2c, 0x00, 0x00,   // ST [HL], A
 
                 0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x21,   // LD L, 0x21
-                0xa0, 0x80, 0x00,   // ST [HL], A
+                0x2c, 0x00, 0x00,   // ST [HL], A
                 
                 0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar2;
                 0x05, 0x80, 0x21,   // LD L, 0x21
                 0x10, 0x00, 0x00,   // LD A, [HL]
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
-                0xa0, 0x80, 0x00,   // ST [HL], A
+                0x2c, 0x00, 0x00,   // ST [HL], A
             });
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
@@ -246,12 +249,12 @@ namespace CSCompiler.Test.Unit
                 0x04, 0x00, 17,     // LD A, 17     // byte myVar = 17;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
-                0xa0, 0x80, 0x00,   // ST [HL], A
+                0x2c, 0x00, 0x00,   // ST [HL], A
 
                 0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x21,   // LD L, 0x21
-                0xa0, 0x80, 0x00,   // ST [HL], A
+                0x2c, 0x00, 0x00,   // ST [HL], A
                 
                 0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar + myVar2;
                 0x05, 0x80, 0x20,   // LD L, 0x20
@@ -262,7 +265,7 @@ namespace CSCompiler.Test.Unit
                 0x80, 0x40, 0x00,   // ADD A, C
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
-                0xa0, 0x80, 0x00,   // ST [HL], A
+                0x2c, 0x00, 0x00,   // ST [HL], A
             });
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);

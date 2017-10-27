@@ -40,8 +40,8 @@ namespace CSCompiler.Entities.CS
             bytes.Add(0x80);
             bytes.Add(addr_lo);
 
-            bytes.Add(0xa0);           // ST [HL], A
-            bytes.Add(0x80);
+            bytes.Add(0x2c);           // ST [HL], A
+            bytes.Add(0x00);
             bytes.Add(0x00);
 
             return bytes;
