@@ -329,6 +329,7 @@ namespace CSCompiler.Entities.CS
                         {
                             var variableLeftOperandName = currentCommandTokens[2].Text;
                             var variableRightOperandName = currentCommandTokens[4].Text;
+                            var arithmeticOperation = currentCommandTokens[3].Text;
 
                             var variableLeftOperand = this.Variables.Where(x => x.Name == variableLeftOperandName).FirstOrDefault();
                             if (variableLeftOperand == null)
@@ -348,7 +349,19 @@ namespace CSCompiler.Entities.CS
                             command.VariableLeftOperand = variableLeftOperand;
                             command.VariableRightOperand = variableRightOperand;
                             command.VariableDestiny = variableDestiny;
+                            switch (arithmeticOperation)
+                            {
+                                case "+":
+                                    command.ArithmeticOperation = EnumArithmeticOperation.Addition;
+                                    break;
 
+                                case "-":
+                                    command.ArithmeticOperation = EnumArithmeticOperation.Subtraction;
+                                    break;
+                                
+                                default:
+                                    break;
+                            }
 
                             // add bytes of program
                             var bytesOfCommand = command.MachineCode();

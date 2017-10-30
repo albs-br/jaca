@@ -22,6 +22,7 @@ namespace CSCompiler.Entities.CS
         public Variable VariableLeftOperand { get; set; }
         public Variable VariableRightOperand { get; set; }
         public Variable VariableDestiny { get; set; }
+        public EnumArithmeticOperation ArithmeticOperation { get; set; }
 
         public override IList<byte> MachineCode()
         {
@@ -65,9 +66,29 @@ namespace CSCompiler.Entities.CS
             bytes.Add(0x00);
             bytes.Add(0x00);
 
-            bytes.Add(0x80);           // ADD A, C
-            bytes.Add(0x40);
-            bytes.Add(0x00);
+            switch (ArithmeticOperation)
+            {
+                case EnumArithmeticOperation.Addition:
+                    bytes.Add(0x80);           // ADD A, C
+                    bytes.Add(0x40);
+                    bytes.Add(0x00);
+                    break;
+
+                case EnumArithmeticOperation.Subtraction:
+                    bytes.Add(0x84);           // SUB A, C
+                    bytes.Add(0x40);
+                    bytes.Add(0x00);
+                    break;
+
+                case EnumArithmeticOperation.Multiplication:
+                    break;
+                
+                case EnumArithmeticOperation.Division:
+                    break;
+                
+                default:
+                    break;
+            }
 
             bytes.Add(0x05);           // LD H, value
             bytes.Add(0x00);
