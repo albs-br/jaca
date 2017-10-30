@@ -280,6 +280,39 @@ namespace CSCompiler.Entities.CS
                             //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
                         }
                     }
+                    // Test whether is an Atribution Instruction
+                    else if (currentCommandTokens.Count == 4
+                        && currentCommandTokens[0] is IdentifierToken
+                        && currentCommandTokens[1] is ArithmeticSignalToken
+                        && currentCommandTokens[2] is ArithmeticSignalToken
+                        && currentCommandTokens[3] is SemicolonToken)
+                    {
+                        var variableName = currentCommandTokens[0].Text;
+                        var arithmeticSignal1 = currentCommandTokens[1].Text;
+                        var arithmeticSignal2 = currentCommandTokens[2].Text;
+
+                        var variable = this.Variables.Where(x => x.Name == variableName).FirstOrDefault();
+                        if (variable == null)
+                        {
+                            throw new UndefinedVariableException(variableName);
+                        }
+
+                        var command = new IncrementInstruction();
+                        command.csProgram = this;
+                        command.Tokens = currentCommandTokens;
+                        command.VariableOperand = variable;
+                        if (arithmeticSignal1 == "+" && arithmeticSignal2 == "+")
+                        {
+                            command.IncrementOperation = EnumIncrementOperation.Increment;
+                        }
+
+
+                        // add bytes of program
+                        var bytesOfCommand = command.MachineCode();
+                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
+                        this.Commands.Add(command);
+                    }
                     else if (currentCommandTokens.Count == 6
                         && currentCommandTokens[0] is IdentifierToken
                         && currentCommandTokens[1] is EqualToken
@@ -358,7 +391,7 @@ namespace CSCompiler.Entities.CS
                                 case "-":
                                     command.ArithmeticOperation = EnumArithmeticOperation.Subtraction;
                                     break;
-                                
+
                                 default:
                                     break;
                             }
