@@ -305,6 +305,10 @@ namespace CSCompiler.Entities.CS
                         {
                             command.IncrementOperation = EnumIncrementOperation.Increment;
                         }
+                        else if (arithmeticSignal1 == "-" && arithmeticSignal2 == "-")
+                        {
+                            command.IncrementOperation = EnumIncrementOperation.Decrement;
+                        }
 
 
                         // add bytes of program

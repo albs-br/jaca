@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CSCompiler.Entities.CS
 {
+    /// <summary>
+    /// Increment (or decrement) instruction. E.g. myVar++ or myVar--
+    /// </summary>
     public class IncrementInstruction : SimpleCommand
     {
         //  LD H, addrOperand_hi
@@ -43,6 +46,12 @@ namespace CSCompiler.Entities.CS
             {
                 case EnumIncrementOperation.Increment:
                     bytes.Add(0xa0);           // INC A
+                    bytes.Add(0x40);
+                    bytes.Add(0x00);
+                    break;
+
+                case EnumIncrementOperation.Decrement:
+                    bytes.Add(0xa4);           // DEC A
                     bytes.Add(0x40);
                     bytes.Add(0x00);
                     break;

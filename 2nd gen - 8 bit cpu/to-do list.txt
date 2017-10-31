@@ -1,4 +1,4 @@
-Things to do as of september, 26, 2017:
+Things to do as of september, 26th, 2017:
 
 Logisim project:
 -ret_addr register		OK
@@ -6,3 +6,47 @@ Logisim project:
 -input device (keyboard)
 -magnitude comparison instructions	OK
 -implement "DO NOTHING WITH A" or "RETURN A" ALU operation (S0 to S3 = L, M = L, C = H), useful to set flags without change register		OK
+
+--------------------------------
+
+oct, 30th:
+
+-16 bit addressing (64k total memory - first 32k EEPROM, last 32K SRAM)
+-15 bit direct mode (first bit fixed to 1)
+-ADC and SBC instructions
+-SHL (shif left) instruction
+
+--------------------------------------
+
+
+// to-do list (cs compiler) in order of priority:
+// 30/10/2017
+
+-subtraction operation		OK
+-increment /decrement operation	OK
+-refactor in validations
+-out instruction
+-if
+-for
+-multiply/division operation
+-string
+-modulus (%)
+-16/24 bit int / signed int / fixed point decimal
+
+
+
+if(i > 5) {
+	// do something
+}
+
+
+
+
+for(byte i=0; i<=10; i++) {
+	// do something
+}
+
+// var def instr
+// test instr
+// inc instr
+// loop var

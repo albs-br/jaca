@@ -478,6 +478,54 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
+        public void Test_TokensToMachineCode_ArithmeticInstruction_Dec()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("89"),
+                new SemicolonToken(),
+
+                new IdentifierToken("myVar"),
+                new ArithmeticSignalToken("-"),
+                new ArithmeticSignalToken("-"),
+                new SemicolonToken()
+            };
+
+
+            // Act
+            var csProgram = new CSProgram();
+            var machineCodeProgram = csProgram.ConvertTokensToMachineCode(tokens);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 89,     // LD A, 89     // byte myVar = 89;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+
+                0x05, 0x00, 0xce,   // LD H, 0xce   // myVar++;
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x10, 0x00, 0x00,   // LD A, [HL]
+                0xa4, 0x40, 0x00,   // DEC A
+                0x2c, 0x00, 0x00,   // ST [HL], A
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+
+            Assert.AreEqual(2, csProgram.Commands.Count);
+            Assert.AreEqual(1, csProgram.Variables.Count);
+            Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            Assert.AreEqual(52768, csProgram.Variables[0].Address);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(UndefinedVariableException))]
         public void Test_TokensToMachineCode_Two_VarDefinitionInstructions_OneAtributionInstruction_UndefinedVariable_ThrowsException()
         {
