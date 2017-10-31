@@ -63,4 +63,28 @@ namespace CSCompiler.Entities.CS.Tokens
         }
     }
 
+    public class OpenParenthesisToken : Token
+    {
+        public OpenParenthesisToken()
+        {
+            Text = "(";
+        }
+    }
+
+    public class CloseParenthesisToken : Token
+    {
+        public CloseParenthesisToken()
+        {
+            Text = ")";
+        }
+    }
+
+    public class CommaToken : Token
+    {
+        public CommaToken()
+        {
+            Text = ",";
+        }
+    }
+
 }

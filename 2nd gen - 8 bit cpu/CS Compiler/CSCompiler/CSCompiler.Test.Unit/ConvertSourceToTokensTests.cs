@@ -57,6 +57,53 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
+        public void Test_SourceToTokens_Simple_VarDefinitionInstruction_VarUppercase_1()
+        {
+            // Arrange
+            string[] csSourceCodeArray = { 
+                                        "byte MYVAR = 17;", 
+                                        " byte MYVAR = 17;",        // One trailing space
+                                        "   byte MYVAR = 17;",      // Many trailing spaces
+                                        "       byte MYVAR = 17;",  // with Tabs
+                                        "byte MYVAR=17;",           // without some spaces
+                                        "byte MYVAR    =     17;",  // with some intermediary spaces
+                                        "byte MYVAR =        17;",  // with some intermediary tabs
+                                        "byte MYVAR = 17    ;", 
+                                        "byte MYVAR = 17;      ", 
+                                        "byte MYVAR = " + Environment.NewLine + "17;", 
+                                    };
+
+
+
+            foreach (string csSourceCode in csSourceCodeArray)
+            {
+                // Act
+                var csProgram = new CSProgram();
+                csProgram.SourceCodeText = csSourceCode;
+                var tokens = csProgram.ConvertSourceToTokens();
+
+
+
+                // Assert
+                var errorMsg = string.Format("Error testing \"{0}\"", csSourceCode);
+
+                Assert.AreEqual(5, tokens.Count, errorMsg);
+
+                Assert.IsInstanceOfType(tokens[0], typeof(TypeToken), errorMsg);
+                Assert.IsInstanceOfType(tokens[1], typeof(IdentifierToken), errorMsg);
+                Assert.IsInstanceOfType(tokens[2], typeof(EqualToken), errorMsg);
+                Assert.IsInstanceOfType(tokens[3], typeof(LiteralToken), errorMsg);
+                Assert.IsInstanceOfType(tokens[4], typeof(SemicolonToken), errorMsg);
+
+                Assert.AreEqual("byte", tokens[0].Text, errorMsg);
+                Assert.AreEqual("MYVAR", tokens[1].Text, errorMsg);
+                Assert.AreEqual("=", tokens[2].Text, errorMsg);
+                Assert.AreEqual("17", tokens[3].Text, errorMsg);
+                Assert.AreEqual(";", tokens[4].Text, errorMsg);
+            }
+        }
+
+        [TestMethod]
         public void Test_SourceToTokens_Simple_AtributionInstruction_1()
         {
             // Arrange
@@ -269,6 +316,38 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual("=", tokens[2].Text);
             Assert.AreEqual("208", tokens[3].Text);
             Assert.AreEqual(";", tokens[4].Text);
+        }
+
+        [TestMethod]
+        public void Test_SourceToTokens_OutInstruction()
+        {
+            // Arrange
+            string csSourceCode = "out(0, myVar);";
+
+            // Act
+            var csProgram = new CSProgram();
+            csProgram.SourceCodeText = csSourceCode;
+            var tokens = csProgram.ConvertSourceToTokens();
+
+            // Assert
+            Assert.AreEqual(7, tokens.Count);
+
+            //TODO:
+            Assert.IsInstanceOfType(tokens[0], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[1], typeof(OpenParenthesisToken));
+            Assert.IsInstanceOfType(tokens[2], typeof(LiteralToken));
+            Assert.IsInstanceOfType(tokens[3], typeof(CommaToken));
+            Assert.IsInstanceOfType(tokens[4], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[5], typeof(CloseParenthesisToken));
+            Assert.IsInstanceOfType(tokens[6], typeof(SemicolonToken));
+
+            Assert.AreEqual("out", tokens[0].Text);
+            Assert.AreEqual("(", tokens[1].Text);
+            Assert.AreEqual("0", tokens[2].Text);
+            Assert.AreEqual(",", tokens[3].Text);
+            Assert.AreEqual("myVar", tokens[4].Text);
+            Assert.AreEqual(")", tokens[5].Text);
+            Assert.AreEqual(";", tokens[6].Text);
         }
     }
 }

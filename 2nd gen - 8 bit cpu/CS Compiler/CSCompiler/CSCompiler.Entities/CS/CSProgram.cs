@@ -62,19 +62,10 @@ namespace CSCompiler.Entities.CS
                                 currentState = States.LiteralTokenStarted;
                                 currentToken = currentChar.ToString();
                             }
-                            else if (currentChar == '=')
+                            else
                             {
-                                tokens.Add(new EqualToken());
-                                currentToken = "";
-                            }
-                            else if (Constants.IsArithmeticSignal(currentChar))
-                            {
-                                tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
-                                currentToken = "";
-                            }
-                            else if (currentChar == ';')
-                            {
-                                tokens.Add(new SemicolonToken());
+                                TestSingleTokens(tokens, currentChar);
+                                
                                 currentToken = "";
                             }
                         }
@@ -97,21 +88,7 @@ namespace CSCompiler.Entities.CS
                             {
                                 tokens.Add(new IdentifierToken(currentToken));
 
-                                if (currentChar == '=')
-                                {
-                                    tokens.Add(new EqualToken());
-                                    //currentToken = "";
-                                }
-                                else if (Constants.IsArithmeticSignal(currentChar))
-                                {
-                                    tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
-                                    //currentToken = "";
-                                }
-                                if (currentChar == ';')
-                                {
-                                    tokens.Add(new SemicolonToken());
-                                    //currentToken = "";
-                                }
+                                TestSingleTokens(tokens, currentChar);
                             }
 
                             currentToken = currentChar.ToString();
@@ -122,22 +99,15 @@ namespace CSCompiler.Entities.CS
                     case States.LiteralTokenStarted:
                         if (Char.IsNumber(currentChar))
                         {
+                            // Literal continues
                             currentToken += currentChar;
                         }
                         else
                         {
+                            // Literal ends
                             tokens.Add(new LiteralToken(currentToken));
 
-                            if (currentChar == ';')
-                            {
-                                tokens.Add(new SemicolonToken());
-                                //currentToken = "";
-                            }
-                            else if (Constants.IsArithmeticSignal(currentChar))
-                            {
-                                tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
-                                //currentToken = "";
-                            }
+                            TestSingleTokens(tokens, currentChar);
 
                             currentToken = "";
                             currentState = States.None;
@@ -147,6 +117,42 @@ namespace CSCompiler.Entities.CS
             }
 
             return tokens;
+        }
+
+        private static void TestSingleTokens(List<Token> tokens, char currentChar)
+        {
+            if (Constants.IsArithmeticSignal(currentChar))
+            {
+                tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
+            }
+            else
+            {
+                switch (currentChar)
+                {
+                    case '=':
+                        tokens.Add(new EqualToken());
+                        break;
+
+                    case ';':
+                        tokens.Add(new SemicolonToken());
+                        break;
+
+                    case '(':
+                        tokens.Add(new OpenParenthesisToken());
+                        break;
+
+                    case ')':
+                        tokens.Add(new CloseParenthesisToken());
+                        break;
+
+                    case ',':
+                        tokens.Add(new CommaToken());
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
 
         public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens)
