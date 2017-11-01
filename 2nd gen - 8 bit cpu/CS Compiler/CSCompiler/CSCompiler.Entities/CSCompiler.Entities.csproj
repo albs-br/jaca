@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CS\CommandInstruction.cs" />
     <Compile Include="CS\IncrementInstruction.cs" />
     <Compile Include="EnumIncrementOperation.cs" />
     <Compile Include="EnumArithmeticOperation.cs" />

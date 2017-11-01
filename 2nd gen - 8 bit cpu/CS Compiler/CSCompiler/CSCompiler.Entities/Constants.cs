@@ -14,11 +14,17 @@ namespace CSCompiler.Entities
         public const int BASE_ADDR_VARIABLES = 32768 + 20000; // TODO: convert to a base 2 "round" number
 
         public static string[] VALID_TYPES = { "byte" };
-        public static string[] RESERVED_WORDS = { "out", "if", "for" };
+        //public static string[] RESERVED_WORDS = { "out", "if", "for" };
+        public static string[] COMMANDS = { "out" };
 
         public static bool IsValidType(string text)
         {
             return Constants.VALID_TYPES.Contains(text);
+        }
+
+        public static bool IsCommand(string text)
+        {
+            return Constants.COMMANDS.Contains(text);
         }
 
         /// <summary>

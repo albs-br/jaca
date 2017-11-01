@@ -12,9 +12,10 @@ Logisim project:
 oct, 30th:
 
 -16 bit addressing (64k total memory - first 32k EEPROM, last 32K SRAM)
--15 bit direct mode (first bit fixed to 1)
+-15 bit direct mode for LD and ST instructions (first bit fixed to 1 - RAM)
 -ADC and SBC instructions
--SHL (shif left) instruction
+-SHL (shift left) instruction
+-ALU operations with imediate mode (e.g. ADD A, 47)
 
 --------------------------------------
 
@@ -22,16 +23,17 @@ oct, 30th:
 // to-do list (cs compiler) in order of priority:
 // 30/10/2017
 
--subtraction operation		OK
+-subtraction operation			OK
 -increment /decrement operation	OK
 -refactor in validations
--out instruction
+-out instruction				OK
 -if
 -for
 -multiply/division operation
 -string
 -modulus (%)
 -16/24 bit int / signed int / fixed point decimal
+-arithmetic operation with literal operand
 
 
 

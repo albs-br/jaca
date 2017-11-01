@@ -534,10 +534,10 @@ namespace CSCompiler.Test.Unit
                 new TypeToken("byte"),
                 new IdentifierToken("myVar"),
                 new EqualToken(),
-                new LiteralToken("65"),
+                new LiteralToken("65"),     // ASCII char 'A'
                 new SemicolonToken(),
 
-                new IdentifierToken("out"),
+                new CommandToken("out"),
                 new OpenParenthesisToken(),
                 new LiteralToken("0"),
                 new CommaToken(),
@@ -556,7 +556,7 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
 
             var expected = new List<byte>(new byte[] {
-                0x04, 0x00, 89,     // LD A, 89     // byte myVar = 89;
+                0x04, 0x00, 65,     // LD A, 89     // byte myVar = 89;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
                 0x2c, 0x00, 0x00,   // ST [HL], A
@@ -568,6 +568,9 @@ namespace CSCompiler.Test.Unit
             });
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
+
+            var stringOutput = machineCodeProgram.GetBytesAsString(32768, expected.Count);
+            Assert.AreEqual("04 00 41 05 00 ce 05 80 20 2c 00 00 05 00 ce 05 80 20 10 00 00 44 00 00 ", stringOutput);
 
             Assert.AreEqual(2, csProgram.Commands.Count);
             Assert.AreEqual(1, csProgram.Variables.Count);

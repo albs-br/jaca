@@ -333,7 +333,7 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(7, tokens.Count);
 
             //TODO:
-            Assert.IsInstanceOfType(tokens[0], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[0], typeof(CommandToken));
             Assert.IsInstanceOfType(tokens[1], typeof(OpenParenthesisToken));
             Assert.IsInstanceOfType(tokens[2], typeof(LiteralToken));
             Assert.IsInstanceOfType(tokens[3], typeof(CommaToken));

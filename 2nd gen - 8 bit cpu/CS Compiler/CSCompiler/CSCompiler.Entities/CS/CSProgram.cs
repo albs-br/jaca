@@ -64,7 +64,7 @@ namespace CSCompiler.Entities.CS
                             }
                             else
                             {
-                                TestSingleTokens(tokens, currentChar);
+                                CheckSingleTokens(tokens, currentChar);
                                 
                                 currentToken = "";
                             }
@@ -83,15 +83,24 @@ namespace CSCompiler.Entities.CS
                             if (Constants.IsValidType(currentToken))
                             {
                                 tokens.Add(new TypeToken(currentToken));
+
+                                //currentToken = "";
+                            }
+                            else if (Constants.IsCommand(currentToken))
+                            {
+                                tokens.Add(new CommandToken(currentToken));
+
+                                //currentToken = "";
                             }
                             else
                             {
                                 tokens.Add(new IdentifierToken(currentToken));
-
-                                TestSingleTokens(tokens, currentChar);
                             }
 
-                            currentToken = currentChar.ToString();
+                            CheckSingleTokens(tokens, currentChar);
+
+                            currentToken = "";
+
                             currentState = States.None;
                         }
                         break;
@@ -107,7 +116,7 @@ namespace CSCompiler.Entities.CS
                             // Literal ends
                             tokens.Add(new LiteralToken(currentToken));
 
-                            TestSingleTokens(tokens, currentChar);
+                            CheckSingleTokens(tokens, currentChar);
 
                             currentToken = "";
                             currentState = States.None;
@@ -119,7 +128,7 @@ namespace CSCompiler.Entities.CS
             return tokens;
         }
 
-        private static void TestSingleTokens(List<Token> tokens, char currentChar)
+        private static void CheckSingleTokens(List<Token> tokens, char currentChar)
         {
             if (Constants.IsArithmeticSignal(currentChar))
             {
@@ -286,7 +295,7 @@ namespace CSCompiler.Entities.CS
                             //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
                         }
                     }
-                    // Test whether is an Atribution Instruction
+                    // Test whether is an Increment Instruction
                     else if (currentCommandTokens.Count == 4
                         && currentCommandTokens[0] is IdentifierToken
                         && currentCommandTokens[1] is ArithmeticSignalToken
@@ -323,6 +332,7 @@ namespace CSCompiler.Entities.CS
 
                         this.Commands.Add(command);
                     }
+                    // Test whether is an Arithmetic Instruction
                     else if (currentCommandTokens.Count == 6
                         && currentCommandTokens[0] is IdentifierToken
                         && currentCommandTokens[1] is EqualToken
@@ -344,8 +354,9 @@ namespace CSCompiler.Entities.CS
                         }
 
 
-                        if (currentCommandTokens[2] is LiteralToken)
+                        if (currentCommandTokens[2] is IdentifierToken && currentCommandTokens[4] is LiteralToken)
                         {
+                            //TODO:
                             //var literalValue = currentCommandTokens[2].Text;
 
                             //if (int.Parse(literalValue) > 255)
@@ -368,7 +379,7 @@ namespace CSCompiler.Entities.CS
                             //// Atribution intruction DON'T change memory var area!
                             ////machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
                         }
-                        else if (currentCommandTokens[2] is IdentifierToken)
+                        else if (currentCommandTokens[2] is IdentifierToken && currentCommandTokens[4] is IdentifierToken)
                         {
                             var variableLeftOperandName = currentCommandTokens[2].Text;
                             var variableRightOperandName = currentCommandTokens[4].Text;
@@ -412,6 +423,37 @@ namespace CSCompiler.Entities.CS
 
                             this.Commands.Add(command);
                         }
+                    }
+                    // Test whether is an Command Instruction
+                    else if (currentCommandTokens.Count == 7
+                        && currentCommandTokens[0] is CommandToken
+                        && currentCommandTokens[1] is OpenParenthesisToken
+                        && currentCommandTokens[2] is LiteralToken
+                        && currentCommandTokens[3] is CommaToken
+                        && currentCommandTokens[4] is IdentifierToken
+                        && currentCommandTokens[5] is CloseParenthesisToken
+                        && currentCommandTokens[6] is SemicolonToken
+                        )
+                    {
+                        var variableName = currentCommandTokens[4].Text;
+
+                        var variable = this.Variables.Where(x => x.Name == variableName).FirstOrDefault();
+                        if (variable == null)
+                        {
+                            throw new UndefinedVariableException(variableName);
+                        }
+
+                        var command = new CommandInstruction();
+                        command.csProgram = this;
+                        command.Tokens = currentCommandTokens;
+                        command.VariableOperand = variable;
+
+
+                        // add bytes of program
+                        var bytesOfCommand = command.MachineCode();
+                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
+                        this.Commands.Add(command);
                     }
                     else
                     {

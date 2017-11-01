@@ -87,4 +87,12 @@ namespace CSCompiler.Entities.CS.Tokens
         }
     }
 
+    public class CommandToken : Token
+    {
+        public CommandToken(string text)
+        {
+            Text = text;
+        }
+    }
+
 }
