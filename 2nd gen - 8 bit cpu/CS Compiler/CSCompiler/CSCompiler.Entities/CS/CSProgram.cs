@@ -42,6 +42,7 @@ namespace CSCompiler.Entities.CS
             for (int i = 0; i < this.SourceCodeText.Length; i++)
             {
                 char currentChar = SourceCodeText.ElementAt(i);
+                char previousChar = (i == 0) ? char.MaxValue : SourceCodeText.ElementAt(i-1);
 
                 switch (currentState)
                 {
@@ -62,10 +63,16 @@ namespace CSCompiler.Entities.CS
                                 currentState = States.LiteralTokenStarted;
                                 currentToken = currentChar.ToString();
                             }
+                            else if (currentChar == '=' && previousChar == '=')
+                            {
+                                tokens.Remove(tokens.Last());
+                                tokens.Add(new ComparisonToken(currentChar.ToString() + previousChar.ToString()));
+                                currentToken = "";
+                            }
                             else
                             {
                                 CheckSingleTokens(tokens, currentChar);
-                                
+
                                 currentToken = "";
                             }
                         }
@@ -89,6 +96,12 @@ namespace CSCompiler.Entities.CS
                             else if (Constants.IsCommand(currentToken))
                             {
                                 tokens.Add(new CommandToken(currentToken));
+
+                                //currentToken = "";
+                            }
+                            else if (Constants.IsKeyword(currentToken))
+                            {
+                                tokens.Add(new KeywordToken(currentToken));
 
                                 //currentToken = "";
                             }
@@ -157,6 +170,15 @@ namespace CSCompiler.Entities.CS
                     case ',':
                         tokens.Add(new CommaToken());
                         break;
+
+                    case '{':
+                        tokens.Add(new OpenBracesToken());
+                        break;
+
+                    case '}':
+                        tokens.Add(new CloseBracesToken());
+                        break;
+
 
                     default:
                         break;

@@ -349,5 +349,41 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(")", tokens[5].Text);
             Assert.AreEqual(";", tokens[6].Text);
         }
+
+        [TestMethod]
+        public void Test_SourceToTokens_IfInstruction()
+        {
+            // Arrange
+            string csSourceCode = 
+                "if(myVar == 10) { " + Environment.NewLine +
+                "}";
+
+            // Act
+            var csProgram = new CSProgram();
+            csProgram.SourceCodeText = csSourceCode;
+            var tokens = csProgram.ConvertSourceToTokens();
+
+            // Assert
+            Assert.AreEqual(8, tokens.Count);
+
+            //TODO:
+            Assert.IsInstanceOfType(tokens[0], typeof(KeywordToken));
+            Assert.IsInstanceOfType(tokens[1], typeof(OpenParenthesisToken));
+            Assert.IsInstanceOfType(tokens[2], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[3], typeof(ComparisonToken));
+            Assert.IsInstanceOfType(tokens[4], typeof(LiteralToken));
+            Assert.IsInstanceOfType(tokens[5], typeof(CloseParenthesisToken));
+            Assert.IsInstanceOfType(tokens[6], typeof(OpenBracesToken));
+            Assert.IsInstanceOfType(tokens[7], typeof(CloseBracesToken));
+
+            Assert.AreEqual("if", tokens[0].Text);
+            Assert.AreEqual("(", tokens[1].Text);
+            Assert.AreEqual("myVar", tokens[2].Text);
+            Assert.AreEqual("==", tokens[3].Text);
+            Assert.AreEqual("10", tokens[4].Text);
+            Assert.AreEqual(")", tokens[5].Text);
+            Assert.AreEqual("{", tokens[6].Text);
+            Assert.AreEqual("}", tokens[7].Text);
+        }
     }
 }

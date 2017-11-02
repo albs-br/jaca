@@ -95,4 +95,41 @@ namespace CSCompiler.Entities.CS.Tokens
         }
     }
 
+    /// <summary>
+    /// Comparison Token (==, !=, >, <, >= , <=)
+    /// </summary>
+    public class ComparisonToken : Token
+    {
+        public ComparisonToken(string text)
+        {
+            Text = text;
+        }
+    }
+
+    /// <summary>
+    /// Keyword Token (if, for, etc)
+    /// </summary>
+    public class KeywordToken : Token
+    {
+        public KeywordToken(string text)
+        {
+            Text = text;
+        }
+    }
+
+    public class OpenBracesToken : Token
+    {
+        public OpenBracesToken()
+        {
+            Text = "{";
+        }
+    }
+
+    public class CloseBracesToken : Token
+    {
+        public CloseBracesToken()
+        {
+            Text = "}";
+        }
+    }
 }
