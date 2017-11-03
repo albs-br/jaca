@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSCompiler.Entities.CS.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,19 @@ namespace CSCompiler.Entities.CS
         // LD H, addr_hi
         // LD L, addr_lo
         // ST [HL], A
-        
+
         // TODO:
         // change last 3 instructions to ST [addr], A (depends on correrct implementation in circuit)
+
+        public static bool CheckFormat(IList<Token> tokens)
+        {
+            return (tokens.Count == 5
+                        && tokens[0] is TypeToken
+                        && tokens[1] is IdentifierToken
+                        && tokens[2] is EqualToken
+                        && tokens[3] is LiteralToken
+                        && tokens[4] is SemicolonToken);
+        }
 
         public override IList<byte> MachineCode()
         {

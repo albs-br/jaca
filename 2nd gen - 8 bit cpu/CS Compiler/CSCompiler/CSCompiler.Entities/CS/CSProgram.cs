@@ -200,12 +200,7 @@ namespace CSCompiler.Entities.CS
                 if (token is SemicolonToken || token == lastToken)
                 {
                     // Test whether is a Var Definition Instruction
-                    if (currentCommandTokens.Count == 5
-                        && currentCommandTokens[0] is TypeToken
-                        && currentCommandTokens[1] is IdentifierToken
-                        && currentCommandTokens[2] is EqualToken
-                        && currentCommandTokens[3] is LiteralToken
-                        && currentCommandTokens[4] is SemicolonToken)
+                    if (VarDefinitionInstruction.CheckFormat(currentCommandTokens))
                     {
                         var variableName = currentCommandTokens[1].Text;
                         var variableValue = currentCommandTokens[3].Text;
