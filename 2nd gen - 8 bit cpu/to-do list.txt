@@ -34,6 +34,7 @@ oct, 30th:
 -modulus (%)
 -16/24 bit int / signed int / fixed point decimal
 -arithmetic operation with literal operand
+-comments
 
 
 

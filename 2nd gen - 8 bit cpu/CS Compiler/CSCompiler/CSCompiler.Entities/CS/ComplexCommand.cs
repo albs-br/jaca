@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace CSCompiler.Entities.CS
 {
-    public class ComplexCommand : Command
+    public abstract class ComplexCommand : Command
     {
-        IList<Command> InnerCommands { get; set; }
-
-        public override IList<byte> MachineCode()
-        {
-            return null;
-        }
-
+        protected IList<Command> InnerCommands { get; set; }
     }
 }

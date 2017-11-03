@@ -18,6 +18,8 @@ namespace CSCompiler.Entities.CS
 
         public IList<Token> Tokens { get; set; }
 
+        public int BaseInstructionAddress { get; set; }
+
         public abstract IList<byte> MachineCode();
 
         /// <summary>

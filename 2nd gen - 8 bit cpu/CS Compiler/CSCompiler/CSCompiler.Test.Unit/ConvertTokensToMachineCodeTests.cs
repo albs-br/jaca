@@ -556,7 +556,7 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
 
             var expected = new List<byte>(new byte[] {
-                0x04, 0x00, 65,     // LD A, 89     // byte myVar = 89;
+                0x04, 0x00, 65,     // LD A, 65     // byte myVar = 65;
                 0x05, 0x00, 0xce,   // LD H, 0xce
                 0x05, 0x80, 0x20,   // LD L, 0x20
                 0x2c, 0x00, 0x00,   // ST [HL], A
@@ -576,6 +576,72 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(1, csProgram.Variables.Count);
             Assert.AreEqual("myVar", csProgram.Variables[0].Name);
             Assert.AreEqual(52768, csProgram.Variables[0].Address);
+        }
+
+        [TestMethod]
+        public void Test_TokensToMachineCode_IfInstruction()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("65"),
+                new SemicolonToken(),
+
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("65"),
+                new SemicolonToken(),
+
+                new CommandToken("if"),         // if(myVar == myVar2) { }
+                new OpenParenthesisToken(),
+                new IdentifierToken("myVar"),
+                new ComparisonToken("=="),
+                new IdentifierToken("myVar2"),
+                new CloseParenthesisToken(),
+                new OpenBracesToken(),
+                new CloseBracesToken(),
+            };
+
+
+            // Act
+            var csProgram = new CSProgram();
+            var machineCodeProgram = csProgram.ConvertTokensToMachineCode(tokens);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 65,     // LD A, 65     // byte myVar = 65;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+
+                0x04, 0x00, 65,     // LD A, 65     // byte myVar = 65;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x2c, 0x00, 0x00,   // ST [HL], A
+
+                0x84, 0x40, 0x00,   // SUB A, C     // if(myVar == myVar2) { }
+                0x18, 0x80, 0x1b,   // JP Z, 0x801b
+                0x14, 0x1b, 0x1b,   // JP 0x801b  // it's the same addr because the braces are empty (no commands inside)
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+
+            //var stringOutput = machineCodeProgram.GetBytesAsString(32768, expected.Count);
+            //Assert.AreEqual("04 00 41 05 00 ce 05 80 20 2c 00 00 05 00 ce 05 80 20 10 00 00 44 00 00 ", stringOutput);
+
+            Assert.AreEqual(3, csProgram.Commands.Count);
+            Assert.AreEqual(2, csProgram.Variables.Count);
+            Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            Assert.AreEqual("myVar2", csProgram.Variables[1].Name);
+            Assert.AreEqual(52768, csProgram.Variables[0].Address);
+            Assert.AreEqual(52769, csProgram.Variables[1].Address);
         }
 
         [TestMethod]
