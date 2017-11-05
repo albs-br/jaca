@@ -14,7 +14,9 @@ namespace CSCompiler.Entities.CS
             this.Tokens = new List<Token>();
         }
 
-        public CSProgram csProgram { get; set; }
+        public Command ParentCommand { get; set; }
+
+        public CSProgram CsProgram { get; set; }
 
         public IList<Token> Tokens { get; set; }
 

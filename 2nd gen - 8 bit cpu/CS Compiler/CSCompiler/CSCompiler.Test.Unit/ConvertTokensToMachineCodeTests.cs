@@ -596,7 +596,7 @@ namespace CSCompiler.Test.Unit
                 new LiteralToken("65"),
                 new SemicolonToken(),
 
-                new CommandToken("if"),         // if(myVar == myVar2) { }
+                new KeywordToken("if"),         // if(myVar == myVar2) { }
                 new OpenParenthesisToken(),
                 new IdentifierToken("myVar"),
                 new ComparisonToken("=="),
@@ -626,9 +626,15 @@ namespace CSCompiler.Test.Unit
                 0x05, 0x80, 0x21,   // LD L, 0x21
                 0x2c, 0x00, 0x00,   // ST [HL], A
 
-                0x84, 0x40, 0x00,   // SUB A, C     // if(myVar == myVar2) { }
+                0x05, 0x00, 0xce,   // LD H, 0xce   // if(myVar == myVar2) { }
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x10, 0x00, 0x00,   // LD A, [HL]
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x12, 0x00, 0x00,   // LD C, [HL]
+                0x84, 0x40, 0x00,   // SUB A, C     
                 0x18, 0x80, 0x1b,   // JP Z, 0x801b
-                0x14, 0x1b, 0x1b,   // JP 0x801b  // it's the same addr because the braces are empty (no commands inside)
+                0x14, 0x80, 0x1b,   // JP 0x801b  // it's the same addr because the braces are empty (no commands inside)
             });
             var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);

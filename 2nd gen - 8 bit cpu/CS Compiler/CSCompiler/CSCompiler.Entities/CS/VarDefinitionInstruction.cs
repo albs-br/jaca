@@ -31,7 +31,7 @@ namespace CSCompiler.Entities.CS
         {
             var value = Convert.ToByte(this.Tokens[3].Text);
 
-            int addr = Constants.BASE_ADDR_VARIABLES + this.csProgram.Variables.Count;
+            int addr = Constants.BASE_ADDR_VARIABLES + this.CsProgram.Variables.Count;
             byte addr_hi = HiByteOf(addr);
             byte addr_lo = LowByteOf(addr);
 

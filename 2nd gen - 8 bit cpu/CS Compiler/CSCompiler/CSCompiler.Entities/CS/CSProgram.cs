@@ -197,10 +197,42 @@ namespace CSCompiler.Entities.CS
             foreach (var token in tokens)
             {
                 currentCommandTokens.Add(token);
-                if (token is SemicolonToken || token == lastToken)
+
+                if (currentCommandTokens.Count >= 7 &&
+                    currentCommandTokens[0] is KeywordToken &&
+                    currentCommandTokens[1] is OpenParenthesisToken &&
+                    currentCommandTokens[2] is IdentifierToken &&
+                    currentCommandTokens[3] is ComparisonToken &&
+                    currentCommandTokens[4] is IdentifierToken &&
+                    currentCommandTokens[5] is CloseParenthesisToken &&
+                    currentCommandTokens[6] is OpenBracesToken &&
+                    currentCommandTokens[0].Text == "if"
+                    )
+                {
+                    var variableLeftOperandName = currentCommandTokens[2].Text;
+                    var variableRightOperandName = currentCommandTokens[4].Text;
+
+                    Variable variableLeftOperand = GetVariableByName(variableLeftOperandName);
+                    Variable variableRightOperand = GetVariableByName(variableRightOperandName);
+
+                    var command = new IfInstruction();
+                    command.CsProgram = this;
+                    command.Tokens = currentCommandTokens;
+                    command.BaseInstructionAddress = currentProgramAddr;
+
+                    command.VariableLeftOperand = variableLeftOperand;
+                    command.VariableRightOperand = variableRightOperand;
+
+
+                    // add bytes of program
+                    var bytesOfCommand = command.MachineCode();
+                    currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
+                }
+                else if (token is SemicolonToken || token == lastToken)
                 {
                     // Test whether is a Var Definition Instruction
-                    if (VarDefinitionInstruction.CheckFormat(currentCommandTokens))
+                    if (VarDefinitionInstruction.CheckFormat(currentCommandTokens)) // TODO: make all checks like this one
                     {
                         var variableName = currentCommandTokens[1].Text;
                         var variableValue = currentCommandTokens[3].Text;
@@ -219,7 +251,7 @@ namespace CSCompiler.Entities.CS
 
 
                         var command = new VarDefinitionInstruction();
-                        command.csProgram = this;
+                        command.CsProgram = this;
                         command.Tokens = currentCommandTokens;
 
                         // add bytes of program
@@ -254,11 +286,7 @@ namespace CSCompiler.Entities.CS
 
 
 
-                        var variableDestiny = this.Variables.Where(x => x.Name == variableDestinyName).FirstOrDefault();
-                        if (variableDestiny == null)
-                        {
-                            throw new UndefinedVariableException(variableDestinyName);
-                        }
+                        var variableDestiny = GetVariableByName(variableDestinyName);
 
 
                         if (currentCommandTokens[2] is LiteralToken)
@@ -271,7 +299,7 @@ namespace CSCompiler.Entities.CS
                             }
 
                             var command = new AtributionFromLiteralInstruction();
-                            command.csProgram = this;
+                            command.CsProgram = this;
                             command.Tokens = currentCommandTokens;
                             command.VariableResult = variableDestiny;
 
@@ -289,14 +317,10 @@ namespace CSCompiler.Entities.CS
                         {
                             var variableSourceName = currentCommandTokens[2].Text;
 
-                            var variableSource = this.Variables.Where(x => x.Name == variableSourceName).FirstOrDefault();
-                            if (variableSource == null)
-                            {
-                                throw new UndefinedVariableException(variableSourceName);
-                            }
+                            var variableSource = GetVariableByName(variableSourceName);
 
                             var command = new AtributionFromVarInstruction();
-                            command.csProgram = this;
+                            command.CsProgram = this;
                             command.Tokens = currentCommandTokens;
                             command.VariableSource = variableSource;
                             command.VariableDestiny = variableDestiny;
@@ -323,14 +347,10 @@ namespace CSCompiler.Entities.CS
                         var arithmeticSignal1 = currentCommandTokens[1].Text;
                         var arithmeticSignal2 = currentCommandTokens[2].Text;
 
-                        var variable = this.Variables.Where(x => x.Name == variableName).FirstOrDefault();
-                        if (variable == null)
-                        {
-                            throw new UndefinedVariableException(variableName);
-                        }
+                        var variable = GetVariableByName(variableName);
 
                         var command = new IncrementInstruction();
-                        command.csProgram = this;
+                        command.CsProgram = this;
                         command.Tokens = currentCommandTokens;
                         command.VariableOperand = variable;
                         if (arithmeticSignal1 == "+" && arithmeticSignal2 == "+")
@@ -360,15 +380,7 @@ namespace CSCompiler.Entities.CS
                     {
                         var variableDestinyName = currentCommandTokens[0].Text;
 
-
-
-
-
-                        var variableDestiny = this.Variables.Where(x => x.Name == variableDestinyName).FirstOrDefault();
-                        if (variableDestiny == null)
-                        {
-                            throw new UndefinedVariableException(variableDestinyName);
-                        }
+                        var variableDestiny = GetVariableByName(variableDestinyName);
 
 
                         if (currentCommandTokens[2] is IdentifierToken && currentCommandTokens[4] is LiteralToken)
@@ -402,20 +414,12 @@ namespace CSCompiler.Entities.CS
                             var variableRightOperandName = currentCommandTokens[4].Text;
                             var arithmeticOperation = currentCommandTokens[3].Text;
 
-                            var variableLeftOperand = this.Variables.Where(x => x.Name == variableLeftOperandName).FirstOrDefault();
-                            if (variableLeftOperand == null)
-                            {
-                                throw new UndefinedVariableException(variableLeftOperandName);
-                            }
+                            var variableLeftOperand = GetVariableByName(variableLeftOperandName);
 
-                            var variableRightOperand = this.Variables.Where(x => x.Name == variableRightOperandName).FirstOrDefault();
-                            if (variableRightOperand == null)
-                            {
-                                throw new UndefinedVariableException(variableRightOperandName);
-                            }
+                            var variableRightOperand = GetVariableByName(variableRightOperandName);
 
                             var command = new ArithmeticInstruction();
-                            command.csProgram = this;
+                            command.CsProgram = this;
                             command.Tokens = currentCommandTokens;
                             command.VariableLeftOperand = variableLeftOperand;
                             command.VariableRightOperand = variableRightOperand;
@@ -454,14 +458,10 @@ namespace CSCompiler.Entities.CS
                     {
                         var variableName = currentCommandTokens[4].Text;
 
-                        var variable = this.Variables.Where(x => x.Name == variableName).FirstOrDefault();
-                        if (variable == null)
-                        {
-                            throw new UndefinedVariableException(variableName);
-                        }
+                        var variable = GetVariableByName(variableName);
 
                         var command = new CommandInstruction();
-                        command.csProgram = this;
+                        command.CsProgram = this;
                         command.Tokens = currentCommandTokens;
                         command.VariableOperand = variable;
 
@@ -484,6 +484,17 @@ namespace CSCompiler.Entities.CS
             }
 
             return machineCodeProgram;
+        }
+
+        private Variable GetVariableByName(string variableLeftOperandName)
+        {
+            var variableLeftOperand = this.Variables.Where(x => x.Name == variableLeftOperandName).FirstOrDefault();
+            if (variableLeftOperand == null)
+            {
+                throw new UndefinedVariableException(variableLeftOperandName);
+            }
+
+            return variableLeftOperand;
         }
 
         private static int AddBytesOfProgram(MachineCodeProgram machineCodeProgram, int currentProgramAddr, IList<byte> bytesOfCommand)
