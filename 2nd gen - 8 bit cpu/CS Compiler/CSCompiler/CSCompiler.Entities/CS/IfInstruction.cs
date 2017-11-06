@@ -62,10 +62,6 @@ namespace CSCompiler.Entities.CS
             bytes.Add(0x00);
             bytes.Add(0x00);
 
-            int addrTrue = BaseInstructionAddress + bytes.Count;
-            byte addrTrue_hi = HiByteOf(addrTrue);
-            byte addrTrue_lo = LowByteOf(addrTrue);
-
             //switch (ComparisonType)
             //{
             //    case EnumComparisonType.Equal:
@@ -78,6 +74,9 @@ namespace CSCompiler.Entities.CS
             //        break;
             //}
 
+            int addrTrue = BaseInstructionAddress + bytes.Count + 6; // 6 is the size in byte of the next two JP instructions
+            byte addrTrue_hi = HiByteOf(addrTrue);
+            byte addrTrue_lo = LowByteOf(addrTrue);
 
             bytes.Add(0x18);            // JP Z, addrTrue
             bytes.Add(addrTrue_hi);     //

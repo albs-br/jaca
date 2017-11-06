@@ -14,7 +14,7 @@ namespace CSCompiler.Entities
         public const int BASE_ADDR_VARIABLES = 32768 + 20000; // TODO: convert to a base 2 "round" number
 
         public static string[] VALID_TYPES = { "byte" };
-        public static string[] KEYWORDS = { "if", "for" };
+        public static string[] KEYWORDS = { "if", "else", "for" };
         public static string[] COMMANDS = { "out" };
 
         public static bool IsValidType(string text)

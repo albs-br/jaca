@@ -351,7 +351,7 @@ namespace CSCompiler.Test.Unit
         }
 
         [TestMethod]
-        public void Test_SourceToTokens_IfInstruction()
+        public void Test_SourceToTokens_IfInstruction_1()
         {
             // Arrange
             string csSourceCode = 
@@ -384,6 +384,51 @@ namespace CSCompiler.Test.Unit
             Assert.AreEqual(")", tokens[5].Text);
             Assert.AreEqual("{", tokens[6].Text);
             Assert.AreEqual("}", tokens[7].Text);
+        }
+
+        [TestMethod]
+        public void Test_SourceToTokens_IfInstruction_2()
+        {
+            // Arrange
+            string csSourceCode =
+                "if(myVar == 10) { " + Environment.NewLine +
+                "   myVar = 27;" +
+                "}";
+
+            // Act
+            var csProgram = new CSProgram();
+            csProgram.SourceCodeText = csSourceCode;
+            var tokens = csProgram.ConvertSourceToTokens();
+
+            // Assert
+            Assert.AreEqual(12, tokens.Count);
+
+            //TODO:
+            Assert.IsInstanceOfType(tokens[0], typeof(KeywordToken));
+            Assert.IsInstanceOfType(tokens[1], typeof(OpenParenthesisToken));
+            Assert.IsInstanceOfType(tokens[2], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[3], typeof(ComparisonToken));
+            Assert.IsInstanceOfType(tokens[4], typeof(LiteralToken));
+            Assert.IsInstanceOfType(tokens[5], typeof(CloseParenthesisToken));
+            Assert.IsInstanceOfType(tokens[6], typeof(OpenBracesToken));
+            Assert.IsInstanceOfType(tokens[7], typeof(IdentifierToken));
+            Assert.IsInstanceOfType(tokens[8], typeof(EqualToken));
+            Assert.IsInstanceOfType(tokens[9], typeof(LiteralToken));
+            Assert.IsInstanceOfType(tokens[10], typeof(SemicolonToken));
+            Assert.IsInstanceOfType(tokens[11], typeof(CloseBracesToken));
+
+            Assert.AreEqual("if", tokens[0].Text);
+            Assert.AreEqual("(", tokens[1].Text);
+            Assert.AreEqual("myVar", tokens[2].Text);
+            Assert.AreEqual("==", tokens[3].Text);
+            Assert.AreEqual("10", tokens[4].Text);
+            Assert.AreEqual(")", tokens[5].Text);
+            Assert.AreEqual("{", tokens[6].Text);
+            Assert.AreEqual("myVar", tokens[7].Text);
+            Assert.AreEqual("=", tokens[8].Text);
+            Assert.AreEqual("27", tokens[9].Text);
+            Assert.AreEqual(";", tokens[10].Text);
+            Assert.AreEqual("}", tokens[11].Text);
         }
     }
 }

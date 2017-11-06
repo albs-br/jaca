@@ -25,7 +25,7 @@ namespace CSCompiler.Entities.CS
         public IList<Variable> Variables { get; set; }
 
         // State Machine
-        private enum States
+        private enum TokenStates
         {
             None,
             TypeOrIdentifierTokenStarted,
@@ -35,7 +35,7 @@ namespace CSCompiler.Entities.CS
 
         public IList<Token> ConvertSourceToTokens()
         {
-            States currentState = States.None;
+            TokenStates currentState = TokenStates.None;
 
             var tokens = new List<Token>();
             var currentToken = "";
@@ -46,7 +46,7 @@ namespace CSCompiler.Entities.CS
 
                 switch (currentState)
                 {
-                    case States.None:
+                    case TokenStates.None:
                         if (Constants.IsIrrelevantChar(currentChar))
                         {
                             continue;
@@ -55,12 +55,12 @@ namespace CSCompiler.Entities.CS
                         {
                             if (Char.IsLetter(currentChar))
                             {
-                                currentState = States.TypeOrIdentifierTokenStarted;
+                                currentState = TokenStates.TypeOrIdentifierTokenStarted;
                                 currentToken = currentChar.ToString();
                             }
                             else if (Char.IsNumber(currentChar))
                             {
-                                currentState = States.LiteralTokenStarted;
+                                currentState = TokenStates.LiteralTokenStarted;
                                 currentToken = currentChar.ToString();
                             }
                             else if (currentChar == '=' && previousChar == '=')
@@ -78,7 +78,7 @@ namespace CSCompiler.Entities.CS
                         }
                         break;
 
-                    case States.TypeOrIdentifierTokenStarted:
+                    case TokenStates.TypeOrIdentifierTokenStarted:
                         if (Char.IsLetterOrDigit(currentChar))
                         {
                             // Identifier continues
@@ -114,11 +114,11 @@ namespace CSCompiler.Entities.CS
 
                             currentToken = "";
 
-                            currentState = States.None;
+                            currentState = TokenStates.None;
                         }
                         break;
 
-                    case States.LiteralTokenStarted:
+                    case TokenStates.LiteralTokenStarted:
                         if (Char.IsNumber(currentChar))
                         {
                             // Literal continues
@@ -132,7 +132,7 @@ namespace CSCompiler.Entities.CS
                             CheckSingleTokens(tokens, currentChar);
 
                             currentToken = "";
-                            currentState = States.None;
+                            currentState = TokenStates.None;
                         }
                         break;
                 }
@@ -186,11 +186,14 @@ namespace CSCompiler.Entities.CS
             }
         }
 
-        public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens)
+        public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens, Command parentCommand = null)
         {
             var machineCodeProgram = new MachineCodeProgram();
             var currentProgramAddr = Constants.BASE_ADDR_PROGRAM;
             var currentVariableAddr = Constants.BASE_ADDR_VARIABLES;
+
+            var bracesOpened = 0;
+            //Command parentCommand = null;
 
             var currentCommandTokens = new List<Token>();
             var lastToken = tokens.Last();
@@ -198,7 +201,24 @@ namespace CSCompiler.Entities.CS
             {
                 currentCommandTokens.Add(token);
 
-                if (currentCommandTokens.Count >= 7 &&
+                // TODO:
+                //if (bracesOpened == 0 && token is CloseBracesToken) 
+                //{
+                //    throw new UnmatchingBracesException();
+                //}
+                //else
+                if (bracesOpened > 0 && token is CloseBracesToken)
+                {
+                    this.Commands.Add(parentCommand);
+
+                    //ConvertTokensToMachineCode(, command);
+
+                    parentCommand = null;
+
+                    bracesOpened--;
+                    currentCommandTokens.Clear();
+                }
+                else if (currentCommandTokens.Count == 7 &&
                     currentCommandTokens[0] is KeywordToken &&
                     currentCommandTokens[1] is OpenParenthesisToken &&
                     currentCommandTokens[2] is IdentifierToken &&
@@ -209,6 +229,8 @@ namespace CSCompiler.Entities.CS
                     currentCommandTokens[0].Text == "if"
                     )
                 {
+                    // Test whether is a If Instruction
+
                     var variableLeftOperandName = currentCommandTokens[2].Text;
                     var variableRightOperandName = currentCommandTokens[4].Text;
 
@@ -226,8 +248,10 @@ namespace CSCompiler.Entities.CS
 
                     // add bytes of program
                     var bytesOfCommand = command.MachineCode();
-                    currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                    currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
+                    parentCommand = command;
+                    bracesOpened++;
                 }
                 else if (token is SemicolonToken || token == lastToken)
                 {
@@ -256,7 +280,7 @@ namespace CSCompiler.Entities.CS
 
                         // add bytes of program
                         var bytesOfCommand = command.MachineCode();
-                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                        currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
 
 
@@ -306,7 +330,7 @@ namespace CSCompiler.Entities.CS
 
                             // add bytes of program
                             var bytesOfCommand = command.MachineCode();
-                            currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                            currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
                             this.Commands.Add(command);
                             
@@ -328,7 +352,7 @@ namespace CSCompiler.Entities.CS
 
                             // add bytes of program
                             var bytesOfCommand = command.MachineCode();
-                            currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                            currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
                             this.Commands.Add(command);
 
@@ -365,7 +389,7 @@ namespace CSCompiler.Entities.CS
 
                         // add bytes of program
                         var bytesOfCommand = command.MachineCode();
-                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                        currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
                         this.Commands.Add(command);
                     }
@@ -440,7 +464,7 @@ namespace CSCompiler.Entities.CS
 
                             // add bytes of program
                             var bytesOfCommand = command.MachineCode();
-                            currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                            currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
                             this.Commands.Add(command);
                         }
@@ -468,7 +492,7 @@ namespace CSCompiler.Entities.CS
 
                         // add bytes of program
                         var bytesOfCommand = command.MachineCode();
-                        currentProgramAddr = AddBytesOfProgram(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                        currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
                         this.Commands.Add(command);
                     }
@@ -497,7 +521,7 @@ namespace CSCompiler.Entities.CS
             return variableLeftOperand;
         }
 
-        private static int AddBytesOfProgram(MachineCodeProgram machineCodeProgram, int currentProgramAddr, IList<byte> bytesOfCommand)
+        private static int AddBytesOfCommand(MachineCodeProgram machineCodeProgram, int currentProgramAddr, IList<byte> bytesOfCommand)
         {
             var j = 0;
             for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
