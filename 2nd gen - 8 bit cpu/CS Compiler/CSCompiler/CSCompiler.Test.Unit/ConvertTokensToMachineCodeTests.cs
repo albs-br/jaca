@@ -643,6 +643,9 @@ namespace CSCompiler.Test.Unit
             //Assert.AreEqual("04 00 41 05 00 ce 05 80 20 2c 00 00 05 00 ce 05 80 20 10 00 00 44 00 00 ", stringOutput);
 
             Assert.AreEqual(3, csProgram.Commands.Count);
+            Assert.IsInstanceOfType(csProgram.Commands[0], typeof(VarDefinitionInstruction));
+            Assert.IsInstanceOfType(csProgram.Commands[1], typeof(VarDefinitionInstruction));
+            Assert.IsInstanceOfType(csProgram.Commands[2], typeof(IfInstruction));
             Assert.AreEqual(2, csProgram.Variables.Count);
             Assert.AreEqual("myVar", csProgram.Variables[0].Name);
             Assert.AreEqual("myVar2", csProgram.Variables[1].Name);
@@ -687,11 +690,12 @@ namespace CSCompiler.Test.Unit
 
             // Act
             var csProgram = new CSProgram();
-            var machineCodeProgram = csProgram.ConvertTokensToMachineCode(tokens);
+            var machineCodeProgram1 = csProgram.ConvertTokensToMachineCode(tokens);
+            var machineCodeProgram2 = csProgram.ConvertCommandsToMachineCode();
 
 
             // Assert
-            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+            Assert.AreEqual(65536, machineCodeProgram2.Bytes.Count);
 
             var expected = new List<byte>(new byte[] {
                 0x04, 0x00, 65,     // LD A, 65     // byte myVar = 65;
@@ -704,7 +708,7 @@ namespace CSCompiler.Test.Unit
                 0x05, 0x80, 0x21,   // LD L, 0x21
                 0x2c, 0x00, 0x00,   // ST [HL], A
 
-                0x05, 0x00, 0xce,   // LD H, 0xce   // if(myVar == myVar2) { }
+                0x05, 0x00, 0xce,   // LD H, 0xce   // if(myVar == myVar2) {
                 0x05, 0x80, 0x20,   // LD L, 0x20
                 0x10, 0x00, 0x00,   // LD A, [HL]
                 0x05, 0x00, 0xce,   // LD H, 0xce
@@ -712,16 +716,26 @@ namespace CSCompiler.Test.Unit
                 0x12, 0x00, 0x00,   // LD C, [HL]
                 0x84, 0x40, 0x00,   // SUB A, C     
                 0x18, 0x80, 0x33,   // JP Z, 0x8033
-                0x14, 0x80, 0x33,   // JP 0x8033    // TODO: this address is wrong
-                // TODO:
+                0x14, 0x80, 0x3f,   // JP 0x803f
+
+                0x04, 0x00, 27,     // LD A, 27     // myVar = 27;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
             });
-            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            var actual = ((List<byte>)machineCodeProgram2.Bytes).GetRange(32768, expected.Count);
             CollectionAssert.AreEqual(expected, actual);
 
             //var stringOutput = machineCodeProgram.GetBytesAsString(32768, expected.Count);
             //Assert.AreEqual("04 00 41 05 00 ce 05 80 20 2c 00 00 05 00 ce 05 80 20 10 00 00 44 00 00 ", stringOutput);
 
             Assert.AreEqual(3, csProgram.Commands.Count);
+            Assert.IsInstanceOfType(csProgram.Commands[0], typeof(VarDefinitionInstruction));
+            Assert.IsInstanceOfType(csProgram.Commands[1], typeof(VarDefinitionInstruction));
+            Assert.IsInstanceOfType(csProgram.Commands[2], typeof(IfInstruction));
+            var ifInstruction = ((IfInstruction)csProgram.Commands[2]);
+            Assert.AreEqual(1, ifInstruction.InnerCommands.Count);
+            Assert.IsInstanceOfType(ifInstruction.InnerCommands[0], typeof(AtributionFromLiteralInstruction));
             Assert.AreEqual(2, csProgram.Variables.Count);
             Assert.AreEqual("myVar", csProgram.Variables[0].Name);
             Assert.AreEqual("myVar2", csProgram.Variables[1].Name);

@@ -84,21 +84,23 @@ namespace CSCompiler.Entities.CS
 
             bytes.Add(0x14);            // JP addrFalse
             int indexOfJpInstrAddr = bytes.Count;
-            bytes.Add(0x00);            // temporary value, 
-            bytes.Add(0x00);            // will be changed later
+            bytes.Add(0xff);            // temporary value, 
+            bytes.Add(0xff);            // will be changed later
 
             // Commands of addrTrue:
-            //foreach (var command in this.InnerCommands)
-            //{ 
-            //}
+            foreach (var command in this.InnerCommands)
+            {
+                var b = command.MachineCode();
+                bytes.AddRange(b);
+            }
 
             // Calc and put bytes of the "false" addr path of the If :
             int addrFalse = BaseInstructionAddress + bytes.Count;
             byte addrFalse_hi = HiByteOf(addrFalse);
             byte addrFalse_lo = LowByteOf(addrFalse);
 
-            bytes[indexOfJpInstrAddr++] = addrFalse_hi;
-            bytes[indexOfJpInstrAddr] = addrFalse_lo;
+            bytes[indexOfJpInstrAddr] = addrFalse_hi;
+            bytes[indexOfJpInstrAddr+1] = addrFalse_lo;
 
             return bytes;
         }

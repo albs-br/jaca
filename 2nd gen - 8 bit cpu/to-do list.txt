@@ -24,7 +24,7 @@ oct, 30th:
 // 30/10/2017
 
 -subtraction operation			OK
--increment /decrement operation	OK
+-increment /decrement operation		OK
 -refactor in validations
 -out instruction				OK
 -if

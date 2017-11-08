@@ -186,14 +186,14 @@ namespace CSCompiler.Entities.CS
             }
         }
 
-        public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens, Command parentCommand = null)
+        public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens)
         {
             var machineCodeProgram = new MachineCodeProgram();
             var currentProgramAddr = Constants.BASE_ADDR_PROGRAM;
             var currentVariableAddr = Constants.BASE_ADDR_VARIABLES;
 
             var bracesOpened = 0;
-            //Command parentCommand = null;
+            Command parentCommand = null;
 
             var currentCommandTokens = new List<Token>();
             var lastToken = tokens.Last();
@@ -209,7 +209,7 @@ namespace CSCompiler.Entities.CS
                 //else
                 if (bracesOpened > 0 && token is CloseBracesToken)
                 {
-                    this.Commands.Add(parentCommand);
+                    //this.Commands.Add(parentCommand);
 
                     //ConvertTokensToMachineCode(, command);
 
@@ -238,6 +238,7 @@ namespace CSCompiler.Entities.CS
                     Variable variableRightOperand = GetVariableByName(variableRightOperandName);
 
                     var command = new IfInstruction();
+                    command.ParentCommand = parentCommand;
                     command.CsProgram = this;
                     command.Tokens = currentCommandTokens;
                     command.BaseInstructionAddress = currentProgramAddr;
@@ -252,6 +253,9 @@ namespace CSCompiler.Entities.CS
 
                     parentCommand = command;
                     bracesOpened++;
+
+                    this.Commands.Add(command);
+                    currentCommandTokens.Clear();
                 }
                 else if (token is SemicolonToken || token == lastToken)
                 {
@@ -275,6 +279,7 @@ namespace CSCompiler.Entities.CS
 
 
                         var command = new VarDefinitionInstruction();
+                        command.ParentCommand = parentCommand;
                         command.CsProgram = this;
                         command.Tokens = currentCommandTokens;
 
@@ -323,6 +328,7 @@ namespace CSCompiler.Entities.CS
                             }
 
                             var command = new AtributionFromLiteralInstruction();
+                            command.ParentCommand = parentCommand;
                             command.CsProgram = this;
                             command.Tokens = currentCommandTokens;
                             command.VariableResult = variableDestiny;
@@ -332,7 +338,15 @@ namespace CSCompiler.Entities.CS
                             var bytesOfCommand = command.MachineCode();
                             currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
-                            this.Commands.Add(command);
+                            //TODO: extract method
+                            if (parentCommand == null)
+                            {
+                                this.Commands.Add(command);
+                            }
+                            else
+                            {
+                                ((ComplexCommand)parentCommand).InnerCommands.Add(command);
+                            }
                             
                             // Atribution intruction DON'T change memory var area!
                             //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
@@ -344,6 +358,7 @@ namespace CSCompiler.Entities.CS
                             var variableSource = GetVariableByName(variableSourceName);
 
                             var command = new AtributionFromVarInstruction();
+                            command.ParentCommand = parentCommand;
                             command.CsProgram = this;
                             command.Tokens = currentCommandTokens;
                             command.VariableSource = variableSource;
@@ -374,6 +389,7 @@ namespace CSCompiler.Entities.CS
                         var variable = GetVariableByName(variableName);
 
                         var command = new IncrementInstruction();
+                        command.ParentCommand = parentCommand;
                         command.CsProgram = this;
                         command.Tokens = currentCommandTokens;
                         command.VariableOperand = variable;
@@ -443,6 +459,7 @@ namespace CSCompiler.Entities.CS
                             var variableRightOperand = GetVariableByName(variableRightOperandName);
 
                             var command = new ArithmeticInstruction();
+                            command.ParentCommand = parentCommand;
                             command.CsProgram = this;
                             command.Tokens = currentCommandTokens;
                             command.VariableLeftOperand = variableLeftOperand;
@@ -485,6 +502,7 @@ namespace CSCompiler.Entities.CS
                         var variable = GetVariableByName(variableName);
 
                         var command = new CommandInstruction();
+                        command.ParentCommand = parentCommand;
                         command.CsProgram = this;
                         command.Tokens = currentCommandTokens;
                         command.VariableOperand = variable;
@@ -505,6 +523,18 @@ namespace CSCompiler.Entities.CS
                     }
                     currentCommandTokens.Clear();
                 }
+            }
+
+            return machineCodeProgram;
+        }
+
+        public MachineCodeProgram ConvertCommandsToMachineCode()
+        {
+            var machineCodeProgram = new MachineCodeProgram();
+
+            foreach (var command in Commands)
+            {
+                ((List<byte>)machineCodeProgram.Bytes).AddRange(command.MachineCode());
             }
 
             return machineCodeProgram;

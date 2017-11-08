@@ -8,6 +8,11 @@ namespace CSCompiler.Entities.CS
 {
     public abstract class ComplexCommand : Command
     {
-        protected IList<Command> InnerCommands { get; set; }
+        public ComplexCommand()
+        {
+            InnerCommands = new List<Command>();
+        }
+
+        public IList<Command> InnerCommands { get; set; }
     }
 }
