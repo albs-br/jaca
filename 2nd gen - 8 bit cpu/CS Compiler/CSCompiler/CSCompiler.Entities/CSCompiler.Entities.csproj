@@ -39,9 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\Compiler_3_ConvertCommandsToMachineCode.cs" />
+    <Compile Include="Compiler\Compiler_1_ConvertSourceToTokens.cs" />
+    <Compile Include="Compiler\Compiler_2_ConvertTokensToCommands.cs" />
+    <Compile Include="Compiler\Compiler_0_Main.cs" />
     <Compile Include="CS\IfInstruction.cs" />
     <Compile Include="CS\CommandInstruction.cs" />
     <Compile Include="CS\IncrementInstruction.cs" />
+    <Compile Include="CS\Tokens\TokenStates.cs" />
     <Compile Include="EnumIncrementOperation.cs" />
     <Compile Include="EnumArithmeticOperation.cs" />
     <Compile Include="Constants.cs" />

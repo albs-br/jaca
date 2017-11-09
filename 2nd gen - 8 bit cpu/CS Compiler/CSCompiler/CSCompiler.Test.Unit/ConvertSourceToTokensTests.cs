@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CSCompiler.Entities;
 using CSCompiler.Entities.CS;
 using CSCompiler.Entities.CS.Tokens;
+using CSCompiler.Entities.Compiler;
 
 namespace CSCompiler.Test.Unit
 {
@@ -31,9 +32,7 @@ namespace CSCompiler.Test.Unit
             foreach (string csSourceCode in csSourceCodeArray)
             {
                 // Act
-                var csProgram = new CSProgram();
-                csProgram.SourceCodeText = csSourceCode;
-                var tokens = csProgram.ConvertSourceToTokens();
+                var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
 
 
@@ -78,9 +77,7 @@ namespace CSCompiler.Test.Unit
             foreach (string csSourceCode in csSourceCodeArray)
             {
                 // Act
-                var csProgram = new CSProgram();
-                csProgram.SourceCodeText = csSourceCode;
-                var tokens = csProgram.ConvertSourceToTokens();
+                var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
 
 
@@ -125,9 +122,7 @@ namespace CSCompiler.Test.Unit
             foreach (string csSourceCode in csSourceCodeArray)
             {
                 // Act
-                var csProgram = new CSProgram();
-                csProgram.SourceCodeText = csSourceCode;
-                var tokens = csProgram.ConvertSourceToTokens();
+                var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
 
 
@@ -170,9 +165,7 @@ namespace CSCompiler.Test.Unit
             foreach (string csSourceCode in csSourceCodeArray)
             {
                 // Act
-                var csProgram = new CSProgram();
-                csProgram.SourceCodeText = csSourceCode;
-                var tokens = csProgram.ConvertSourceToTokens();
+                var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
 
 
@@ -215,9 +208,7 @@ namespace CSCompiler.Test.Unit
             foreach (string csSourceCode in csSourceCodeArray)
             {
                 // Act
-                var csProgram = new CSProgram();
-                csProgram.SourceCodeText = csSourceCode;
-                var tokens = csProgram.ConvertSourceToTokens();
+                var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
 
 
@@ -264,9 +255,7 @@ namespace CSCompiler.Test.Unit
             foreach (string csSourceCode in csSourceCodeArray)
             {
                 // Act
-                var csProgram = new CSProgram();
-                csProgram.SourceCodeText = csSourceCode;
-                var tokens = csProgram.ConvertSourceToTokens();
+                var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
 
 
@@ -298,9 +287,7 @@ namespace CSCompiler.Test.Unit
             string csSourceCode = "invalidType myVar = 208;";
 
             // Act
-            var csProgram = new CSProgram();
-            csProgram.SourceCodeText = csSourceCode;
-            var tokens = csProgram.ConvertSourceToTokens();
+            var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
             // Assert
             Assert.AreEqual(5, tokens.Count);
@@ -325,9 +312,7 @@ namespace CSCompiler.Test.Unit
             string csSourceCode = "out(0, myVar);";
 
             // Act
-            var csProgram = new CSProgram();
-            csProgram.SourceCodeText = csSourceCode;
-            var tokens = csProgram.ConvertSourceToTokens();
+            var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
             // Assert
             Assert.AreEqual(7, tokens.Count);
@@ -359,9 +344,7 @@ namespace CSCompiler.Test.Unit
                 "}";
 
             // Act
-            var csProgram = new CSProgram();
-            csProgram.SourceCodeText = csSourceCode;
-            var tokens = csProgram.ConvertSourceToTokens();
+            var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
             // Assert
             Assert.AreEqual(8, tokens.Count);
@@ -396,9 +379,7 @@ namespace CSCompiler.Test.Unit
                 "}";
 
             // Act
-            var csProgram = new CSProgram();
-            csProgram.SourceCodeText = csSourceCode;
-            var tokens = csProgram.ConvertSourceToTokens();
+            var tokens = Compiler.ConvertSourceToTokens(csSourceCode);
 
             // Assert
             Assert.AreEqual(12, tokens.Count);

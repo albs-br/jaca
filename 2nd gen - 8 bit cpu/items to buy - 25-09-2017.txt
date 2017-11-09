@@ -15,7 +15,7 @@ crystal 20 MHz and others (for vga board)	OK
 4,7K resistors (for clock)			OK
 2M2 resistors (for clock)			OK
 wire stripper plier
-assorted capacitors				OK
+assorted electrolytic capacitors			OK
 ps/2 female connector (for keyboard)		OK
 
 
@@ -24,3 +24,4 @@ ps/2 female connector (for keyboard)		OK
 08-11-2017:
 
 74LS595 (shift register) (for arduino eeprom programmer)		OK
+assorted ceramic capacitors with box				

@@ -8,7 +8,7 @@ using CSCompiler.Exceptions;
 namespace CSCompiler.Test.Unit
 {
     [TestClass]
-    public class ConvertTokensToMachineCodeTests
+    public class ConvertTokensToMachineCodeTests_old
     {
         [TestMethod]
         public void Test_TokensToMachineCode_Simple_VarDefinitionInstruction_1()

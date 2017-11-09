@@ -52,7 +52,9 @@
   <ItemGroup>
     <Compile Include="ConvertSourceToTokensTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ConvertTokensToMachineCodeTests.cs" />
+    <Compile Include="ConvertTokensToMachineCodeTests_old.cs" />
+    <Compile Include="FullCompileTests.cs" />
+    <Compile Include="ConvertTokensToCommandsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSCompiler.Entities\CSCompiler.Entities.csproj">

@@ -1,188 +1,25 @@
-﻿using CSCompiler.Entities.CS.Tokens;
-using CSCompiler.Entities.MachineCode;
+﻿using CSCompiler.Entities.CS;
+using CSCompiler.Entities.CS.Tokens;
+using CSCompiler.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CSCompiler.Entities;
-using CSCompiler.Exceptions;
 
-namespace CSCompiler.Entities.CS
+namespace CSCompiler.Entities.Compiler
 {
-    public class CSProgram
+    public static partial class Compiler
     {
-        // Constructor
-        public CSProgram()
+        /// <summary>
+        /// Step 2 of 3 - Convert tokens to commands (Abstract Syntax Tree)
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public static CSProgram ConvertTokensToCommands(IList<Token> tokens)
         {
-            this.Commands = new List<Command>();
-            this.Variables = new List<Variable>();
-        }
-
-        public string SourceCodeText;
-
-        public IList<Command> Commands { get; set; }
-        public IList<Variable> Variables { get; set; }
-        //public IList<Function> Functions { get; set; }
-
-
-
-        //public IList<Token> ConvertSourceToTokens()
-        //{
-        //    TokenStates currentState = TokenStates.None;
-
-        //    var tokens = new List<Token>();
-        //    var currentToken = "";
-        //    for (int i = 0; i < this.SourceCodeText.Length; i++)
-        //    {
-        //        char currentChar = SourceCodeText.ElementAt(i);
-        //        char previousChar = (i == 0) ? char.MaxValue : SourceCodeText.ElementAt(i-1);
-
-        //        switch (currentState)
-        //        {
-        //            case TokenStates.None:
-        //                if (Constants.IsIrrelevantChar(currentChar))
-        //                {
-        //                    continue;
-        //                }
-        //                else
-        //                {
-        //                    if (Char.IsLetter(currentChar))
-        //                    {
-        //                        currentState = TokenStates.TypeOrIdentifierTokenStarted;
-        //                        currentToken = currentChar.ToString();
-        //                    }
-        //                    else if (Char.IsNumber(currentChar))
-        //                    {
-        //                        currentState = TokenStates.LiteralTokenStarted;
-        //                        currentToken = currentChar.ToString();
-        //                    }
-        //                    else if (currentChar == '=' && previousChar == '=')
-        //                    {
-        //                        tokens.Remove(tokens.Last());
-        //                        tokens.Add(new ComparisonToken(currentChar.ToString() + previousChar.ToString()));
-        //                        currentToken = "";
-        //                    }
-        //                    else
-        //                    {
-        //                        CheckSingleTokens(tokens, currentChar);
-
-        //                        currentToken = "";
-        //                    }
-        //                }
-        //                break;
-
-        //            case TokenStates.TypeOrIdentifierTokenStarted:
-        //                if (Char.IsLetterOrDigit(currentChar))
-        //                {
-        //                    // Identifier continues
-        //                    currentToken += currentChar;
-        //                }
-        //                else
-        //                {
-        //                    // Identifier ends
-        //                    if (Constants.IsValidType(currentToken))
-        //                    {
-        //                        tokens.Add(new TypeToken(currentToken));
-
-        //                        //currentToken = "";
-        //                    }
-        //                    else if (Constants.IsCommand(currentToken))
-        //                    {
-        //                        tokens.Add(new CommandToken(currentToken));
-
-        //                        //currentToken = "";
-        //                    }
-        //                    else if (Constants.IsKeyword(currentToken))
-        //                    {
-        //                        tokens.Add(new KeywordToken(currentToken));
-
-        //                        //currentToken = "";
-        //                    }
-        //                    else
-        //                    {
-        //                        tokens.Add(new IdentifierToken(currentToken));
-        //                    }
-
-        //                    CheckSingleTokens(tokens, currentChar);
-
-        //                    currentToken = "";
-
-        //                    currentState = TokenStates.None;
-        //                }
-        //                break;
-
-        //            case TokenStates.LiteralTokenStarted:
-        //                if (Char.IsNumber(currentChar))
-        //                {
-        //                    // Literal continues
-        //                    currentToken += currentChar;
-        //                }
-        //                else
-        //                {
-        //                    // Literal ends
-        //                    tokens.Add(new LiteralToken(currentToken));
-
-        //                    CheckSingleTokens(tokens, currentChar);
-
-        //                    currentToken = "";
-        //                    currentState = TokenStates.None;
-        //                }
-        //                break;
-        //        }
-        //    }
-
-        //    return tokens;
-        //}
-
-        //private static void CheckSingleTokens(List<Token> tokens, char currentChar)
-        //{
-        //    if (Constants.IsArithmeticSignal(currentChar))
-        //    {
-        //        tokens.Add(new ArithmeticSignalToken(currentChar.ToString()));
-        //    }
-        //    else
-        //    {
-        //        switch (currentChar)
-        //        {
-        //            case '=':
-        //                tokens.Add(new EqualToken());
-        //                break;
-
-        //            case ';':
-        //                tokens.Add(new SemicolonToken());
-        //                break;
-
-        //            case '(':
-        //                tokens.Add(new OpenParenthesisToken());
-        //                break;
-
-        //            case ')':
-        //                tokens.Add(new CloseParenthesisToken());
-        //                break;
-
-        //            case ',':
-        //                tokens.Add(new CommaToken());
-        //                break;
-
-        //            case '{':
-        //                tokens.Add(new OpenBracesToken());
-        //                break;
-
-        //            case '}':
-        //                tokens.Add(new CloseBracesToken());
-        //                break;
-
-
-        //            default:
-        //                break;
-        //        }
-        //    }
-        //}
-
-        public MachineCodeProgram ConvertTokensToMachineCode(IList<Token> tokens)
-        {
-            var machineCodeProgram = new MachineCodeProgram();
+            var csProgram = new CSProgram();
+            //var machineCodeProgram = new MachineCodeProgram();
             var currentProgramAddr = Constants.BASE_ADDR_PROGRAM;
             var currentVariableAddr = Constants.BASE_ADDR_VARIABLES;
 
@@ -228,12 +65,12 @@ namespace CSCompiler.Entities.CS
                     var variableLeftOperandName = currentCommandTokens[2].Text;
                     var variableRightOperandName = currentCommandTokens[4].Text;
 
-                    Variable variableLeftOperand = GetVariableByName(variableLeftOperandName);
-                    Variable variableRightOperand = GetVariableByName(variableRightOperandName);
+                    Variable variableLeftOperand = GetVariableByName(csProgram, variableLeftOperandName);
+                    Variable variableRightOperand = GetVariableByName(csProgram, variableRightOperandName);
 
                     var command = new IfInstruction();
                     command.ParentCommand = parentCommand;
-                    command.CsProgram = this;
+                    command.CsProgram = csProgram;
                     command.Tokens = currentCommandTokens;
                     command.BaseInstructionAddress = currentProgramAddr;
 
@@ -242,13 +79,13 @@ namespace CSCompiler.Entities.CS
 
 
                     // add bytes of program
-                    var bytesOfCommand = command.MachineCode();
-                    currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                    //var bytesOfCommand = command.MachineCode();
+                    //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
                     parentCommand = command;
                     bracesOpened++;
 
-                    this.Commands.Add(command);
+                    csProgram.Commands.Add(command);
                     currentCommandTokens.Clear();
                 }
                 else if (token is SemicolonToken || token == lastToken)
@@ -260,7 +97,7 @@ namespace CSCompiler.Entities.CS
                         var variableValue = currentCommandTokens[3].Text;
 
 
-                        if (this.Variables.Where(x => x.Name == variableName).Count() > 0)
+                        if (csProgram.Variables.Where(x => x.Name == variableName).Count() > 0)
                         {
                             throw new VariableAlreadyDefinedException(variableName);
                         }
@@ -274,24 +111,24 @@ namespace CSCompiler.Entities.CS
 
                         var command = new VarDefinitionInstruction();
                         command.ParentCommand = parentCommand;
-                        command.CsProgram = this;
+                        command.CsProgram = csProgram;
                         command.Tokens = currentCommandTokens;
 
                         // add bytes of program
-                        var bytesOfCommand = command.MachineCode();
-                        currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                        //var bytesOfCommand = command.MachineCode();
+                        //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
 
 
                         var variable = new Variable();
                         variable.Name = variableName;
                         variable.Address = currentVariableAddr;
-                        this.Variables.Add(variable);
+                        csProgram.Variables.Add(variable);
                         currentVariableAddr++; // TODO: check type of var and increment it according to size of the type
 
 
 
-                        this.Commands.Add(command);
+                        csProgram.Commands.Add(command);
 
                         // NO intruction change memory var area in compile-time
                         //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(variableValue);
@@ -309,13 +146,13 @@ namespace CSCompiler.Entities.CS
 
 
 
-                        var variableDestiny = GetVariableByName(variableDestinyName);
+                        var variableDestiny = GetVariableByName(csProgram, variableDestinyName);
 
 
                         if (currentCommandTokens[2] is LiteralToken)
                         {
                             var literalValue = currentCommandTokens[2].Text;
-                            
+
                             if (int.Parse(literalValue) > 255)
                             {
                                 throw new VariableOutsideOfRangeException(variableDestinyName);
@@ -323,25 +160,25 @@ namespace CSCompiler.Entities.CS
 
                             var command = new AtributionFromLiteralInstruction();
                             command.ParentCommand = parentCommand;
-                            command.CsProgram = this;
+                            command.CsProgram = csProgram;
                             command.Tokens = currentCommandTokens;
                             command.VariableResult = variableDestiny;
 
 
                             // add bytes of program
-                            var bytesOfCommand = command.MachineCode();
-                            currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                            //var bytesOfCommand = command.MachineCode();
+                            //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
                             //TODO: extract method
                             if (parentCommand == null)
                             {
-                                this.Commands.Add(command);
+                                csProgram.Commands.Add(command);
                             }
                             else
                             {
                                 ((ComplexCommand)parentCommand).InnerCommands.Add(command);
                             }
-                            
+
                             // Atribution intruction DON'T change memory var area!
                             //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
                         }
@@ -349,21 +186,21 @@ namespace CSCompiler.Entities.CS
                         {
                             var variableSourceName = currentCommandTokens[2].Text;
 
-                            var variableSource = GetVariableByName(variableSourceName);
+                            var variableSource = GetVariableByName(csProgram, variableSourceName);
 
                             var command = new AtributionFromVarInstruction();
                             command.ParentCommand = parentCommand;
-                            command.CsProgram = this;
+                            command.CsProgram = csProgram;
                             command.Tokens = currentCommandTokens;
                             command.VariableSource = variableSource;
                             command.VariableDestiny = variableDestiny;
 
 
                             // add bytes of program
-                            var bytesOfCommand = command.MachineCode();
-                            currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                            //var bytesOfCommand = command.MachineCode();
+                            //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
-                            this.Commands.Add(command);
+                            csProgram.Commands.Add(command);
 
                             // Atribution intruction DON'T change memory var area!
                             //machineCodeProgram.Bytes[this.GetNextVariableAddress()] = Convert.ToByte(literalValue);
@@ -380,11 +217,11 @@ namespace CSCompiler.Entities.CS
                         var arithmeticSignal1 = currentCommandTokens[1].Text;
                         var arithmeticSignal2 = currentCommandTokens[2].Text;
 
-                        var variable = GetVariableByName(variableName);
+                        var variable = GetVariableByName(csProgram, variableName);
 
                         var command = new IncrementInstruction();
                         command.ParentCommand = parentCommand;
-                        command.CsProgram = this;
+                        command.CsProgram = csProgram;
                         command.Tokens = currentCommandTokens;
                         command.VariableOperand = variable;
                         if (arithmeticSignal1 == "+" && arithmeticSignal2 == "+")
@@ -398,10 +235,10 @@ namespace CSCompiler.Entities.CS
 
 
                         // add bytes of program
-                        var bytesOfCommand = command.MachineCode();
-                        currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                        //var bytesOfCommand = command.MachineCode();
+                        //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
-                        this.Commands.Add(command);
+                        csProgram.Commands.Add(command);
                     }
                     // Test whether is an Arithmetic Instruction
                     else if (currentCommandTokens.Count == 6
@@ -414,7 +251,7 @@ namespace CSCompiler.Entities.CS
                     {
                         var variableDestinyName = currentCommandTokens[0].Text;
 
-                        var variableDestiny = GetVariableByName(variableDestinyName);
+                        var variableDestiny = GetVariableByName(csProgram, variableDestinyName);
 
 
                         if (currentCommandTokens[2] is IdentifierToken && currentCommandTokens[4] is LiteralToken)
@@ -448,13 +285,13 @@ namespace CSCompiler.Entities.CS
                             var variableRightOperandName = currentCommandTokens[4].Text;
                             var arithmeticOperation = currentCommandTokens[3].Text;
 
-                            var variableLeftOperand = GetVariableByName(variableLeftOperandName);
+                            var variableLeftOperand = GetVariableByName(csProgram, variableLeftOperandName);
 
-                            var variableRightOperand = GetVariableByName(variableRightOperandName);
+                            var variableRightOperand = GetVariableByName(csProgram, variableRightOperandName);
 
                             var command = new ArithmeticInstruction();
                             command.ParentCommand = parentCommand;
-                            command.CsProgram = this;
+                            command.CsProgram = csProgram;
                             command.Tokens = currentCommandTokens;
                             command.VariableLeftOperand = variableLeftOperand;
                             command.VariableRightOperand = variableRightOperand;
@@ -474,10 +311,10 @@ namespace CSCompiler.Entities.CS
                             }
 
                             // add bytes of program
-                            var bytesOfCommand = command.MachineCode();
-                            currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                            //var bytesOfCommand = command.MachineCode();
+                            //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
-                            this.Commands.Add(command);
+                            csProgram.Commands.Add(command);
                         }
                     }
                     // Test whether is an Command Instruction
@@ -493,20 +330,20 @@ namespace CSCompiler.Entities.CS
                     {
                         var variableName = currentCommandTokens[4].Text;
 
-                        var variable = GetVariableByName(variableName);
+                        var variable = GetVariableByName(csProgram, variableName);
 
                         var command = new CommandInstruction();
                         command.ParentCommand = parentCommand;
-                        command.CsProgram = this;
+                        command.CsProgram = csProgram;
                         command.Tokens = currentCommandTokens;
                         command.VariableOperand = variable;
 
 
                         // add bytes of program
-                        var bytesOfCommand = command.MachineCode();
-                        currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+                        //var bytesOfCommand = command.MachineCode();
+                        //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
 
-                        this.Commands.Add(command);
+                        csProgram.Commands.Add(command);
                     }
                     else
                     {
@@ -519,24 +356,12 @@ namespace CSCompiler.Entities.CS
                 }
             }
 
-            return machineCodeProgram;
+            return csProgram;
         }
 
-        public MachineCodeProgram ConvertCommandsToMachineCode()
+        private static Variable GetVariableByName(CSProgram csProgram, string variableLeftOperandName)
         {
-            var machineCodeProgram = new MachineCodeProgram();
-
-            foreach (var command in Commands)
-            {
-                ((List<byte>)machineCodeProgram.Bytes).AddRange(command.MachineCode());
-            }
-
-            return machineCodeProgram;
-        }
-
-        private Variable GetVariableByName(string variableLeftOperandName)
-        {
-            var variableLeftOperand = this.Variables.Where(x => x.Name == variableLeftOperandName).FirstOrDefault();
+            var variableLeftOperand = csProgram.Variables.Where(x => x.Name == variableLeftOperandName).FirstOrDefault();
             if (variableLeftOperand == null)
             {
                 throw new UndefinedVariableException(variableLeftOperandName);
@@ -545,22 +370,21 @@ namespace CSCompiler.Entities.CS
             return variableLeftOperand;
         }
 
-        private static int AddBytesOfCommand(MachineCodeProgram machineCodeProgram, int currentProgramAddr, IList<byte> bytesOfCommand)
-        {
-            var j = 0;
-            for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
-            {
-                machineCodeProgram.Bytes[i] = bytesOfCommand[j++];
-            }
-            currentProgramAddr = currentProgramAddr + bytesOfCommand.Count;
-            return currentProgramAddr;
-        }
+        //private static int AddBytesOfCommand(MachineCodeProgram machineCodeProgram, int currentProgramAddr, IList<byte> bytesOfCommand)
+        //{
+        //    var j = 0;
+        //    for (var i = currentProgramAddr; i < currentProgramAddr + bytesOfCommand.Count; i++)
+        //    {
+        //        machineCodeProgram.Bytes[i] = bytesOfCommand[j++];
+        //    }
+        //    currentProgramAddr = currentProgramAddr + bytesOfCommand.Count;
+        //    return currentProgramAddr;
+        //}
 
-        private int GetNextVariableAddress()
-        {
-            // TODO: this should sum the sizes of each variable
-            return Constants.BASE_ADDR_VARIABLES + this.Variables.Count - 1;
-        }
-
+        //private static int GetNextVariableAddress()
+        //{
+        //    // TODO: this should sum the sizes of each variable
+        //    return Constants.BASE_ADDR_VARIABLES + this.Variables.Count - 1;
+        //}
     }
 }
