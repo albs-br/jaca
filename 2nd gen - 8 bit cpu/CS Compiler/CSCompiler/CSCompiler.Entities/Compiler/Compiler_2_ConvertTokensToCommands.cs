@@ -1,5 +1,6 @@
 ﻿using CSCompiler.Entities.CS;
 using CSCompiler.Entities.CS.Tokens;
+using CSCompiler.Entities.MachineCode;
 using CSCompiler.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -71,7 +72,7 @@ namespace CSCompiler.Entities.Compiler
                     var command = new IfInstruction();
                     command.ParentCommand = parentCommand;
                     command.CsProgram = csProgram;
-                    command.Tokens = currentCommandTokens;
+                    command.Tokens = new List<Token>(currentCommandTokens);
                     command.BaseInstructionAddress = currentProgramAddr;
 
                     command.VariableLeftOperand = variableLeftOperand;
@@ -112,11 +113,12 @@ namespace CSCompiler.Entities.Compiler
                         var command = new VarDefinitionInstruction();
                         command.ParentCommand = parentCommand;
                         command.CsProgram = csProgram;
-                        command.Tokens = currentCommandTokens;
+                        command.Tokens = new List<Token>(currentCommandTokens);
 
                         // add bytes of program
                         //var bytesOfCommand = command.MachineCode();
                         //currentProgramAddr = AddBytesOfCommand(machineCodeProgram, currentProgramAddr, bytesOfCommand);
+
 
 
 
@@ -126,6 +128,11 @@ namespace CSCompiler.Entities.Compiler
                         csProgram.Variables.Add(variable);
                         currentVariableAddr++; // TODO: check type of var and increment it according to size of the type
 
+                        command.Variable = variable;
+
+
+                        // Update currentProgramAddr 
+                        currentProgramAddr += command.MachineCode().Count;
 
 
                         csProgram.Commands.Add(command);
@@ -161,7 +168,7 @@ namespace CSCompiler.Entities.Compiler
                             var command = new AtributionFromLiteralInstruction();
                             command.ParentCommand = parentCommand;
                             command.CsProgram = csProgram;
-                            command.Tokens = currentCommandTokens;
+                            command.Tokens = new List<Token>(currentCommandTokens);
                             command.VariableResult = variableDestiny;
 
 
@@ -191,7 +198,7 @@ namespace CSCompiler.Entities.Compiler
                             var command = new AtributionFromVarInstruction();
                             command.ParentCommand = parentCommand;
                             command.CsProgram = csProgram;
-                            command.Tokens = currentCommandTokens;
+                            command.Tokens = new List<Token>(currentCommandTokens);
                             command.VariableSource = variableSource;
                             command.VariableDestiny = variableDestiny;
 
@@ -222,7 +229,7 @@ namespace CSCompiler.Entities.Compiler
                         var command = new IncrementInstruction();
                         command.ParentCommand = parentCommand;
                         command.CsProgram = csProgram;
-                        command.Tokens = currentCommandTokens;
+                        command.Tokens = new List<Token>(currentCommandTokens);
                         command.VariableOperand = variable;
                         if (arithmeticSignal1 == "+" && arithmeticSignal2 == "+")
                         {
@@ -266,7 +273,7 @@ namespace CSCompiler.Entities.Compiler
 
                             //var command = new AtributionFromLiteralInstruction();
                             //command.csProgram = this;
-                            //command.Tokens = currentCommandTokens;
+                            //command.Tokens = new List<Token>(currentCommandTokens);
                             //command.VariableResult = variableDestiny;
 
 
@@ -292,7 +299,7 @@ namespace CSCompiler.Entities.Compiler
                             var command = new ArithmeticInstruction();
                             command.ParentCommand = parentCommand;
                             command.CsProgram = csProgram;
-                            command.Tokens = currentCommandTokens;
+                            command.Tokens = new List<Token>(currentCommandTokens);
                             command.VariableLeftOperand = variableLeftOperand;
                             command.VariableRightOperand = variableRightOperand;
                             command.VariableDestiny = variableDestiny;
@@ -335,7 +342,7 @@ namespace CSCompiler.Entities.Compiler
                         var command = new CommandInstruction();
                         command.ParentCommand = parentCommand;
                         command.CsProgram = csProgram;
-                        command.Tokens = currentCommandTokens;
+                        command.Tokens = new List<Token>(currentCommandTokens);
                         command.VariableOperand = variable;
 
 

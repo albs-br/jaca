@@ -50,11 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConvertSourceToTokensTests.cs" />
+    <Compile Include="Step3_ConvertCommandsToMachineCodeTests.cs" />
+    <Compile Include="Step1_ConvertSourceToTokensTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConvertTokensToMachineCodeTests_old.cs" />
     <Compile Include="FullCompileTests.cs" />
-    <Compile Include="ConvertTokensToCommandsTests.cs" />
+    <Compile Include="Step2_ConvertTokensToCommandsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSCompiler.Entities\CSCompiler.Entities.csproj">

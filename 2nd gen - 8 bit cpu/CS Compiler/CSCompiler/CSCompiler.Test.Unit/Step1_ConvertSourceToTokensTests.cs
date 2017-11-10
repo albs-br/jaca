@@ -8,7 +8,7 @@ using CSCompiler.Entities.Compiler;
 namespace CSCompiler.Test.Unit
 {
     [TestClass]
-    public class ConvertSourceToTokensTests
+    public class Step1_ConvertSourceToTokensTests
     {
         [TestMethod]
         public void Test_SourceToTokens_Simple_VarDefinitionInstruction_1()

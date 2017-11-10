@@ -19,9 +19,16 @@ namespace CSCompiler.Entities.Compiler
         {
             var machineCodeProgram = new MachineCodeProgram();
 
+            var address = Constants.BASE_ADDR_PROGRAM;
+
             foreach (var command in csProgram.Commands)
             {
-                ((List<byte>)machineCodeProgram.Bytes).AddRange(command.MachineCode());
+                foreach (var b in command.MachineCode())
+                {
+                    machineCodeProgram.Bytes[address] = b;
+
+                    address++;
+                }
             }
 
             return machineCodeProgram;

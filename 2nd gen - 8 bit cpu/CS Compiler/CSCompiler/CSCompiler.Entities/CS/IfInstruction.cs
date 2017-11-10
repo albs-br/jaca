@@ -24,6 +24,9 @@ namespace CSCompiler.Entities.CS
         public Variable VariableRightOperand { get; set; }
         //public EnumComparisonType ComparisonType { get; set; }
 
+        //public int AddressOfThen { get; set; }
+        //public int AddressOfElse { get; set; }
+
         public override IList<byte> MachineCode()
         {
             int addrLeftOperand = this.VariableLeftOperand.Address;
@@ -77,6 +80,7 @@ namespace CSCompiler.Entities.CS
             int addrTrue = BaseInstructionAddress + bytes.Count + 6; // 6 is the size in byte of the next two JP instructions
             byte addrTrue_hi = HiByteOf(addrTrue);
             byte addrTrue_lo = LowByteOf(addrTrue);
+            //AddressOfThen = addrTrue;
 
             bytes.Add(0x18);            // JP Z, addrTrue
             bytes.Add(addrTrue_hi);     //
@@ -98,6 +102,7 @@ namespace CSCompiler.Entities.CS
             int addrFalse = BaseInstructionAddress + bytes.Count;
             byte addrFalse_hi = HiByteOf(addrFalse);
             byte addrFalse_lo = LowByteOf(addrFalse);
+            //AddressOfElse = addrFalse;
 
             bytes[indexOfJpInstrAddr] = addrFalse_hi;
             bytes[indexOfJpInstrAddr+1] = addrFalse_lo;

@@ -1,22 +1,33 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CSCompiler.Entities.Compiler;
 using System.Collections.Generic;
+using CSCompiler.Entities.CS.Tokens;
+using CSCompiler.Entities.Compiler;
+using CSCompiler.Entities.CS;
+
 
 namespace CSCompiler.Test.Unit
 {
     [TestClass]
-    public class FullCompileTests
+    public class Step3_ConvertCommandsToMachineCodeTests
     {
         [TestMethod]
-        public void Test_FullCompile_Simple_VarDefinitionInstruction_1()
+        public void Test_ConvertCommandsToMachineCode_Simple_VarDefinitionInstruction_1()
         {
             // Arrange
-            var source = "byte myVar = 17;";
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken()
+            };
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
 
 
             // Act
-            var machineCodeProgram = Compiler.Compile(source);
+            var machineCodeProgram = Compiler.ConvertCommandsToMachineCode(csProgram);
 
 
             // Assert
@@ -28,18 +39,35 @@ namespace CSCompiler.Test.Unit
 
             var stringOutput = machineCodeProgram.GetBytesAsString(32768, expected.Count);
             Assert.AreEqual("04 00 11 05 00 ce 05 80 20 2c 00 00 ", stringOutput);
+
+            //Assert.AreEqual(1, csProgram.Commands.Count);
+            //Assert.AreEqual(1, csProgram.Variables.Count);
+            //Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            //Assert.AreEqual(52768, csProgram.Variables[0].Address);
         }
 
         [TestMethod]
-        public void Test_FullCompile_Two_VarDefinitionInstructions()
+        public void Test_ConvertCommandsToMachineCode_Two_VarDefinitionInstructions()
         {
             // Arrange
-            var source = "byte myVar = 17;" + Environment.NewLine +
-                         "byte myVar2 = 88;";
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("17"),
+                new SemicolonToken(),
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("88"),
+                new SemicolonToken()
+            };
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
 
 
             // Act
-            var machineCodeProgram = Compiler.Compile(source);
+            var machineCodeProgram = Compiler.ConvertCommandsToMachineCode(csProgram);
 
 
             // Assert
@@ -56,18 +84,43 @@ namespace CSCompiler.Test.Unit
         // TODO: many tests here (copy from _old)
 
         [TestMethod]
-        public void Test_TokensToMachineCode_IfInstruction_2()
+        public void Test_ConvertCommandsToMachineCode_IfInstruction_2()
         {
             // Arrange
-            var source = "byte myVar = 65;" + Environment.NewLine +
-                         "byte myVar2 = 65;" + Environment.NewLine +
-                         "if(myVar == myVar2) {" + Environment.NewLine +
-                         "  myVar = 27;" + Environment.NewLine +
-                         "}";
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("65"),
+                new SemicolonToken(),
+
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("65"),
+                new SemicolonToken(),
+
+                new KeywordToken("if"),         // if(myVar == myVar2) { }
+                new OpenParenthesisToken(),
+                new IdentifierToken("myVar"),
+                new ComparisonToken("=="),
+                new IdentifierToken("myVar2"),
+                new CloseParenthesisToken(),
+                new OpenBracesToken(),
+
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("27"),
+                new SemicolonToken(),
+                
+                new CloseBracesToken(),
+            };
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
 
 
             // Act
-            var machineCodeProgram = Compiler.Compile(source);
+            var machineCodeProgram = Compiler.ConvertCommandsToMachineCode(csProgram);
 
 
             // Assert

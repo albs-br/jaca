@@ -15,7 +15,9 @@ namespace CSCompiler.Entities.CS
         // ST [HL], A
 
         // TODO:
-        // change last 3 instructions to ST [addr], A (depends on correrct implementation in circuit)
+        // change last 3 instructions to ST [addr], A (depends on correct implementation in circuit)
+
+        public Variable Variable { get; set; }
 
         public static bool CheckFormat(IList<Token> tokens)
         {
@@ -31,7 +33,8 @@ namespace CSCompiler.Entities.CS
         {
             var value = Convert.ToByte(this.Tokens[3].Text);
 
-            int addr = Constants.BASE_ADDR_VARIABLES + this.CsProgram.Variables.Count;
+            //int addr = Constants.BASE_ADDR_VARIABLES + this.CsProgram.Variables.Count;
+            var addr = Variable.Address;
             byte addr_hi = HiByteOf(addr);
             byte addr_lo = LowByteOf(addr);
 
