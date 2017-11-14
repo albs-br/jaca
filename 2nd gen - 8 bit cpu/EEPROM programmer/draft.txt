@@ -1,0 +1,21 @@
+arduino uno / nano
+
+digital i/o pins:
+
+0-13 (14 pins)
+
+8 bit data
+
+6 bit addr (64 bytes)
+
+--------------------
+
+2 bit (control):
+00 load addr hi
+01 load addr lo
+10 load data
+11 commit data to addr
+
+7 bit addr hi
+8 bit addr lo (total 15 bit of addr, 32k words of 8 bits each)
+8 bit data

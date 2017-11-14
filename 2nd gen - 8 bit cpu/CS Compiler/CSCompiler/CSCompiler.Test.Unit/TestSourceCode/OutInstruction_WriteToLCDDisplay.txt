@@ -1,0 +1,2 @@
+﻿byte myVar = 65;
+out(0,myVar);

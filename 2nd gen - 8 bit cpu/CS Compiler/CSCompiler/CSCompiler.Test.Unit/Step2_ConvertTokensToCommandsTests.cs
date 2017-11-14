@@ -69,6 +69,144 @@ namespace CSCompiler.Test.Unit
         // TODO: many tests here (copy from _old)
 
         [TestMethod]
+        public void Test_ConvertTokensToCommands_ArithmeticInstruction_Inc()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("89"),
+                new SemicolonToken(),
+
+                new IdentifierToken("myVar"),
+                new ArithmeticSignalToken("+"),
+                new ArithmeticSignalToken("+"),
+                new SemicolonToken()
+            };
+
+
+            // Act
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
+
+
+            // Assert
+            Assert.AreEqual(2, csProgram.Commands.Count);
+            Assert.AreEqual(1, csProgram.Variables.Count);
+            Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            Assert.AreEqual(52768, csProgram.Variables[0].Address);
+        }
+
+        [TestMethod]
+        public void Test_ConvertTokensToCommands_ArithmeticInstruction_Dec()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("89"),
+                new SemicolonToken(),
+
+                new IdentifierToken("myVar"),
+                new ArithmeticSignalToken("-"),
+                new ArithmeticSignalToken("-"),
+                new SemicolonToken()
+            };
+
+
+            // Act
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
+
+
+            // Assert
+            Assert.AreEqual(2, csProgram.Commands.Count);
+            Assert.AreEqual(1, csProgram.Variables.Count);
+            Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            Assert.AreEqual(52768, csProgram.Variables[0].Address);
+        }
+
+        [TestMethod]
+        public void Test_ConvertTokensToCommands_OutInstruction_WriteToLCDDisplay()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("65"),     // ASCII char 'A'
+                new SemicolonToken(),
+
+                new CommandToken("out"),
+                new OpenParenthesisToken(),
+                new LiteralToken("0"),
+                new CommaToken(),
+                new IdentifierToken("myVar"),
+                new CloseParenthesisToken(),
+                new SemicolonToken(),
+            };
+
+
+            // Act
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
+
+
+            // Assert
+            Assert.AreEqual(2, csProgram.Commands.Count);
+            Assert.AreEqual(1, csProgram.Variables.Count);
+            Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            Assert.AreEqual(52768, csProgram.Variables[0].Address);
+        }
+
+        [TestMethod]
+        public void Test_ConvertTokensToCommands_IfInstruction_1()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new TypeToken("byte"),
+                new IdentifierToken("myVar"),
+                new EqualToken(),
+                new LiteralToken("65"),
+                new SemicolonToken(),
+
+                new TypeToken("byte"),
+                new IdentifierToken("myVar2"),
+                new EqualToken(),
+                new LiteralToken("65"),
+                new SemicolonToken(),
+
+                new KeywordToken("if"),         // if(myVar == myVar2) { }
+                new OpenParenthesisToken(),
+                new IdentifierToken("myVar"),
+                new ComparisonToken("=="),
+                new IdentifierToken("myVar2"),
+                new CloseParenthesisToken(),
+                new OpenBracesToken(),
+                new CloseBracesToken(),
+            };
+
+
+            // Act
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
+
+
+            // Assert
+            Assert.AreEqual(3, csProgram.Commands.Count);
+            Assert.IsInstanceOfType(csProgram.Commands[0], typeof(VarDefinitionInstruction));
+            Assert.IsInstanceOfType(csProgram.Commands[1], typeof(VarDefinitionInstruction));
+            Assert.IsInstanceOfType(csProgram.Commands[2], typeof(IfInstruction));
+            Assert.AreEqual(2, csProgram.Variables.Count);
+            Assert.AreEqual("myVar", csProgram.Variables[0].Name);
+            Assert.AreEqual("myVar2", csProgram.Variables[1].Name);
+            Assert.AreEqual(52768, csProgram.Variables[0].Address);
+            Assert.AreEqual(52769, csProgram.Variables[1].Address);
+        }
+
+        [TestMethod]
         public void Test_ConvertTokensToCommands_IfInstruction_2()
         {
             // Arrange

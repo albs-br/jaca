@@ -24,4 +24,4 @@ ps/2 female connector (for keyboard)		OK
 08-11-2017:
 
 74LS595 (shift register) (for arduino eeprom programmer)		OK
-assorted ceramic capacitors with box				
+assorted ceramic capacitors with box				OK

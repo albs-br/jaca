@@ -1,0 +1,2 @@
+﻿byte myVar = 89;
+myVar--;

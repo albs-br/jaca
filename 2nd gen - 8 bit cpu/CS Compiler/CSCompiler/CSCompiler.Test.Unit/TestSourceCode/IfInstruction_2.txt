@@ -1,0 +1,5 @@
+﻿byte myVar = 65;
+byte myVar2 = 65;
+if(myVar == myVar2) {
+  myVar = 27;
+}
