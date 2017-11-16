@@ -53,7 +53,200 @@ namespace CSCompiler.Test.Unit
             CollectionAssert.AreEqual(expected, actual);
         }
 
-        // TODO: many tests here (copy from _old)
+        [TestMethod]
+        public void Test_FullCompile_Two_VarDefinitionInstructions_OneAtributionInstruction()
+        {
+            // Arrange
+            var source = GetFromFile("Two_VarDefinitionInstructions_OneAtributionInstruction");
+
+
+            // Act
+            var machineCodeProgram = Compiler.Compile(source);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 17,
+                0x05, 0x00, 0xce,
+                0x05, 0x80, 0x20,
+                0x2c, 0x00, 0x00,
+
+                0x04, 0x00, 88,
+                0x05, 0x00, 0xce,
+                0x05, 0x80, 0x21,
+                0x2c, 0x00, 0x00,
+
+                0x04, 0x00, 99,
+                0x05, 0x00, 0xce,
+                0x05, 0x80, 0x21,
+                0x2c, 0x00, 0x00,
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Test_FullCompile_Two_VarDefinitionInstructions_OneAtributionFromVarInstruction()
+        {
+            // Arrange
+            var source = GetFromFile("Two_VarDefinitionInstructions_OneAtributionFromVarInstruction");
+
+
+            // Act
+            var machineCodeProgram = Compiler.Compile(source);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 17,     // LD A, 17     // byte myVar = 17;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+
+                0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x2c, 0x00, 0x00,   // ST [HL], A
+                
+                0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar2;
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x10, 0x00, 0x00,   // LD A, [HL]
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Test_FullCompile_ArithmeticInstruction_Add_1()
+        {
+            // Arrange
+            var source = GetFromFile("ArithmeticInstruction_Add_1");
+
+
+            // Act
+            var machineCodeProgram = Compiler.Compile(source);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 17,     // LD A, 17     // byte myVar = 17;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+
+                0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x2c, 0x00, 0x00,   // ST [HL], A
+                
+                0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar + myVar2;
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x10, 0x00, 0x00,   // LD A, [HL]
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x12, 0x00, 0x00,   // LD C, [HL]
+                0x80, 0x40, 0x00,   // ADD A, C
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Test_FullCompile_ArithmeticInstruction_Add_2()
+        {
+            // Arrange
+            var source = GetFromFile("ArithmeticInstruction_Add_2");
+
+
+            // Act
+            var machineCodeProgram = Compiler.Compile(source);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 17,     // LD A, 17     // byte myVar = 17;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+
+                0x04, 0x00, 12,     // LD A, 12     // byte myVar1 = 12;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x2c, 0x00, 0x00,   // ST [HL], A
+                
+                0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x22,   // LD L, 0x22
+                0x2c, 0x00, 0x00,   // ST [HL], A
+                
+                0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar + myVar2;
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x10, 0x00, 0x00,   // LD A, [HL]
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x22,   // LD L, 0x22
+                0x12, 0x00, 0x00,   // LD C, [HL]
+                0x80, 0x40, 0x00,   // ADD A, C
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Test_FullCompile_ArithmeticInstruction_Sub()
+        {
+            // Arrange
+            var source = GetFromFile("ArithmeticInstruction_Sub");
+
+
+            // Act
+            var machineCodeProgram = Compiler.Compile(source);
+
+
+            // Assert
+            Assert.AreEqual(65536, machineCodeProgram.Bytes.Count);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 89,     // LD A, 89     // byte myVar = 89;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+
+                0x04, 0x00, 88,     // LD A, 88     // byte myVar2 = 88;
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x2c, 0x00, 0x00,   // ST [HL], A
+                
+                0x05, 0x00, 0xce,   // LD H, 0xce   // myVar = myVar - myVar2;
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x10, 0x00, 0x00,   // LD A, [HL]
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x21,   // LD L, 0x21
+                0x12, 0x00, 0x00,   // LD C, [HL]
+                0x84, 0x40, 0x00,   // SUB A, C
+                0x05, 0x00, 0xce,   // LD H, 0xce
+                0x05, 0x80, 0x20,   // LD L, 0x20
+                0x2c, 0x00, 0x00,   // ST [HL], A
+            });
+            var actual = ((List<byte>)machineCodeProgram.Bytes).GetRange(32768, expected.Count);
+            CollectionAssert.AreEqual(expected, actual);
+        }
 
         [TestMethod]
         public void Test_FullCompile_ArithmeticInstruction_Inc()

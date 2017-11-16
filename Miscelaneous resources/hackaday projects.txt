@@ -1,0 +1,4 @@
+- JACA homebew computer
+- AT28C256 EEPROM programmer
+- Gameboy Zero
+- VGA controller for homebrew computer

@@ -1,0 +1,4 @@
+﻿byte myVar = 17;
+byte myVar1 = 12;
+byte myVar2 = 88;
+myVar = myVar1 + myVar2;
