@@ -12,6 +12,7 @@ namespace CSCompiler.Entities.CS
         public Command()
         {
             this.Tokens = new List<Token>();
+            this.AssemblyCommands = new List<string>();
         }
 
         public Command ParentCommand { get; set; }
@@ -21,6 +22,8 @@ namespace CSCompiler.Entities.CS
         public IList<Token> Tokens { get; set; }
 
         public int BaseInstructionAddress { get; set; }
+
+        public IList<string> AssemblyCommands { get; set; }
 
         public abstract IList<byte> MachineCode();
 
@@ -44,5 +47,11 @@ namespace CSCompiler.Entities.CS
             return (byte)(number & 0xFF);
         }
 
+        public void AddAssemblyCommand(string assemblyCommand)
+        {
+            var str = string.Format("{0:x4}    {1}", BaseInstructionAddress, assemblyCommand);
+
+            AssemblyCommands.Add(str);
+        }
     }
 }

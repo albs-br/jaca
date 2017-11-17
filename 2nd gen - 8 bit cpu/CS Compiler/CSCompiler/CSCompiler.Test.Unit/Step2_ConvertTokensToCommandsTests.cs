@@ -540,7 +540,7 @@ namespace CSCompiler.Test.Unit
 
         [TestMethod]
         [ExpectedException(typeof(InvalidInstructionFormatException))]
-        public void Test_ConvertTokensToCommands_InvalidInstructionFormatException_ThrowsException()
+        public void Test_ConvertTokensToCommands_InvalidInstructionFormat_ThrowsException()
         {
             // Arrange
             var tokens = new List<Token>
@@ -558,7 +558,7 @@ namespace CSCompiler.Test.Unit
 
         [TestMethod]
         [ExpectedException(typeof(InvalidInstructionFormatException))]
-        public void Test_ConvertTokensToCommands_InvalidInstructionFormatException_1_ThrowsException()
+        public void Test_ConvertTokensToCommands_InvalidInstructionFormat_1_ThrowsException()
         {
             // Arrange
             var tokens = new List<Token>
@@ -575,7 +575,7 @@ namespace CSCompiler.Test.Unit
 
         [TestMethod]
         [ExpectedException(typeof(InvalidInstructionFormatException))]
-        public void Test_ConvertTokensToCommands_InvalidInstructionFormatException_2_ThrowsException()
+        public void Test_ConvertTokensToCommands_InvalidInstructionFormat_2_ThrowsException()
         {
             // Arrange
             var tokens = new List<Token>
@@ -594,7 +594,7 @@ namespace CSCompiler.Test.Unit
 
         [TestMethod]
         [ExpectedException(typeof(InvalidInstructionFormatException))]
-        public void Test_ConvertTokensToCommands_InvalidInstructionFormatException_3_ThrowsException()
+        public void Test_ConvertTokensToCommands_InvalidInstructionFormat_3_ThrowsException()
         {
             // Arrange
             var tokens = new List<Token>
@@ -604,6 +604,55 @@ namespace CSCompiler.Test.Unit
                 new EqualToken(),
                 new LiteralToken("17"),
                 new SemicolonToken()
+            };
+
+
+            // Act
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnmatchingBracesException))]
+        public void Test_ConvertTokensToCommands_UnmatchingBraces_1_ThrowsException()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new CloseBracesToken()
+            };
+
+
+            // Act
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnmatchingBracesException))]
+        public void Test_ConvertTokensToCommands_UnmatchingBraces_2_ThrowsException()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new OpenBracesToken(),
+                new OpenBracesToken(),
+                new CloseBracesToken()
+            };
+
+
+            // Act
+            var csProgram = Compiler.ConvertTokensToCommands(tokens);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnmatchingBracesException))]
+        public void Test_ConvertTokensToCommands_UnmatchingBraces_3_ThrowsException()
+        {
+            // Arrange
+            var tokens = new List<Token>
+            {
+                new OpenBracesToken(),
+                new CloseBracesToken(),
+                new CloseBracesToken()
             };
 
 

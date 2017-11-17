@@ -42,18 +42,26 @@ namespace CSCompiler.Entities.CS
             bytes.Add(0x00);
             bytes.Add(0x00);
 
+            AddAssemblyCommand("LD H, " + addrOperand_hi);
+            AddAssemblyCommand("LD L, " + addrOperand_lo);
+            AddAssemblyCommand("LD A, [HL]");
+
             switch (IncrementOperation)
             {
                 case EnumIncrementOperation.Increment:
                     bytes.Add(0xa0);           // INC A
                     bytes.Add(0x40);
                     bytes.Add(0x00);
+
+                    AddAssemblyCommand("INC A");
                     break;
 
                 case EnumIncrementOperation.Decrement:
                     bytes.Add(0xa4);           // DEC A
                     bytes.Add(0x40);
                     bytes.Add(0x00);
+
+                    AddAssemblyCommand("DEC A");
                     break;
 
                 default:
@@ -63,7 +71,9 @@ namespace CSCompiler.Entities.CS
             bytes.Add(0x2c);           // ST [HL], A
             bytes.Add(0x00);
             bytes.Add(0x00);
-            
+
+            AddAssemblyCommand("ST [HL], A");
+
             return bytes;
         }
     }

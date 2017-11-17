@@ -9,6 +9,18 @@ namespace CSCompiler.Entities.CS.Tokens
     public abstract class Token
     {
         public string Text { get; set; }
+
+        public string TokenToString()
+        {
+            var output = Text + " ";
+
+            if (this is SemicolonToken || this is OpenBracesToken || this is CloseBracesToken)
+            {
+                output += Environment.NewLine;
+            }
+
+            return output;
+        }
     }
 
     public abstract class OperandToken : Token

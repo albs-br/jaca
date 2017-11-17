@@ -20,7 +20,6 @@ namespace CSCompiler.Entities.Compiler
         public static CSProgram ConvertTokensToCommands(IList<Token> tokens)
         {
             var csProgram = new CSProgram();
-            //var machineCodeProgram = new MachineCodeProgram();
             var currentProgramAddr = Constants.BASE_ADDR_PROGRAM;
             var currentVariableAddr = Constants.BASE_ADDR_VARIABLES;
 
@@ -33,18 +32,13 @@ namespace CSCompiler.Entities.Compiler
             {
                 currentCommandTokens.Add(token);
 
-                // TODO:
-                //if (bracesOpened == 0 && token is CloseBracesToken) 
-                //{
-                //    throw new UnmatchingBracesException();
-                //}
-                //else
+                if (bracesOpened == 0 && token is CloseBracesToken)
+                {
+                    throw new UnmatchingBracesException();
+                }
+                else
                 if (bracesOpened > 0 && token is CloseBracesToken)
                 {
-                    //this.Commands.Add(parentCommand);
-
-                    //ConvertTokensToMachineCode(, command);
-
                     parentCommand = null;
 
                     bracesOpened--;
@@ -131,6 +125,7 @@ namespace CSCompiler.Entities.Compiler
                         command.Variable = variable;
 
 
+                        //TODO: all instructions must update currentProgramAddr (or not)?
                         // Update currentProgramAddr 
                         currentProgramAddr += command.MachineCode().Count;
 
@@ -231,6 +226,8 @@ namespace CSCompiler.Entities.Compiler
                         command.CsProgram = csProgram;
                         command.Tokens = new List<Token>(currentCommandTokens);
                         command.VariableOperand = variable;
+                        command.BaseInstructionAddress = currentProgramAddr;
+
                         if (arithmeticSignal1 == "+" && arithmeticSignal2 == "+")
                         {
                             command.IncrementOperation = EnumIncrementOperation.Increment;
