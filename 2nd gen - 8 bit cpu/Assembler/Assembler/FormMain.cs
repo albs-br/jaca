@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace Assembler
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
         }
@@ -30,10 +30,12 @@ namespace Assembler
                 try
                 {
                     var instruction = converter.ConvertLine(line);
-
-                    textBoxBytes.Text += instruction[0].ToString("X").PadLeft(2);
-                    textBoxBytes.Text += " " + instruction[1].ToString("X").PadLeft(2);
-                    textBoxBytes.Text += " " + instruction[2].ToString("X").PadLeft(2);
+                    var text = String.Format("{0:x2} {1:x2} {2:x2}",
+                        instruction[0],
+                        instruction[1],
+                        instruction[2]
+                        );
+                    textBoxBytes.Text += text;
 
                     //program.Concat(instruction);
                 }
@@ -53,6 +55,19 @@ namespace Assembler
             }
         }
 
+        private void textBoxBytes_TextChanged(object sender, EventArgs e)
+        {
+            //
+        }
 
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
     }
 }
