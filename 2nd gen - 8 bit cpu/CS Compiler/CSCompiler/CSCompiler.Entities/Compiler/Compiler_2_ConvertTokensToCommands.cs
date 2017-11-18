@@ -1,5 +1,6 @@
 ﻿using CSCompiler.Entities.CS;
 using CSCompiler.Entities.CS.Tokens;
+using CSCompiler.Entities.Enums;
 using CSCompiler.Entities.MachineCode;
 using CSCompiler.Exceptions;
 using System;
@@ -119,6 +120,7 @@ namespace CSCompiler.Entities.Compiler
                         var variable = new Variable();
                         variable.Name = variableName;
                         variable.Address = currentVariableAddr;
+                        variable.VarType = EnumVarType.Byte;
                         csProgram.Variables.Add(variable);
                         currentVariableAddr++; // TODO: check type of var and increment it according to size of the type
 

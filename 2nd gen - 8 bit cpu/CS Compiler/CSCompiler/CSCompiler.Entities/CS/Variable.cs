@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSCompiler.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,13 @@ namespace CSCompiler.Entities.CS
     {
         public String Name { get; set; }
         public int Address { get; set; }
-        
-        // TODO:
-        //public EnumVarType VarType { get; set; }
+        public EnumVarType VarType { get; set; }
+
+
+        public string GetString()
+        {
+            return string.Format("{0:x4}  {1,7} {2}", Address, Name, VarType.ToString().ToLower());
+        }
 
         //public int GetSize()
         //{

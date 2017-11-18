@@ -13,9 +13,9 @@ using System.Windows.Forms;
 
 namespace CSCompiler
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
         }
@@ -52,6 +52,12 @@ namespace CSCompiler
                     }
                 }
 
+                TxtVariables.Text = "";
+                foreach (var variable in csProgram.Variables)
+                {
+                    TxtVariables.Text += variable.GetString() + Environment.NewLine;
+                }
+
                 TxtOutputMachineCode.Text = machineCodeProgram.GetBytesAsString(Constants.BASE_ADDR_PROGRAM, 256);
 
 
@@ -64,6 +70,7 @@ namespace CSCompiler
             {
                 TxtTokens.Text = "";
                 TxtAssemblyCommands.Text = "";
+                TxtVariables.Text = "";
                 TxtOutputMachineCode.Text = "";
 
 
@@ -72,6 +79,11 @@ namespace CSCompiler
                 LblMsgCsSourceCode.Text = ex.Message;
                 LblMsgCsSourceCode.ForeColor = Color.Red;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //
         }
     }
 }

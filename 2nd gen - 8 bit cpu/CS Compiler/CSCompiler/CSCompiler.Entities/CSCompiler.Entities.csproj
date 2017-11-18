@@ -47,8 +47,8 @@
     <Compile Include="CS\CommandInstruction.cs" />
     <Compile Include="CS\IncrementInstruction.cs" />
     <Compile Include="CS\Tokens\TokenStates.cs" />
-    <Compile Include="EnumIncrementOperation.cs" />
-    <Compile Include="EnumArithmeticOperation.cs" />
+    <Compile Include="Enums\EnumIncrementOperation.cs" />
+    <Compile Include="Enums\EnumArithmeticOperation.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CS\ArithmeticInstruction.cs" />
     <Compile Include="CS\AtributionFromVarInstruction.cs" />
@@ -60,8 +60,7 @@
     <Compile Include="CS\AtributionFromLiteralInstruction.cs" />
     <Compile Include="CS\VarDefinitionInstruction.cs" />
     <Compile Include="CS\Variable.cs" />
-    <Compile Include="EnumOpCodes.cs" />
-    <Compile Include="EnumRegisters.cs" />
+    <Compile Include="Enums\EnumVarType.cs" />
     <Compile Include="MachineCode\MachineCodeProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
