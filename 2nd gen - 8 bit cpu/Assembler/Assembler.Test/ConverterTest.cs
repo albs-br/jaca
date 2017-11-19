@@ -7,8 +7,6 @@ namespace Assembler.Test
     [TestClass]
     public class ConverterTest
     {
-        Converter converter = new Converter();
-
         #region LD instructions
 
         [TestMethod]
@@ -18,7 +16,7 @@ namespace Assembler.Test
             var line = "LD    A, 0x01";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(4, bytes[0]);
@@ -33,7 +31,7 @@ namespace Assembler.Test
             var line = "\t\tLD    A, 0x01"; // Tabs in front
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(4, bytes[0]);
@@ -48,7 +46,7 @@ namespace Assembler.Test
             var line = "LD B, 0x0a"; // address in lower case should work
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(4, bytes[0]);
@@ -63,7 +61,7 @@ namespace Assembler.Test
             var line = "LD C, 0XFF"; // X in upper case should work
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x06, bytes[0]);
@@ -78,7 +76,7 @@ namespace Assembler.Test
             var line = "LD A, B";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -93,7 +91,7 @@ namespace Assembler.Test
             var line = "LD A,B"; // Same as before, without space after comma
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -108,7 +106,7 @@ namespace Assembler.Test
             var line = "LD A, B"; // put crlf here
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -123,7 +121,7 @@ namespace Assembler.Test
             var line = "LD B, A";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -138,7 +136,7 @@ namespace Assembler.Test
             var line = "LD D, F";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x0a, bytes[0]);
@@ -153,7 +151,7 @@ namespace Assembler.Test
             var line = "LD E, F";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x0b, bytes[0]);
@@ -168,7 +166,7 @@ namespace Assembler.Test
             var line = "LD A, H";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x08, bytes[0]);
@@ -183,7 +181,7 @@ namespace Assembler.Test
             var line = "LD A, [0x00C]"; // address with 12 bits (3 hexadecimal digits)
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(12, bytes[0]);
@@ -198,7 +196,7 @@ namespace Assembler.Test
             var line = "LD B, [0x8]";  // address with 4 bits (1 hexadecimal digit)
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(12, bytes[0]);
@@ -213,7 +211,7 @@ namespace Assembler.Test
             var line = "LD C, [0xFF]";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x0e, bytes[0]);
@@ -228,7 +226,7 @@ namespace Assembler.Test
             var line = "LD C, [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x0e, bytes[0]);
@@ -243,7 +241,7 @@ namespace Assembler.Test
             var line = "LD C, [0xfff]";  // same as above with addr in lowercase
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x0e, bytes[0]);
@@ -258,7 +256,7 @@ namespace Assembler.Test
             var line = "LD A, [HL]";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x10, bytes[0]);
@@ -273,7 +271,7 @@ namespace Assembler.Test
             var line = "LD B, [HL]";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x10, bytes[0]);
@@ -290,7 +288,7 @@ namespace Assembler.Test
             var line = "// Commented line";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.IsNull(bytes);
@@ -305,7 +303,7 @@ namespace Assembler.Test
             var line = "ADD A, E";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x80, bytes[0]);
@@ -320,7 +318,7 @@ namespace Assembler.Test
             var line = "SUB A, F";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x84, bytes[0]);
@@ -335,7 +333,7 @@ namespace Assembler.Test
             var line = "NOT A";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x88, bytes[0]);
@@ -350,7 +348,7 @@ namespace Assembler.Test
             var line = "AND B, E";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x8c, bytes[0]);
@@ -365,7 +363,7 @@ namespace Assembler.Test
             var line = "OR A, E";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x90, bytes[0]);
@@ -380,7 +378,7 @@ namespace Assembler.Test
             var line = "XOR A, E";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x94, bytes[0]);
@@ -395,7 +393,7 @@ namespace Assembler.Test
             var line = "NOR A, E";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x98, bytes[0]);
@@ -410,7 +408,7 @@ namespace Assembler.Test
             var line = "XNOR A, E";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x9c, bytes[0]);
@@ -425,12 +423,23 @@ namespace Assembler.Test
             var line = "INC L";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0xa1, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotCommandLineException))]
+        public void ConvertLine_INC_ByRegister_2_Test()
+        {
+            // Arrange
+            var line = "INC";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
         }
 
         [TestMethod]
@@ -440,7 +449,7 @@ namespace Assembler.Test
             var line = "DEC B";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0xa4, bytes[0]);
@@ -455,7 +464,7 @@ namespace Assembler.Test
             var line = "DNW H";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0xa9, bytes[0]);
@@ -470,7 +479,7 @@ namespace Assembler.Test
             var line = "SUBM A, C";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0xac, bytes[0]);
@@ -491,7 +500,7 @@ namespace Assembler.Test
             var line = "JP [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x14, bytes[0]);
@@ -506,7 +515,7 @@ namespace Assembler.Test
             var line = "JP Z, [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x18, bytes[0]);
@@ -521,7 +530,7 @@ namespace Assembler.Test
             var line = "JP C, [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x30, bytes[0]);
@@ -536,7 +545,7 @@ namespace Assembler.Test
             var line = "CALL [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x1c, bytes[0]);
@@ -551,7 +560,7 @@ namespace Assembler.Test
             var line = "CALL Z, [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x20, bytes[0]);
@@ -566,7 +575,7 @@ namespace Assembler.Test
             var line = "CALL C, [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x34, bytes[0]);
@@ -581,7 +590,7 @@ namespace Assembler.Test
             var line = "RET";  // max addr possible with 12 bits
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x24, bytes[0]);
@@ -602,7 +611,7 @@ namespace Assembler.Test
             var line = "ST [0x00C], A"; // address with 12 bits (3 hexadecimal digits)
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x28, bytes[0]);
@@ -617,7 +626,7 @@ namespace Assembler.Test
             var line = "ST [0x00C], B"; // address with 12 bits (3 hexadecimal digits)
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x28, bytes[0]);
@@ -632,7 +641,7 @@ namespace Assembler.Test
             var line = "ST [HL], A";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x2c, bytes[0]);
@@ -647,7 +656,7 @@ namespace Assembler.Test
             var line = "ST [HL], B";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x2c, bytes[0]);
@@ -668,7 +677,7 @@ namespace Assembler.Test
             var line = "OUT 0, B";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x44, bytes[0]);
@@ -683,7 +692,7 @@ namespace Assembler.Test
             var line = "OUT 1, A, C";
 
             // Act
-            var bytes = converter.ConvertLine(line);
+            var bytes = Converter.ConvertLine(line);
 
             // Assert
             Assert.AreEqual(0x44, bytes[0]);
@@ -692,5 +701,24 @@ namespace Assembler.Test
         }
 
         #endregion
+
+        [TestMethod]
+        public void ResolveLabels_Test()
+        {
+            // Arrange
+            var asmSource = 
+                "LD A, 0x5" + Environment.NewLine +
+                Environment.NewLine +
+                "label_01:" + Environment.NewLine +
+                "INC A" + Environment.NewLine;
+
+            // Act
+            var machineCodeProgram = Converter.ResolveLabels(asmSource);
+
+            // Assert
+            Assert.AreEqual(1, machineCodeProgram.Labels.Count);
+            Assert.AreEqual(3, machineCodeProgram.Labels["label_01"]);
+        }
+
     }
 }

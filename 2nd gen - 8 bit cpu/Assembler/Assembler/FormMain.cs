@@ -20,38 +20,31 @@ namespace Assembler
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            var lines = textBoxAssembly.Lines;
-            textBoxBytes.Clear();
-            var converter = new Converter();
-            byte[] program;
-
-            foreach (var line in lines)
+            try
             {
-                try
-                {
-                    var instruction = converter.ConvertLine(line);
-                    var text = String.Format("{0:x2} {1:x2} {2:x2}",
-                        instruction[0],
-                        instruction[1],
-                        instruction[2]
-                        );
-                    textBoxBytes.Text += text;
+                textBoxBytes.Clear();
+                textBoxLabels.Clear();
 
-                    //program.Concat(instruction);
-                }
-                catch (NotCommandLineException)
+                var machineCodeProgram = Converter.ResolveLabels(textBoxAssembly.Text);
+
+                Converter.ConvertSource(machineCodeProgram);
+
+                textBoxBytes.Text = machineCodeProgram.BytesAsText;
+
+                foreach (var label in machineCodeProgram.Labels)
                 {
-                    // do nothing
-                    textBoxBytes.Text += "not command line";
+                    textBoxLabels.Text +=
+                        string.Format("{0}    {1:x4}", label.Key, label.Value) +
+                        Environment.NewLine;
                 }
-                catch (Exception)
-                {
-                    //textBoxBytes.Text += "exception";
-                }
-                finally
-                {
-                    textBoxBytes.Text += Environment.NewLine;
-                }
+
+                LblStatus.ForeColor = Color.DarkGreen;
+                LblStatus.Text = "Valid";
+            }
+            catch (Exception ex)
+            {
+                LblStatus.ForeColor = Color.Red;
+                LblStatus.Text = "Invalid. " + ex.Message;
             }
         }
 
@@ -62,10 +55,15 @@ namespace Assembler
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-
+            //
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            //
+        }
+
+        private void textBoxLabels_TextChanged(object sender, EventArgs e)
         {
 
         }

@@ -7,24 +7,90 @@ using System.Threading.Tasks;
 
 namespace Assembler
 {
-    public class Converter
+    public static class Converter
     {
-        string[] registers = { "A", "B", "H", "L", "C", "D", "E", "F"};
-        string[] aluInstructions = {
+        private static string[] registers = { "A", "B", "H", "L", "C", "D", "E", "F"};
+        private static string[] aluInstructions = {
             "ADD", "SUB", "NOT", "AND",
             "OR", "XOR", "NOR", "XNOR",
             "INC", "DEC", "DNW", "SUBM",
         };
 
-        public byte[] ConvertLine(string line)
+        public static MachineCodeProgram ResolveLabels(string asmSource)
         {
+            var currentAddress = 0;
+            var machineCodeProgram = new MachineCodeProgram(asmSource);
+
+            foreach (var line in machineCodeProgram.GetLines())
+            {
+                var trimmedLine = line.Trim();
+
+                // test if line is a label definition
+                if (trimmedLine.EndsWith(":"))
+                {
+                    var label = new KeyValuePair<string, int>(
+                        trimmedLine.Remove(trimmedLine.Length - 1, 1),
+                        currentAddress
+                        );
+                    machineCodeProgram.Labels.Add(label);
+                }
+                else
+                {
+                    try
+                    {
+                        var instruction = ConvertLine(line);
+                        if (instruction != null)
+                        {
+                            currentAddress += instruction.Length;
+                        }
+                    }
+                    catch (NotCommandLineException)
+                    {
+                        //Do nothing
+                    }
+                }
+
+            }
+
+            return machineCodeProgram;
+        }
+
+        public static void ConvertSource(MachineCodeProgram machineCodeProgram)
+        {
+            foreach (var line in machineCodeProgram.GetLines())
+            {
+                var instruction = ConvertLine(line);
+
+                if (instruction != null)
+                {
+                    var text = String.Format("{0:x2} {1:x2} {2:x2}",
+                        instruction[0],
+                        instruction[1],
+                        instruction[2]
+                        );
+                    machineCodeProgram.BytesAsText += text;
+                    ((List<byte>)machineCodeProgram.Bytes).AddRange(instruction);
+                }
+
+                machineCodeProgram.BytesAsText += Environment.NewLine;
+            }
+
+            //return machineCodeProgram;
+        }
+
+        public static byte[] ConvertLine(string line)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                return null;
+
             line = line.Trim().ToUpper();
+
+            if (line.EndsWith(":")) return null;
 
             // Ignore Comments
             if (line.StartsWith("//"))
             {
                 return null;
-                //throw new NotCommandLineException("Commented line");
             }
 
 
@@ -206,10 +272,10 @@ namespace Assembler
                 return IOInstruction(opcode, IOAddr, r1Addr, r2Addr);
             }
 
-            throw new Exception("The line could not be converted");
+             throw new NotCommandLineException("The line could not be converted");
         }
 
-        private byte RegisterNameToAddress(string registerName)
+        private static byte RegisterNameToAddress(string registerName)
         {
             if (registers.Contains(registerName))
             {
@@ -221,7 +287,7 @@ namespace Assembler
             }
         }
 
-        private byte OpcodeOfAluInstruction(string aluInstruction)
+        private static byte OpcodeOfAluInstruction(string aluInstruction)
         {
             if (aluInstructions.Contains(aluInstruction))
             {
@@ -233,7 +299,7 @@ namespace Assembler
             }
         }
 
-        private byte[] ImediateInstruction(byte opcode, byte r1Adrr, byte data)
+        private static byte[] ImediateInstruction(byte opcode, byte r1Adrr, byte data)
         {
             string opcodeBinary = Convert.ToString(opcode, 2);
             opcodeBinary = opcodeBinary.PadLeft(6, '0');
@@ -255,7 +321,7 @@ namespace Assembler
             return bytes;
         }
 
-        private byte[] ByRegisterInstruction(byte opcode, byte r1Adrr, byte r2Adrr)
+        private static byte[] ByRegisterInstruction(byte opcode, byte r1Adrr, byte r2Adrr)
         {
             string opcodeBinary = Convert.ToString(opcode, 2);
             opcodeBinary = opcodeBinary.PadLeft(6, '0');
@@ -277,7 +343,7 @@ namespace Assembler
             return bytes;
         }
 
-        private byte[] DirectInstruction(byte opcode, byte r1Adrr, int addr)
+        private static byte[] DirectInstruction(byte opcode, byte r1Adrr, int addr)
         {
             string opcodeBinary = Convert.ToString(opcode, 2);
             opcodeBinary = opcodeBinary.PadLeft(6, '0');
@@ -299,7 +365,7 @@ namespace Assembler
             return bytes;
         }
 
-        private byte[] IndirectByRegisterInstruction(byte opcode, byte r1Addr)
+        private static byte[] IndirectByRegisterInstruction(byte opcode, byte r1Addr)
         {
             string opcodeBinary = Convert.ToString(opcode, 2);
             opcodeBinary = opcodeBinary.PadLeft(6, '0');
@@ -318,7 +384,7 @@ namespace Assembler
             return bytes;
         }
 
-        private byte[] IOInstruction(byte opcode, byte IOAddr, byte r1Addr, byte r2Addr)
+        private static byte[] IOInstruction(byte opcode, byte IOAddr, byte r1Addr, byte r2Addr)
         {
             string opcodeBinary = Convert.ToString(opcode, 2);
             opcodeBinary = opcodeBinary.PadLeft(6, '0');
@@ -342,7 +408,7 @@ namespace Assembler
             return bytes;
         }
 
-        private byte[] InstructionBinaryToBytes(string instructionBinary)
+        private static byte[] InstructionBinaryToBytes(string instructionBinary)
         {
             byte[] bytes = new byte[3];
 
@@ -353,7 +419,7 @@ namespace Assembler
             return bytes;
         }
 
-        private int ConvertAddress(string address)
+        private static int ConvertAddress(string address)
         {
             address = address.Replace("[0X", "").Replace("]", "");
 
