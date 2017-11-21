@@ -1,11 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Assembler.Exceptions;
+using System.IO;
+using Assembler.Entities;
+using Assembler.Entities.Exceptions;
 
 namespace Assembler.Test
 {
     [TestClass]
-    public class ConverterTest
+    public class ConvertLine_Tests
     {
         #region LD instructions
 
@@ -26,6 +28,21 @@ namespace Assembler.Test
 
         [TestMethod]
         public void ConvertLine_LD_Imediate_1a_Test()
+        {
+            // Arrange
+            var line = "ld    a, 0x01"; // Lower case statement
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(1, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_LD_Imediate_1b_Test()
         {
             // Arrange
             var line = "\t\tLD    A, 0x01"; // Tabs in front
@@ -70,6 +87,17 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLine_LD_Imediate_4_Test()
+        {
+            // Arrange
+            var line = "LD AA, 0xFF";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+        }
+
+        [TestMethod]
         public void ConvertLine_LD_ByRegister_1_Test()
         {
             // Arrange
@@ -103,7 +131,7 @@ namespace Assembler.Test
         public void ConvertLine_LD_ByRegister_1b_Test()
         {
             // Arrange
-            var line = "LD A, B"; // put crlf here
+            var line = "LD A, B" + Environment.NewLine;
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -172,6 +200,17 @@ namespace Assembler.Test
             Assert.AreEqual(0x08, bytes[0]);
             Assert.AreEqual(0x20, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLine_LD_ByRegister_56Test()
+        {
+            // Arrange
+            var line = "LD A, BB";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
         }
 
         [TestMethod]
@@ -250,6 +289,17 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLine_LD_Direct_6_Test()
+        {
+            // Arrange
+            var line = "LD AA, [0x00C]";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+        }
+
+        [TestMethod]
         public void ConvertLine_LD_IndirectByRegister_1_Test()
         {
             // Arrange
@@ -309,6 +359,39 @@ namespace Assembler.Test
             Assert.AreEqual(0x80, bytes[0]);
             Assert.AreEqual(0x60, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLine_ADD_ByRegister_2_Test()
+        {
+            // Arrange
+            var line = "ADD A";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLine_ADD_ByRegister_3_Test()
+        {
+            // Arrange
+            var line = "ADD AA, B";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLine_ADD_ByRegister_4_Test()
+        {
+            // Arrange
+            var line = "ADD A, BB";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
         }
 
         [TestMethod]
@@ -432,11 +515,22 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotCommandLineException))]
+        [ExpectedException(typeof(InvalidCommandLineException))]
         public void ConvertLine_INC_ByRegister_2_Test()
         {
             // Arrange
             var line = "INC";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLine_INC_ByRegister_3_Test()
+        {
+            // Arrange
+            var line = "INC AA";
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -497,7 +591,7 @@ namespace Assembler.Test
         public void ConvertLine_JP_Direct_1_Test()
         {
             // Arrange
-            var line = "JP [0xFFF]";  // max addr possible with 12 bits
+            var line = "JP 0xFFF";  // max addr possible with 12 bits
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -512,7 +606,7 @@ namespace Assembler.Test
         public void ConvertLine_JP_Z_Direct_1_Test()
         {
             // Arrange
-            var line = "JP Z, [0xFFF]";  // max addr possible with 12 bits
+            var line = "JP Z, 0xFFF";  // max addr possible with 12 bits
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -527,7 +621,7 @@ namespace Assembler.Test
         public void ConvertLine_JP_C_Direct_1_Test()
         {
             // Arrange
-            var line = "JP C, [0xFFF]";  // max addr possible with 12 bits
+            var line = "JP C, 0xFFF";  // max addr possible with 12 bits
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -542,7 +636,7 @@ namespace Assembler.Test
         public void ConvertLine_CALL_Direct_1_Test()
         {
             // Arrange
-            var line = "CALL [0xFFF]";  // max addr possible with 12 bits
+            var line = "CALL 0xFFF";  // max addr possible with 12 bits
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -557,7 +651,7 @@ namespace Assembler.Test
         public void ConvertLine_CALL_Z_Direct_1_Test()
         {
             // Arrange
-            var line = "CALL Z, [0xFFF]";  // max addr possible with 12 bits
+            var line = "CALL Z, 0xFFF";  // max addr possible with 12 bits
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -572,7 +666,7 @@ namespace Assembler.Test
         public void ConvertLine_CALL_C_Direct_1_Test()
         {
             // Arrange
-            var line = "CALL C, [0xFFF]";  // max addr possible with 12 bits
+            var line = "CALL C, 0xFFF";  // max addr possible with 12 bits
 
             // Act
             var bytes = Converter.ConvertLine(line);
@@ -701,24 +795,5 @@ namespace Assembler.Test
         }
 
         #endregion
-
-        [TestMethod]
-        public void ResolveLabels_Test()
-        {
-            // Arrange
-            var asmSource = 
-                "LD A, 0x5" + Environment.NewLine +
-                Environment.NewLine +
-                "label_01:" + Environment.NewLine +
-                "INC A" + Environment.NewLine;
-
-            // Act
-            var machineCodeProgram = Converter.ResolveLabels(asmSource);
-
-            // Assert
-            Assert.AreEqual(1, machineCodeProgram.Labels.Count);
-            Assert.AreEqual(3, machineCodeProgram.Labels["label_01"]);
-        }
-
     }
 }

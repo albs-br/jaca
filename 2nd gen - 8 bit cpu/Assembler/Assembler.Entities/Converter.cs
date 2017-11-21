@@ -1,19 +1,22 @@
-﻿using Assembler.Exceptions;
+﻿using Assembler.Entities.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assembler
+namespace Assembler.Entities
 {
     public static class Converter
     {
-        private static string[] registers = { "A", "B", "H", "L", "C", "D", "E", "F"};
+        private static string[] registers = { "A", "B", "H", "L", "C", "D", "E", "F" };
         private static string[] aluInstructions = {
             "ADD", "SUB", "NOT", "AND",
             "OR", "XOR", "NOR", "XNOR",
             "INC", "DEC", "DNW", "SUBM",
+        };
+        private static string[] singleOperandAluInstructions = {
+            "NOT", "INC", "DEC", "DNW"
         };
 
         public static MachineCodeProgram ResolveLabels(string asmSource)
@@ -25,7 +28,7 @@ namespace Assembler
             {
                 var trimmedLine = line.Trim();
 
-                // test if line is a label definition
+                // Test if line is a label definition
                 if (trimmedLine.EndsWith(":"))
                 {
                     var label = new KeyValuePair<string, int>(
@@ -36,23 +39,47 @@ namespace Assembler
                 }
                 else
                 {
-                    try
+                    if(IsValidLine(trimmedLine))
                     {
-                        var instruction = ConvertLine(line);
-                        if (instruction != null)
-                        {
-                            currentAddress += instruction.Length;
-                        }
-                    }
-                    catch (NotCommandLineException)
-                    {
-                        //Do nothing
+                        currentAddress += 3;
                     }
                 }
 
             }
 
+            var asmSourceWithLabelsResolved = asmSource;
+
+            foreach (var l in machineCodeProgram.Labels)
+            {
+                var labelName = ":" + l.Key;
+                var labelAddr = string.Format("0x{0:X3}", l.Value);
+
+                asmSourceWithLabelsResolved = asmSourceWithLabelsResolved
+                    .Replace(labelName, labelAddr);
+            }
+
+            machineCodeProgram.AsmSource = asmSourceWithLabelsResolved;
+
             return machineCodeProgram;
+        }
+
+        public static bool IsValidLine(string line)
+        {
+            if (string.IsNullOrEmpty(line.Trim())) return false;
+
+            try
+            {
+                ConvertLine(line);
+                return true;
+            }
+            catch (LabelNotResolvedException)
+            {
+                return true;
+            }
+            catch (InvalidCommandLineException)
+            {
+                return false;
+            }
         }
 
         public static void ConvertSource(MachineCodeProgram machineCodeProgram)
@@ -100,12 +127,13 @@ namespace Assembler
                 line = line.Replace("  ", " ");
             }
             while (line.Contains("  "));
-    
+
 
 
 
             var lineParts = line.Split(' ', ',');
 
+            // Remove empty entries
             var tempList = new List<string>();
             foreach (var str in lineParts)
             {
@@ -114,7 +142,6 @@ namespace Assembler
                     tempList.Add(str);
                 }
             }
-
             lineParts = tempList.ToArray<string>();
 
 
@@ -129,11 +156,14 @@ namespace Assembler
                 secondPart = lineParts[1].ToString();
             }
 
+            bool r1Valid = false;
             byte r1Addr = 0;
             if (registers.Contains(secondPart))
             {
                 r1Addr = RegisterNameToAddress(secondPart);
+                r1Valid = true;
             }
+
             byte r2Addr = 0;
 
             var thirdPart = "";
@@ -142,7 +172,7 @@ namespace Assembler
                 thirdPart = lineParts[2].ToString();
             }
 
-            if (instruction == "RET")
+            if (instruction == "RET" && lineParts.Length == 1)
             {
                 byte[] bytes = { 0x24, 0x00, 0x00 };
 
@@ -150,6 +180,19 @@ namespace Assembler
             }
             else if (aluInstructions.Contains(instruction))
             {
+                if (singleOperandAluInstructions.Contains(instruction) && 
+                    (lineParts.Length != 2 || !r1Valid))
+                {
+                    var msg = string.Format("Single operand ALU instruction invalid: {0}", line);
+                    throw new InvalidCommandLineException(msg);
+                }
+                else if (!singleOperandAluInstructions.Contains(instruction) && 
+                    (lineParts.Length != 3 || !r1Valid))
+                {
+                    var msg = string.Format("Two operand ALU instruction invalid: {0}", line);
+                    throw new InvalidCommandLineException(msg);
+                }
+
                 opcode = OpcodeOfAluInstruction(instruction);
 
                 if (thirdPart != "")
@@ -176,7 +219,7 @@ namespace Assembler
 
                     addr = ConvertAddress(secondPart);
                 }
-                else if(secondPart == "Z")
+                else if (secondPart == "Z")
                 {
                     if (instruction == "JP")
                     {
@@ -204,7 +247,7 @@ namespace Assembler
                 }
                 return DirectInstruction(opcode, r1Addr, addr);
             }
-            else if (instruction == "LD")
+            else if (instruction == "LD" && r1Valid)
             {
                 if (thirdPart.StartsWith("0X"))
                 {
@@ -272,7 +315,8 @@ namespace Assembler
                 return IOInstruction(opcode, IOAddr, r1Addr, r2Addr);
             }
 
-             throw new NotCommandLineException("The line could not be converted");
+            var errorMsg = string.Format("The line could not be converted: {0}", line);
+            throw new InvalidCommandLineException(errorMsg);
         }
 
         private static byte RegisterNameToAddress(string registerName)
@@ -283,7 +327,7 @@ namespace Assembler
             }
             else
             {
-                throw new Exception("Invalid register name");
+                throw new InvalidCommandLineException("Invalid register name");
             }
         }
 
@@ -399,7 +443,7 @@ namespace Assembler
             r2AddrBinary = r2AddrBinary.PadLeft(3, '0');
 
 
-            string instructionBinary = opcodeBinary + r1AddrBinary +  r2AddrBinary + IOAddrBinary +"000000000";
+            string instructionBinary = opcodeBinary + r1AddrBinary + r2AddrBinary + IOAddrBinary + "000000000";
 
 
 
@@ -419,9 +463,20 @@ namespace Assembler
             return bytes;
         }
 
+        /// <summary>
+        /// Convert to int an hexadecimal string address with or without brackets around
+        /// </summary>
+        /// <param name="address">Hexadecimal string starting by 0x, with or without brackets around. E.g. 0x060 or [0x060]</param>
+        /// <returns></returns>
         private static int ConvertAddress(string address)
         {
-            address = address.Replace("[0X", "").Replace("]", "");
+            if (address.StartsWith(":"))
+            {
+                throw new LabelNotResolvedException(address);
+            }
+
+            address = address.Replace("[", "").Replace("]", "");
+            address = address.Replace("0X", "");
 
             if (address.Length > 3)
             {

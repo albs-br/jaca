@@ -1,4 +1,4 @@
-﻿using Assembler.Exceptions;
+﻿using Assembler.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +26,6 @@ namespace Assembler
                 textBoxLabels.Clear();
 
                 var machineCodeProgram = Converter.ResolveLabels(textBoxAssembly.Text);
-
                 Converter.ConvertSource(machineCodeProgram);
 
                 textBoxBytes.Text = machineCodeProgram.BytesAsText;
@@ -34,7 +33,7 @@ namespace Assembler
                 foreach (var label in machineCodeProgram.Labels)
                 {
                     textBoxLabels.Text +=
-                        string.Format("{0}    {1:x4}", label.Key, label.Value) +
+                        string.Format("{0}  {1:x4}", label.Key.PadRight(10), label.Value) +
                         Environment.NewLine;
                 }
 

@@ -391,10 +391,11 @@
             this.Controls.Add(this.textBoxBytes);
             this.Controls.Add(this.textBoxAssembly);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMain";
-            this.Text = "Assembler for JACA Homebrew Computer v.0.2.0";
+            this.Text = "Assembler for JACA Homebrew Computer v.0.3.0";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

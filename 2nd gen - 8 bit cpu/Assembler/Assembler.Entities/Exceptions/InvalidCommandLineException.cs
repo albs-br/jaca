@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assembler.Exceptions
+namespace Assembler.Entities.Exceptions
 {
-    public class NotCommandLineException : Exception
+    public class InvalidCommandLineException : Exception
     {
-        public NotCommandLineException(string message)
+        public InvalidCommandLineException(string message)
             : base(message)
-        { 
+        {
         }
     }
 }
