@@ -1,0 +1,16 @@
+﻿// Decrease B reg, increase A each time B zeroes
+
+			// start
+			LD A, 0x0
+			LD B, 0xFF
+
+loop:
+			// main loop
+			DEC B
+			JP Z, :end_loop
+			JP :loop
+
+end_loop:
+			// next a
+			INC A
+			jp :loop

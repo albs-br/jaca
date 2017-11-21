@@ -63,6 +63,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converter.cs" />
+    <Compile Include="Exceptions\VariableNotResolvedException.cs" />
     <Compile Include="Exceptions\LabelNotResolvedException.cs" />
     <Compile Include="Exceptions\InvalidCommandLineException.cs" />
     <Compile Include="MachineCodeProgram.cs" />

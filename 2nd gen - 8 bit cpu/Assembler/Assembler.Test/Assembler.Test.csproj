@@ -58,6 +58,15 @@
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestSourceCode\Test_05.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestSourceCode\Test_04.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestSourceCode\Test_03.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestSourceCode\Test_02.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

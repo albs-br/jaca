@@ -1,0 +1,26 @@
+﻿// Decrease B var, increase A each time B zeroes (defined vars)
+
+#defbyte	var_A
+#defbyte	var_B
+
+
+			// start
+			LD A, 0x0
+			LD B, 0xFF
+			ST #var_A, A
+			ST #var_B, B
+
+loop:
+			// main loop
+			LD B, #var_B
+			DEC B
+			ST #var_B, B
+			JP Z, :end_loop
+			JP :loop
+
+end_loop:
+			// next a
+			LD A, #var_A
+			INC A
+			ST #var_A, A
+			jp :loop

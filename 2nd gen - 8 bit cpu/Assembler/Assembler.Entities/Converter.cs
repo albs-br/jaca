@@ -9,6 +9,9 @@ namespace Assembler.Entities
 {
     public static class Converter
     {
+        private const int BASE_PROGRAM_ADDRESS = 0x0000;
+        private const int BASE_VAR_ADDRESS = 0x0c00;
+
         private static string[] registers = { "A", "B", "H", "L", "C", "D", "E", "F" };
         private static string[] aluInstructions = {
             "ADD", "SUB", "NOT", "AND",
@@ -21,7 +24,8 @@ namespace Assembler.Entities
 
         public static MachineCodeProgram ResolveLabels(string asmSource)
         {
-            var currentAddress = 0;
+            var currentProgramAddress = BASE_PROGRAM_ADDRESS;
+            var currentVariableAddress = BASE_VAR_ADDRESS;
             var machineCodeProgram = new MachineCodeProgram(asmSource);
 
             foreach (var line in machineCodeProgram.GetLines())
@@ -33,22 +37,34 @@ namespace Assembler.Entities
                 {
                     var label = new KeyValuePair<string, int>(
                         trimmedLine.Remove(trimmedLine.Length - 1, 1),
-                        currentAddress
+                        currentProgramAddress
                         );
                     machineCodeProgram.Labels.Add(label);
+                }
+                // Test if line is a byte var definition
+                else if (trimmedLine.StartsWith("#defbyte"))
+                {
+                    var variable = new KeyValuePair<string, int>(
+                        trimmedLine.Replace("#defbyte", "").Trim(),
+                        currentVariableAddress
+                        );
+                    machineCodeProgram.Variables.Add(variable);
+
+                    currentVariableAddress++;
                 }
                 else
                 {
                     if(IsValidLine(trimmedLine))
                     {
-                        currentAddress += 3;
+                        currentProgramAddress += 3;
                     }
                 }
 
             }
 
-            var asmSourceWithLabelsResolved = asmSource;
 
+
+            var asmSourceWithLabelsResolved = asmSource;
             foreach (var l in machineCodeProgram.Labels)
             {
                 var labelName = ":" + l.Key;
@@ -58,7 +74,21 @@ namespace Assembler.Entities
                     .Replace(labelName, labelAddr);
             }
 
-            machineCodeProgram.AsmSource = asmSourceWithLabelsResolved;
+
+
+
+            var asmSourceWithVariablesResolved = asmSourceWithLabelsResolved;
+            foreach (var v in machineCodeProgram.Variables)
+            {
+                var varName = "#" + v.Key;
+                var varAddr = string.Format("[0x{0:X3}]", v.Value);
+
+                asmSourceWithVariablesResolved = asmSourceWithVariablesResolved
+                    .Replace(varName, varAddr);
+            }
+
+
+            machineCodeProgram.AsmSource = asmSourceWithVariablesResolved;
 
             return machineCodeProgram;
         }
@@ -69,10 +99,17 @@ namespace Assembler.Entities
 
             try
             {
-                ConvertLine(line);
+                var bytes = ConvertLine(line);
+
+                if (bytes == null) return false; // Commented Line
+
                 return true;
             }
             catch (LabelNotResolvedException)
+            {
+                return true;
+            }
+            catch (VariableNotResolvedException)
             {
                 return true;
             }
@@ -112,8 +149,15 @@ namespace Assembler.Entities
 
             line = line.Trim().ToUpper();
 
+            
+            // Ignore label definition lines
             if (line.EndsWith(":")) return null;
 
+
+            // Ignore var definition lines
+            if (line.StartsWith("#DEFBYTE")) return null;
+
+            
             // Ignore Comments
             if (line.StartsWith("//"))
             {
@@ -271,6 +315,10 @@ namespace Assembler.Entities
 
                     return DirectInstruction(opcode, r1Addr, addr);
                 }
+                else if (thirdPart.StartsWith("#"))
+                {
+                    throw new VariableNotResolvedException(thirdPart.Substring(1));
+                }
                 else if (thirdPart == "[HL]")
                 {
                     opcode = 4;
@@ -288,6 +336,10 @@ namespace Assembler.Entities
                     r1Addr = RegisterNameToAddress(thirdPart);
 
                     return DirectInstruction(opcode, r1Addr, addr);
+                }
+                else if (secondPart.StartsWith("#"))
+                {
+                    throw new VariableNotResolvedException(secondPart.Substring(1));
                 }
                 else if (secondPart == "[HL]")
                 {
@@ -472,7 +524,7 @@ namespace Assembler.Entities
         {
             if (address.StartsWith(":"))
             {
-                throw new LabelNotResolvedException(address);
+                throw new VariableNotResolvedException(address);
             }
 
             address = address.Replace("[", "").Replace("]", "");

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,5 +67,150 @@ namespace Assembler
         {
 
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog();
+        }
+
+        private void BtnCopyMachineCodeToClipboard_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(textBoxBytes.Text);
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyToClipboard();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog();
+        }
+
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog();
+        }
+
+        private void newToolStripButton_Click(object sender, EventArgs e)
+        {
+            NewFileDialog();
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewFileDialog();
+        }
+
+        #region Menu/Toolbar actions
+
+        private string fileExtensions = "ASM files|*.asm|Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+        private void NewFileDialog()
+        {
+            var confirmResult = MessageBox.Show("Do you really want to start a new file?",
+                                                 "Confirm New File",
+                                                 MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                textBoxAssembly.Text = "";
+            }
+        }
+
+        private void OpenFileDialog()
+        {
+            Stream myStream = null;
+
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Open File";
+            dialog.Filter = fileExtensions;
+            dialog.InitialDirectory = Application.StartupPath;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = dialog.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        using (var reader = new StreamReader(myStream, Encoding.UTF8))
+                        {
+                            string value = reader.ReadToEnd();
+
+                            textBoxAssembly.Text = value;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while reading file from disk. Error message: " + ex.Message);
+                }
+            }
+        }
+
+        private void SaveFileDialog()
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Title = "Save File";
+            dialog.Filter = fileExtensions;
+            dialog.FileName = "NewFile.asm";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                using (var writer = new StreamWriter(dialog.FileName, false, Encoding.UTF8))
+                {
+                    writer.WriteLine(textBoxAssembly.Text);
+                }
+            }
+        }
+
+        private void CopyToClipboard()
+        {
+            textBoxAssembly.Copy();
+        }
+
+        private void PasteToClipboard()
+        {
+            textBoxAssembly.Paste();
+        }
+
+        private void CutToClipboard()
+        {
+            textBoxAssembly.Cut();
+        }
+
+        #endregion
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog();
+        }
+
+        private void copyToolStripButton_Click(object sender, EventArgs e)
+        {
+            CopyToClipboard();
+        }
+
+        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        {
+            PasteToClipboard();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteToClipboard();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CutToClipboard();
+        }
+
+        private void cutToolStripButton_Click(object sender, EventArgs e)
+        {
+            CutToClipboard();
+        }
+
     }
 }
