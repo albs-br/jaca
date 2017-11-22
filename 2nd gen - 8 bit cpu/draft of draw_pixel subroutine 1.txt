@@ -1,0 +1,121 @@
+draw_pixel:
+	if (c > 7) { c = 7 }
+
+	if (a >= 7) { a = 1; goto end;  }		// 0b 0000 0001
+	if(a == 6) { a = 2; goto end; }		// 0000 0010
+	if(a == 5) { a = 4; goto end; }		// 0000 0100
+	// (...)
+	if(a == 2) { a = 64; goto end; }		// 0100 0000
+	if(a == 1) { a = 128; goto end; }	// 1000 0000
+	
+end:
+	out 1, a, c
+	ld d, 0x8
+	out 1, a, d
+
+	ret
+
+
+------------------------
+
+// if(a == 6) { a = 2; goto end; }
+
+	ld d, 0x6
+
+	ld b, a
+	sub b, d
+	jp z, :then
+	ld a, b
+	jp :else
+then:
+	ld a, 0x2
+	jp :end
+else:
+
+
+--------------------------
+
+if (a > 7) a = 7;
+
+y = 0b0000 0001;
+for (var x = 7; x >= 0 ; x--) {
+	if (a == x) goto end:
+	SHL y;
+}
+
+----------------------------
+
+ultimate version:
+
+// LD A, 0x4
+// LD C, 0x1
+// CALL :draw_pixel
+draw_pixel:
+
+	// pattern of pixel at far right:
+	LD B, 0x1
+
+	// loop control variable
+	LD F, 0x7
+
+draw_pixel_loop:
+
+	//if( A == F) goto :draw_pixel_end
+	LD D, A
+	SUB A, F
+	LD A, D
+	JP Z, :draw_pixel_end
+	
+	// SHL B
+	LD E, B
+	ADD B, E
+
+	DEC F
+	JP :draw_pixel_loop
+
+draw_pixel_end:
+
+	OUT 1, B, C
+	LD D, 0x8
+	OUT 1, B, D
+
+	RET
+
+
+--------------------
+
+WORKING VERSION:
+
+LD A, 0x6
+LD C, 0x1
+CALL :draw_pixel
+
+draw_pixel:
+
+	LD B, 0x1
+
+	LD F, 0x7
+
+loop:
+
+	LD D, A
+	SUB A, F
+	LD A, D
+
+	JP Z, :end
+	
+	LD E, B
+	ADD B, E
+
+	LD H, F
+	DEC H
+	LD F, H
+	JP :loop
+
+end:
+
+	OUT 1, B, C
+	LD D, 0x8
+	OUT 1, B, D
+
+	RET

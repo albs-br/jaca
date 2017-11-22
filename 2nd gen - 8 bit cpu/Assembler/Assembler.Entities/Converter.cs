@@ -1,4 +1,5 @@
-﻿using Assembler.Entities.Exceptions;
+﻿using Assembler.Entities.Enum;
+using Assembler.Entities.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Assembler.Entities
         private const int BASE_VAR_ADDRESS = 0x0c00;
 
         private static string[] registers = { "A", "B", "H", "L", "C", "D", "E", "F" };
+        private static string[] registersBankA = { "A", "B", "H", "L" };
+        private static string[] registersBankB = { "C", "D", "E", "F" };
         private static string[] aluInstructions = {
             "ADD", "SUB", "NOT", "AND",
             "OR", "XOR", "NOR", "XNOR",
@@ -204,7 +207,7 @@ namespace Assembler.Entities
             byte r1Addr = 0;
             if (registers.Contains(secondPart))
             {
-                r1Addr = RegisterNameToAddress(secondPart);
+                r1Addr = RegisterNameToAddress(secondPart, EnumRegistersAllowed.All);
                 r1Valid = true;
             }
 
@@ -239,9 +242,11 @@ namespace Assembler.Entities
 
                 opcode = OpcodeOfAluInstruction(instruction);
 
+                r1Addr = RegisterNameToAddress(secondPart, EnumRegistersAllowed.BankA);
+                
                 if (thirdPart != "")
                 {
-                    r2Addr = RegisterNameToAddress(thirdPart);
+                    r2Addr = RegisterNameToAddress(thirdPart, EnumRegistersAllowed.BankB);
                 }
 
                 return ByRegisterInstruction(opcode, r1Addr, r2Addr);
@@ -304,7 +309,7 @@ namespace Assembler.Entities
                 else if (registers.Contains(thirdPart))
                 {
                     opcode = 2;
-                    r2Addr = RegisterNameToAddress(thirdPart);
+                    r2Addr = RegisterNameToAddress(thirdPart, EnumRegistersAllowed.All);
 
                     return ByRegisterInstruction(opcode, r1Addr, r2Addr);
                 }
@@ -333,7 +338,7 @@ namespace Assembler.Entities
                     opcode = 10;
                     int addr = ConvertAddress(secondPart);
 
-                    r1Addr = RegisterNameToAddress(thirdPart);
+                    r1Addr = RegisterNameToAddress(thirdPart, EnumRegistersAllowed.BankA);
 
                     return DirectInstruction(opcode, r1Addr, addr);
                 }
@@ -345,7 +350,7 @@ namespace Assembler.Entities
                 {
                     opcode = 11;
 
-                    r1Addr = RegisterNameToAddress(thirdPart);
+                    r1Addr = RegisterNameToAddress(thirdPart, EnumRegistersAllowed.BankA);
 
                     return IndirectByRegisterInstruction(opcode, r1Addr);
                 }
@@ -356,12 +361,12 @@ namespace Assembler.Entities
 
                 byte IOAddr = Convert.ToByte(secondPart);
 
-                r1Addr = RegisterNameToAddress(thirdPart);
+                r1Addr = RegisterNameToAddress(thirdPart, EnumRegistersAllowed.BankA);
 
                 r2Addr = 0;
                 if (lineParts.Length >= 4)
                 {
-                    r2Addr = RegisterNameToAddress(lineParts[3]);
+                    r2Addr = RegisterNameToAddress(lineParts[3], EnumRegistersAllowed.BankB);
                 }
 
                 return IOInstruction(opcode, IOAddr, r1Addr, r2Addr);
@@ -371,15 +376,37 @@ namespace Assembler.Entities
             throw new InvalidCommandLineException(errorMsg);
         }
 
-        private static byte RegisterNameToAddress(string registerName)
+        private static byte RegisterNameToAddress(string registerName, EnumRegistersAllowed registersAllowed)
         {
+            var errorMsg = "Register {0} not allowed. Allowed registers are {1}";
+
+            if (registersAllowed == EnumRegistersAllowed.BankA && !registersBankA.Contains(registerName))
+            {
+                var msg = string.Format(errorMsg,
+                    registerName,
+                    string.Join(", ", registersBankA)
+                    );
+
+                throw new InvalidRegisterException(msg);
+            }
+
+            if (registersAllowed == EnumRegistersAllowed.BankB && !registersBankB.Contains(registerName))
+            {
+                var msg = string.Format(errorMsg,
+                    registerName,
+                    string.Join(", ", registersBankB)
+                    );
+
+                throw new InvalidRegisterException(msg);
+            }
+
             if (registers.Contains(registerName))
             {
                 return Convert.ToByte(Array.IndexOf(registers, registerName));
             }
             else
             {
-                throw new InvalidCommandLineException("Invalid register name");
+                throw new InvalidCommandLineException("Invalid register name: " + registerName);
             }
         }
 

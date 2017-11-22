@@ -362,6 +362,28 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidRegisterException))]
+        public void ConvertLine_ADD_ByRegister_1a_Test()
+        {
+            // Arrange
+            var line = "ADD A, B";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidRegisterException))]
+        public void ConvertLine_ADD_ByRegister_1b_Test()
+        {
+            // Arrange
+            var line = "ADD C, D";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
         public void ConvertLine_ADD_ByRegister_2_Test()
         {
@@ -384,7 +406,7 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidCommandLineException))]
+        [ExpectedException(typeof(InvalidRegisterException))]
         public void ConvertLine_ADD_ByRegister_4_Test()
         {
             // Arrange
@@ -512,6 +534,17 @@ namespace Assembler.Test
             Assert.AreEqual(0xa1, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidRegisterException))]
+        public void ConvertLine_INC_ByRegister_1a_Test()
+        {
+            // Arrange
+            var line = "INC C";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
         }
 
         [TestMethod]
