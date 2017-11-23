@@ -78,6 +78,10 @@
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.BtnUpdateTextboxes = new System.Windows.Forms.Button();
+            this.textBoxVariables = new System.Windows.Forms.TextBox();
+            this.labelVariables = new System.Windows.Forms.Label();
+            this.BtnSaveLogisim = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -116,7 +120,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(818, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(964, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -352,7 +356,7 @@
             // labelAssemblyCode
             // 
             this.labelAssemblyCode.AutoSize = true;
-            this.labelAssemblyCode.Location = new System.Drawing.Point(11, 52);
+            this.labelAssemblyCode.Location = new System.Drawing.Point(11, 54);
             this.labelAssemblyCode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAssemblyCode.Name = "labelAssemblyCode";
             this.labelAssemblyCode.Size = new System.Drawing.Size(79, 13);
@@ -362,7 +366,7 @@
             // labelMachineCode
             // 
             this.labelMachineCode.AutoSize = true;
-            this.labelMachineCode.Location = new System.Drawing.Point(423, 52);
+            this.labelMachineCode.Location = new System.Drawing.Point(427, 54);
             this.labelMachineCode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelMachineCode.Name = "labelMachineCode";
             this.labelMachineCode.Size = new System.Drawing.Size(78, 13);
@@ -372,7 +376,7 @@
             // labelLabels
             // 
             this.labelLabels.AutoSize = true;
-            this.labelLabels.Location = new System.Drawing.Point(529, 52);
+            this.labelLabels.Location = new System.Drawing.Point(532, 54);
             this.labelLabels.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelLabels.Name = "labelLabels";
             this.labelLabels.Size = new System.Drawing.Size(41, 13);
@@ -393,7 +397,7 @@
             // LblStatus
             // 
             this.LblStatus.AutoSize = true;
-            this.LblStatus.Location = new System.Drawing.Point(11, 402);
+            this.LblStatus.Location = new System.Drawing.Point(90, 402);
             this.LblStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LblStatus.Name = "LblStatus";
             this.LblStatus.Size = new System.Drawing.Size(0, 13);
@@ -424,7 +428,7 @@
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(818, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(964, 25);
             this.toolStrip1.TabIndex = 9;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -516,11 +520,55 @@
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
             // 
+            // BtnUpdateTextboxes
+            // 
+            this.BtnUpdateTextboxes.Location = new System.Drawing.Point(15, 402);
+            this.BtnUpdateTextboxes.Name = "BtnUpdateTextboxes";
+            this.BtnUpdateTextboxes.Size = new System.Drawing.Size(75, 23);
+            this.BtnUpdateTextboxes.TabIndex = 10;
+            this.BtnUpdateTextboxes.Text = "Update";
+            this.BtnUpdateTextboxes.UseVisualStyleBackColor = true;
+            this.BtnUpdateTextboxes.Click += new System.EventHandler(this.BtnUpdateTextboxes_Click);
+            // 
+            // textBoxVariables
+            // 
+            this.textBoxVariables.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxVariables.Location = new System.Drawing.Point(705, 70);
+            this.textBoxVariables.Multiline = true;
+            this.textBoxVariables.Name = "textBoxVariables";
+            this.textBoxVariables.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxVariables.Size = new System.Drawing.Size(164, 328);
+            this.textBoxVariables.TabIndex = 11;
+            // 
+            // labelVariables
+            // 
+            this.labelVariables.AutoSize = true;
+            this.labelVariables.Location = new System.Drawing.Point(702, 54);
+            this.labelVariables.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelVariables.Name = "labelVariables";
+            this.labelVariables.Size = new System.Drawing.Size(53, 13);
+            this.labelVariables.TabIndex = 12;
+            this.labelVariables.Text = "Variables:";
+            // 
+            // BtnSaveLogisim
+            // 
+            this.BtnSaveLogisim.Location = new System.Drawing.Point(433, 433);
+            this.BtnSaveLogisim.Name = "BtnSaveLogisim";
+            this.BtnSaveLogisim.Size = new System.Drawing.Size(98, 35);
+            this.BtnSaveLogisim.TabIndex = 13;
+            this.BtnSaveLogisim.Text = "Save in Logisim format";
+            this.BtnSaveLogisim.UseVisualStyleBackColor = true;
+            this.BtnSaveLogisim.Click += new System.EventHandler(this.BtnSaveLogisim_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 540);
+            this.ClientSize = new System.Drawing.Size(964, 534);
+            this.Controls.Add(this.BtnSaveLogisim);
+            this.Controls.Add(this.labelVariables);
+            this.Controls.Add(this.textBoxVariables);
+            this.Controls.Add(this.BtnUpdateTextboxes);
             this.Controls.Add(this.textBoxAssembly);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.BtnCopyMachineCodeToClipboard);
@@ -534,7 +582,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
-            this.Text = "Assembler for JACA Homebrew Computer v.0.5.0";
+            this.Text = "Assembler for JACA Homebrew Computer v.0.6.0";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -596,6 +644,10 @@
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
+        private System.Windows.Forms.Button BtnUpdateTextboxes;
+        private System.Windows.Forms.TextBox textBoxVariables;
+        private System.Windows.Forms.Label labelVariables;
+        private System.Windows.Forms.Button BtnSaveLogisim;
     }
 }
 

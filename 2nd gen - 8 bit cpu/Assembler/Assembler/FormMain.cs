@@ -21,10 +21,16 @@ namespace Assembler
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            //UpdateTextboxes();
+        }
+
+        private void UpdateTextboxes()
+        {
             try
             {
                 textBoxBytes.Clear();
                 textBoxLabels.Clear();
+                textBoxVariables.Clear();
 
                 var machineCodeProgram = Converter.ResolveLabels(textBoxAssembly.Text);
                 Converter.ConvertSource(machineCodeProgram);
@@ -35,6 +41,13 @@ namespace Assembler
                 {
                     textBoxLabels.Text +=
                         string.Format("{0}  {1:x4}", label.Key.PadRight(10), label.Value) +
+                        Environment.NewLine;
+                }
+
+                foreach (var variable in machineCodeProgram.Variables)
+                {
+                    textBoxVariables.Text +=
+                        string.Format("{0}  {1:x4}", variable.Key.PadRight(10), variable.Value) +
                         Environment.NewLine;
                 }
 
@@ -210,6 +223,30 @@ namespace Assembler
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
             CutToClipboard();
+        }
+
+        private void BtnUpdateTextboxes_Click(object sender, EventArgs e)
+        {
+            UpdateTextboxes();
+        }
+
+        private void BtnSaveLogisim_Click(object sender, EventArgs e)
+        {
+            var filePath = @"C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\" + "FileGeneratedByJACAAssembler.txt";
+
+            var fileContent = "v2.0 raw" + Environment.NewLine;
+
+            var source = textBoxBytes.Text.Replace(Environment.NewLine, " ");
+
+            foreach (var b in source.Split(' '))
+            {
+                if (!string.IsNullOrWhiteSpace(b))
+                {
+                    fileContent += b + Environment.NewLine;
+                }
+            }
+
+            File.WriteAllText(filePath, fileContent);
         }
 
     }

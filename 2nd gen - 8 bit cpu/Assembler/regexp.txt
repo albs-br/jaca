@@ -1,0 +1,15 @@
+http://www.rexegg.com/regex-quickstart.html
+
+http://regexstorm.net/tester
+
+\s*LD\s*[ABHLCDEF],
+
+\s*LD\s+[ABHLCDEF]\s*,\s*[ABHLCDEF]
+
+// LD A, B ; LD H, 19:
+\s*LD\s+[ABHLCDEF]\s*,\s*([ABHLCDEF]|\d+)
+
+
+
+\s*(ADD|SUB|AND)\s+[ABHL]\s*,\s*[CDEF]
+

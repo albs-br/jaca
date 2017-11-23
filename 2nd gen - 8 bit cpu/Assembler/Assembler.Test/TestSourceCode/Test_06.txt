@@ -1,0 +1,9 @@
+﻿// Label with name contained in another
+
+delay:
+	DNW A
+	JP Z, :delay_end
+	DEC A
+	JP :delay
+delay_end:
+	RET

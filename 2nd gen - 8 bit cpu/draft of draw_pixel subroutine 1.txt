@@ -96,13 +96,13 @@ draw_pixel:
 
 	LD F, 0x7
 
-loop:
+dp_loop:
 
 	LD D, A
 	SUB A, F
 	LD A, D
 
-	JP Z, :end
+	JP Z, :dp_end
 	
 	LD E, B
 	ADD B, E
@@ -110,12 +110,57 @@ loop:
 	LD H, F
 	DEC H
 	LD F, H
-	JP :loop
+	JP :dp_loop
 
-end:
+dp_end:
 
 	OUT 1, B, C
 	LD D, 0x8
 	OUT 1, B, D
+
+	RET
+
+---------------------
+
+// clear line indicated by register C
+clr_line:
+
+	LD A, 0x0
+	OUT 1, A, C
+	LD D, 0x8
+	OUT 1, A, D
+
+	RET
+
+------------------
+
+// delay by value in A register
+delay:
+	DNW A
+	JP Z, :delay_end
+	DEC A
+	JP :delay
+delay_end:
+	RET
+
+-----------------
+
+// No parameter received by register
+clr_screen:
+
+	LD B, 0x8
+	LD D, 0x8
+	LD A, 0x0
+
+cs_loop:
+	DEC B
+
+	LD C, B
+	OUT 1, A, C
+	OUT 1, A, D
+
+	JP Z, :cs_end
+	JP :cs_loop
+cs_end:
 
 	RET

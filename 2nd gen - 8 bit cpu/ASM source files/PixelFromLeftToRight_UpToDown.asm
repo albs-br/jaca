@@ -6,7 +6,7 @@ main_init:
 
 	LD A, 0x0
 	ST #x, A
-	LD A, 0x1
+	LD A, 0x0
 	ST #y, A
 
 main_loop:
@@ -14,6 +14,10 @@ main_loop:
 	LD A, #x
 	LD C, #y
 	CALL :draw_pixel		
+
+	LD D, A
+	CALL :delay
+	LD A, D
 
 	INC A
 	
@@ -41,11 +45,18 @@ clear_x:
 	INC A
 	ST #y, A
 
-	// Missing test y == 8
+	// if (y == 8) y=0
+	LD D, 0x8
+	SUB A, D
+	JP Z, :clear_y
 
 	JP :main_loop
 
-
+clear_y:
+	// Reset y
+	LD A, 0x0
+	ST #y, A
+	JP :main_loop
 
 
 // Draws a pixel in coord A, C
@@ -79,3 +90,13 @@ dp_end:
 
 	RET
 
+
+
+// delay by value in A register
+delay:
+	DNW A
+	JP Z, :de_end
+	DEC A
+	JP :delay
+de_end:
+	RET

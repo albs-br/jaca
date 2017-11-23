@@ -13,9 +13,17 @@ oct, 30th:
 
 -16 bit addressing (64k total memory - first 32k EEPROM, last 32K SRAM)
 -15 bit direct mode for LD and ST instructions (first bit fixed to 1 - RAM)
--ADC and SBC instructions
+-ADC and SBC instructions						(optional)
 -SHL (shift left) instruction
--ALU operations with imediate mode (e.g. ADD A, 47)
+-ALU operations with imediate mode (e.g. ADD A, 47)			(optional)
+
+-----------------------------
+
+nov, 23th:
+-RET Z and RET C instructions	(optional)
+-N flag				(optional)
+-limit ST instructions to 2nd half of 16 bit addr space (RAM) to avoid unintentional data loss of EEPROM
+-HALT instruction (useful to run Logisim by command line with test programs)
 
 --------------------------------------
 
