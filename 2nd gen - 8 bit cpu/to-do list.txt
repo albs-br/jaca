@@ -3,7 +3,7 @@ Things to do as of september, 26th, 2017:
 Logisim project:
 -ret_addr register		OK
 -more flags (Carry, etc)		OK
--input device (keyboard)
+-input device (keyboard)		OK
 -magnitude comparison instructions	OK
 -implement "DO NOTHING WITH A" or "RETURN A" ALU operation (S0 to S3 = L, M = L, C = H), useful to set flags without change register		OK
 
