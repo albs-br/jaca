@@ -827,6 +827,21 @@ namespace Assembler.Test
             Assert.AreEqual(0x00, bytes[2]);
         }
 
+        [TestMethod]
+        public void ConvertLine_IN_1_Test()
+        {
+            // Arrange
+            var line = "IN 0, B";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(0x40, bytes[0]);
+            Assert.AreEqual(0x80, bytes[1]);
+            Assert.AreEqual(0x00, bytes[2]);
+        }
+
         #endregion
     }
 }

@@ -371,6 +371,22 @@ namespace Assembler.Entities
 
                 return IOInstruction(opcode, IOAddr, r1Addr, r2Addr);
             }
+            else if (instruction == "IN")
+            {
+                opcode = 16;
+
+                byte IOAddr = Convert.ToByte(secondPart);
+
+                r1Addr = RegisterNameToAddress(thirdPart, EnumRegistersAllowed.BankA);
+
+                r2Addr = 0;
+                //if (lineParts.Length >= 4)
+                //{
+                //    r2Addr = RegisterNameToAddress(lineParts[3], EnumRegistersAllowed.BankB);
+                //}
+
+                return IOInstruction(opcode, IOAddr, r1Addr, r2Addr);
+            }
 
             var errorMsg = string.Format("The line could not be converted: {0}", line);
             throw new InvalidCommandLineException(errorMsg);
