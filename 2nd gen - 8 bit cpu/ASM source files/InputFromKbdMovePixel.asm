@@ -86,9 +86,13 @@ clear_y:
 	JP :main_loop
 
 
+	
 // Draws a pixel in coord A, C
+// Destroys C, B, F, D, E, H
+// Returns A and C intact
 draw_pixel:
 
+	// Bit pattern 00000001 (pixel at far right)
 	LD B, 0x1
 
 	LD F, 0x7
@@ -101,6 +105,7 @@ dp_loop:
 
 	JP Z, :dp_end
 	
+	// Shift Left B
 	LD E, B
 	ADD B, E
 
@@ -111,7 +116,9 @@ dp_loop:
 
 dp_end:
 
+	// Draws pixel pattern at line specified by C
 	OUT 1, B, C
+	// Refresh screen
 	LD D, 0x8
 	OUT 1, B, D
 
