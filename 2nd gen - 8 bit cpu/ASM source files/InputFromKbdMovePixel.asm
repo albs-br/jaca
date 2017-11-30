@@ -88,7 +88,7 @@ clear_y:
 
 	
 // Draws a pixel in coord A, C
-// Destroys C, B, F, D, E, H
+// Destroys B, F, D, E, H
 // Returns A and C intact
 draw_pixel:
 

@@ -1,0 +1,9 @@
+#defbyte	ball_x
+#defbyte	ball_y
+
+
+// Ball directions:
+// 0xFF (-1 in two's complement)
+// 0x01 (+1)
+#defbyte	ball_h_dir
+#defbyte	ball_v_dir
