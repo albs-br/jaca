@@ -88,6 +88,7 @@ clear_y:
 
 	
 // Draws a pixel in coord A, C
+// Inputs A and C: >=0 <=7
 // Destroys B, F, D, E, H
 // Returns A and C intact
 draw_pixel:
@@ -95,23 +96,27 @@ draw_pixel:
 	// Bit pattern 00000001 (pixel at far right)
 	LD B, 0x1
 
+	// Loop control variable
 	LD F, 0x7
 
 dp_loop:
 
+	// if (A == F) dp_end
 	LD D, A
 	SUB A, F
 	LD A, D
-
 	JP Z, :dp_end
 	
 	// Shift Left B
+	// TODO: this E register may be changed by D, saving one register
 	LD E, B
 	ADD B, E
 
+	// F--
 	LD H, F
 	DEC H
 	LD F, H
+
 	JP :dp_loop
 
 dp_end:

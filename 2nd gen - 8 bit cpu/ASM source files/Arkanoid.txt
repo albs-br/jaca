@@ -1,9 +1,117 @@
 #defbyte	ball_x
 #defbyte	ball_y
-
+#defbyte	ball_patt
 
 // Ball directions:
 // 0xFF (-1 in two's complement)
 // 0x01 (+1)
 #defbyte	ball_h_dir
 #defbyte	ball_v_dir
+
+
+
+#defbyte	bar_x
+#defbyte	bar_patt
+
+
+
+main_loop:
+	
+	// read inputs
+	
+	// update positions / check limits
+	
+	
+	// draw ball and bar
+	//CALL draw_ball
+	CALL draw_bar
+	
+	
+	// update pixel patterns (necessary to test collisions)
+	ST #bar_patt, B
+	
+	// check collisions
+	
+	
+	JP :main_loop
+
+
+
+
+// Checks if there is a collision between ball and bar
+check_collison:
+	// if(ball_y != 7) cc_collison_false
+	LD A, #ball_y
+	LD C, 0x7
+	SUB A, C
+	JP Z, :cc_collison_false
+	
+	LD A, #ball_patt
+	LD C, #bar_patt
+	AND A, C
+	
+	// if(A == C) cc_collison_true
+	SUB A, C
+	JP Z, :cc_collison_true
+
+cc_collison_false:
+	RET
+	
+cc_collison_true:
+	// code here
+
+
+
+// Draws the player bar in A position x
+// Input A: >=0 <=5
+// Destroys B, F, D, H
+// Returns A intact
+// Returns bar pattern in B
+draw_bar:
+
+	// Bit pattern 00000111 (bar at far right)
+	LD B, 0x7
+
+	// Loop control variable
+	LD F, 0x5
+
+db_loop:
+
+	// if (A == F) db_end
+	LD D, A
+	SUB A, F
+	LD A, D
+	JP Z, :db_end
+	
+	// Shift Left B
+	LD D, B
+	ADD B, D
+
+	// F--
+	LD H, F
+	DEC H
+	LD F, H
+
+	JP :db_loop
+
+db_end:
+
+	// Draws bar pattern in the last line (0x7)
+	LD F, 0x7
+	OUT 1, B, F
+	// Refresh screen
+	LD D, 0x8
+	OUT 1, B, D
+
+	RET
+
+
+
+// delay by value in A register
+delay:
+	DNW A
+	JP Z, :de_end
+	DEC A
+	JP :delay
+de_end:
+	RET
