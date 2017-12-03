@@ -15,6 +15,7 @@ main_loop:
 	LD C, #y
 	CALL :draw_pixel		
 
+	// Delay necessary because of the difference in execution times of :draw_bar
 	LD D, A
 	CALL :delay
 	LD A, D
