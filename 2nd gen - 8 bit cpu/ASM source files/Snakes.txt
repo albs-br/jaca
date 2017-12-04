@@ -1,0 +1,351 @@
+#defbyte	snake_x
+#defbyte	snake_y
+#defbyte	snake_patt
+
+// Snake directions:
+// 0xFF (-1 in two's complement)
+// 0x00
+// 0x01 (+1)
+#defbyte	snake_h_dir
+#defbyte	snake_v_dir
+
+
+
+
+main_init:
+
+	LD A, 0x3
+	ST #snake_x, A
+	ST #snake_y, A
+
+	// initial snake pattern: 0b00010000
+	LD A, 0x10
+	ST #snake_patt, A
+	
+	
+	LD A, 0x0
+	ST #snake_h_dir, A
+	LD A, 0xff
+	ST #snake_v_dir, A
+
+	
+main_loop:
+
+	//Clear current snake line
+
+
+	// Update snake position
+	LD A, #snake_x
+	LD C, #snake_h_dir
+	ADD A, C
+	ST #snake_x, A
+	
+	LD B, #snake_y
+	LD D, #snake_v_dir
+	ADD B, D
+	ST #snake_y, B
+	
+
+	LD H, #snake_patt
+	
+
+	//CALL :draw_snake
+	// C register contains #snake_h_dir
+	// D register contains #snake_v_dir
+	// H register contains #snake_patt
+	if(C == 0xff) // 1 pixel to left
+	{
+		//Shift left #snake_patt
+		SHL H
+	}
+	else if(C == 0x1) // 1 pixel to right
+	{
+		//Shift right #snake_patt
+	}
+
+	
+	// B register contains #snake_y
+	// H register contains #snake_patt
+	//draw snake_patt in line snake_y
+	LD E, B
+	OUT 1, H, E
+	
+	// TODO: from here to the end
+	
+	// read inputs
+	IN 0, B
+	LD E, B
+	
+	// check '6' key (move snake right)
+	LD D, 0x36
+	SUB B, D
+	CALL Z, :inc_snake_x
+
+	LD B, E
+
+	// check '4' key (move snake left)
+	LD D, 0x34
+	SUB B, D
+	CALL Z, :dec_snake_x
+
+	
+
+	// draw bar
+	CALL :draw_bar
+
+
+	// Delay necessary because of the difference in execution times of :draw_bar
+	//CALL :delay
+
+
+	// clear current ball line
+	LD B, 0x0
+	LD F, #ball_y
+	OUT 1, B, F
+
+	
+	// update ball position Y
+	
+	LD L, #ball_y
+	DNW L
+	JP Z, :ball_on_top
+	LD F, #ball_v_dir
+	ADD L, F
+	JP :ball_not_on_top
+	
+ball_on_top:
+	LD H, 0x01
+	ST #ball_v_dir, H
+	LD L, 0x01
+	
+ball_not_on_top:
+	ST #ball_y, L
+
+
+
+	// update ball position X
+	
+	LD L, #ball_x
+	
+	// if(ball_x == 0) { ball_h_dir = 0x01; ball_x = 1}
+	DNW L
+	JP Z, :ball_on_left
+	
+	// ball_x += ball_h_dir
+	LD F, #ball_h_dir
+	ADD L, F
+	
+	// if(ball_x == 8) { ball_h_dir = 0xff }
+	LD F, 0x8
+	LD A, L
+	SUB L, F
+	LD L, A
+	JP Z, :ball_on_right
+
+	JP :ball_end
+	
+
+	
+ball_on_left:
+	LD H, 0x01
+	ST #ball_h_dir, H
+	LD L, 0x01
+	JP :ball_end
+	
+ball_on_right:
+	LD H, 0xff
+	ST #ball_h_dir, H
+	LD L, 0x6
+	
+ball_end:
+	ST #ball_x, L
+
+
+	
+
+	// check collisions
+	CALL :check_collison
+	
+	
+	
+	// draw_ball
+	LD A, #ball_x
+	LD C, #ball_y
+	CALL :draw_ball
+
+
+	// Refresh screen
+	LD D, 0x8
+	OUT 1, B, D
+	
+	
+	
+	JP :main_loop
+
+
+
+// expects bar_x in register A
+dec_bar_x:	
+	
+	// if (x == 0) dbx_end
+	DNW A
+	JP Z, :dbx_end
+
+	DEC A
+	ST #bar_x, A
+
+dbx_end:
+	RET
+
+
+
+// expects bar_x in register A	
+inc_bar_x:	
+	// if (x == 5) ibx_end
+	LD B, A
+	LD C, 0x5
+	SUB B, C
+	JP Z, :ibx_end
+
+	INC A
+	ST #bar_x, A
+
+ibx_end:
+	RET
+
+
+
+
+	// Checks if there is a collision between ball and bar
+check_collison:
+	// if(ball_y != 7) cc_collison_false
+	LD A, #ball_y
+	LD C, 0x7
+	SUB A, C
+	JP Z, :cc_ball_line_7
+	JP :cc_collison_false
+	
+cc_ball_line_7:	
+	LD A, #ball_patt
+	LD C, #bar_patt
+	OR A, C
+	
+	// if((OR A, C) == C) cc_collison_true
+	SUB A, C
+	JP Z, :cc_collison_true
+
+cc_game_over:
+	JP :cc_game_over
+	
+cc_collison_false:
+	RET
+	
+cc_collison_true:
+	// code here
+	LD A, 0xff
+	ST #ball_v_dir, A
+	LD A, 0x6
+	ST #ball_y, A
+	RET
+	
+	
+	
+
+
+// Draws the player bar in A position x
+// Input A: >=0 <=5
+// Destroys B, F, D, H
+// Returns A intact
+// Returns bar pattern in B
+draw_bar:
+
+	// Bit pattern 00000111 (bar at far right)
+	LD B, 0x7
+
+	// Loop control variable
+	LD F, 0x5
+
+db_loop:
+
+	// if (A == F) db_end
+	LD D, A
+	SUB A, F
+	LD A, D
+	JP Z, :db_end
+	
+	// Shift Left B
+	LD D, B
+	ADD B, D
+
+	// F--
+	LD H, F
+	DEC H
+	LD F, H
+
+	JP :db_loop
+
+db_end:
+
+	// Draws bar pattern in the last line (0x7)
+	LD F, 0x7
+	OUT 1, B, F
+	
+	// Save bar pattern
+	ST #bar_patt, B
+	
+	RET
+
+
+
+// Draws the ball in coords. A, C
+// Input A, C: >=0 <=8
+// Destroys B, F, D, H
+// Returns A and C intact
+// Returns ball pattern in B
+draw_ball:
+
+	// Bit pattern 00000001 (ball at far right)
+	LD B, 0x1
+
+	// Loop control variable
+	LD F, 0x7
+
+dbl_loop:
+
+	// if (A == F) db_end
+	LD D, A
+	SUB A, F
+	LD A, D
+	JP Z, :dbl_end
+	
+	// Shift Left B
+	LD D, B
+	ADD B, D
+
+	// F--
+	LD H, F
+	DEC H
+	LD F, H
+
+	JP :dbl_loop
+
+dbl_end:
+
+	// Draws ball pattern in the line indicated by C
+	OUT 1, B, C
+	
+	// Save ball pattern
+	ST #ball_patt, B
+	
+	RET
+
+
+
+// delay by value in A register
+delay:
+	DNW A
+	JP Z, :de_end
+	DEC A
+	JP :delay
+de_end:
+	RET
