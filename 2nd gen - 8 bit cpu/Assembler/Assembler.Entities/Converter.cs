@@ -20,9 +20,10 @@ namespace Assembler.Entities
             "ADD", "SUB", "NOT", "AND",
             "OR", "XOR", "NOR", "XNOR",
             "INC", "DEC", "DNW", "SUBM",
+            "SHL", "SHR"
         };
         private static string[] singleOperandAluInstructions = {
-            "NOT", "INC", "DEC", "DNW"
+            "NOT", "INC", "DEC", "DNW", "SHL", "SHR"
         };
 
         public static MachineCodeProgram ResolveLabels(string asmSource)

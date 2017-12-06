@@ -600,6 +600,36 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        public void ConvertLine_SHL_ByRegister_1_Test()
+        {
+            // Arrange
+            var line = "SHL A";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(0xb0, bytes[0]);
+            Assert.AreEqual(0x00, bytes[1]);
+            Assert.AreEqual(0x00, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLine_SHR_ByRegister_1_Test()
+        {
+            // Arrange
+            var line = "SHR A";
+
+            // Act
+            var bytes = Converter.ConvertLine(line);
+
+            // Assert
+            Assert.AreEqual(0xb4, bytes[0]);
+            Assert.AreEqual(0x00, bytes[1]);
+            Assert.AreEqual(0x00, bytes[2]);
+        }
+
+        [TestMethod]
         public void ConvertLine_SUBM_ByRegister_1_Test()
         {
             // Arrange
