@@ -1,0 +1,84 @@
+0x0	width	0x02
+0x1	height	0x03
+0x2	pattern	0b01000000
+0x3	                0b11000000
+0x4	                0b10000000
+0x5	                0b00000000
+
+0x6	width	0x03
+0x7	height	0x02
+0x8	pattern	0b11000000
+0x9	                0b01100000
+0xa	                0b00000000
+0xb	                0b00000000
+
+
+check_collision:
+	AND A, C
+	JP Z, :cc_false
+	JP :cc_true
+
+
+
+
+// 0x20	space
+// 0x3d	=
+// 0x78	x
+// 0xd	CR
+
+//test multiplication
+
+main_init:
+	LD H, 0x0
+	LD L, 0x0
+
+main_loop:
+	LD A, H
+	LD B, L
+	CALL :multiply
+	LD C, A
+
+	// print first number
+	LD A, H
+	CALL :print_number
+
+	// print 'x'	
+	LD A, 0x78
+	OUT 0, A
+
+	// print second number
+	LD A, L
+	CALL :print_number
+
+	// print '='	
+	LD A, 0x3d
+	OUT 0, A
+
+	// print result
+	LD A, C
+	CALL :print_number
+
+main_end:
+	JP :main_end
+
+
+// multiply A x B, result in A
+multiply:
+	LD D, A
+	LD A, 0
+	DNW B
+mu_loop:
+	JP Z, :mu_end
+	ADD A, D
+	DEC B
+	JP :mu_loop
+mu_end:
+	RET
+
+
+// print out number in A (0 <= A <=9)
+print_number:
+	LD C, 0x30
+	ADD A, C
+	OUT 0, A
+	RET
