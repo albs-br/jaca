@@ -1,0 +1,57 @@
+
+current_piece = 0;
+current_piece_x = 0;
+current_piece_y = 0;
+current_piece_width = 0;
+current_piece_height = 0;
+
+// current_piece_pattern = 4 bytes
+current_piece_pattern_addr = 0xdf8; // ends in 0xdfb
+
+
+// screen_pattren = 8 bytes
+screen_pattern_addr = 0xdf0 // ends in 0xdf7
+
+
+
+
+// each piece = 6 bytes (width, height, 4 bytes for pattern)
+start pieces = 0xe00
+
+
+
+
+function main_loop() {
+	if(key_left_pressed) move_left();
+	// ...
+	move_down();
+
+	draw_piece();
+}
+
+function move_left() {
+	if(current_piece_x == 0) return;
+	// SHL current_piece_pattern_addr // all lines
+	if(check_collision) { 
+		// undo SHL
+		return; 
+	}
+}
+
+function move_down() {
+	// check_collision with current_piece_y + 1 
+}
+
+function check_collision() {
+	for(var i=0; i <= current_piece_height; i++) {
+		var piece_line_pattern = getByteFromMemory(current_piece_pattern_addr + i);
+
+		var screen_line_pattern = getByteFromMemory(screen_pattern_addr + i + current_piece_y);
+
+		if(piece_line_pattern AND screen_line_pattern != 0) return true;
+	}
+}
+
+
+
+#if (A >= B) :end_true else :end_false
