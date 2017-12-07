@@ -21,6 +21,18 @@ check_collision:
 
 
 
+
+
+// print out number in A (0 <= A <=9)
+print_number:
+	LD F, 0x30
+	ADD A, F
+	OUT 0, A
+	RET
+
+	
+	
+
 // 0x20	space
 // 0x3d	=
 // 0x78	x
@@ -40,7 +52,7 @@ main_loop:
 
 	// print first number
 	LD A, H
-	CALL :print_number
+	CALL :print_number_2digit
 
 	// print 'x'	
 	LD A, 0x78
@@ -48,7 +60,7 @@ main_loop:
 
 	// print second number
 	LD A, L
-	CALL :print_number
+	CALL :print_number_2digit
 
 	// print '='	
 	LD A, 0x3d
@@ -56,8 +68,30 @@ main_loop:
 
 	// print result
 	LD A, C
-	CALL :print_number
+	CALL :print_number_2digit
 
+	// next line	
+	LD A, 0xd
+	OUT 0, A
+	
+	INC L
+	// if(L == 10) next_h
+	LD A, L
+	LD C, 0xa
+	SUB A, C
+	JP Z, :next_h
+	JP :main_loop
+
+next_h:
+	LD L, 0x0
+	INC H
+	// if(H == 10) main_end
+	LD A, H
+	LD C, 0xa
+	SUB A, C
+	JP Z, :main_end
+	JP :main_loop
+	
 main_end:
 	JP :main_end
 
@@ -65,7 +99,7 @@ main_end:
 // multiply A x B, result in A
 multiply:
 	LD D, A
-	LD A, 0
+	LD A, 0x0
 	DNW B
 mu_loop:
 	JP Z, :mu_end
@@ -76,9 +110,41 @@ mu_end:
 	RET
 
 
-// print out number in A (0 <= A <=9)
-print_number:
-	LD C, 0x30
-	ADD A, C
-	OUT 0, A
+
+	
+	
+print_number_2digit:
+	LD E, H
+	LD D, 0xa
+	LD H, 0x0
+
+pn_loop:
+	//if(A < 10) pn_end else B++
+	LD B, A
+	SUB A, D
+	JP C, :pn_end
+
+	//A -= 10
+	SUB B, D
+	LD A, B
+	INC H
+	JP :pn_loop
+	
+pn_end:
+	LD F, 0x30
+
+	DNW H
+	JP Z, :pn_last_dig
+
+	ADD H, F
+	OUT 0, H
+
+pn_last_dig:
+	ADD B, F
+	OUT 0, B
+	
+	LD H, E
+
 	RET
+
+	
