@@ -1,0 +1,6 @@
+-to finish assembler
+-to finish tetris
+-learn easy eda and order an pcb
+-make protoboard circuit work (kkkk)
+-build nespi
+-build gb zero

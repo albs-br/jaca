@@ -40,8 +40,15 @@ function move_left() {
 
 function move_down() {
 	// check_collision with current_piece_y + 1 
+	if(check_colision || (current_piece_y + current_piece_height == 8)) {
+		//convert current_piece_pattern to screen_pattern
+	}
+	else {
+		current_piece_y++;
+	}
 }
 
+// checks collision between current piece pattern and screen pattern of corresponding lines
 function check_collision() {
 	for(var i=0; i <= current_piece_height; i++) {
 		var piece_line_pattern = getByteFromMemory(current_piece_pattern_addr + i);
