@@ -1,45 +1,38 @@
-0x0	width	0x02
-0x1	height	0x03
-0x2	pattern	0b01000000
-0x3	                0b11000000
-0x4	                0b10000000
-0x5	                0b00000000
-
-0x6	width	0x03
-0x7	height	0x02
-0x8	pattern	0b11000000
-0x9	                0b01100000
-0xa	                0b00000000
-0xb	                0b00000000
-
-
-check_collision:
-	AND A, C
-	JP Z, :cc_false
-	JP :cc_true
-
-
-
-
-
-
-// print out number in A (0 <= A <=9)
-print_number:
-	LD F, 0x30
-	ADD A, F
-	OUT 0, A
-	RET
-
-	
-	
 
 // 0x20	space
 // 0x3d	=
 // 0x78	x
 // 0xd	CR
 
-//test multiplication
 
+//JP :main_init
+JP :count_init
+
+// Test counting from 0 to 99
+
+count_init:
+	LD H, 0x0
+	LD C, 0x64
+	LD L, 0XD
+count_loop:
+	LD A, H
+	CALL :print_number_2digit
+	LD A, 0x20
+	OUT 0, A
+	OUT 0, L
+	
+	INC H
+	
+	// if(H == 100) count_init else count_loop
+	LD B, H
+	SUB B, C
+	JP Z, :count_init
+	JP :count_loop
+
+	
+	
+// Test multiplication
+	
 main_init:
 	LD H, 0x0
 	LD L, 0x0
@@ -75,9 +68,9 @@ main_loop:
 	OUT 0, A
 	
 	INC L
-	// if(L == 10) next_h
+	// if(L == 11) next_h
 	LD A, L
-	LD C, 0xa
+	LD C, 0xb
 	SUB A, C
 	JP Z, :next_h
 	JP :main_loop
@@ -85,9 +78,9 @@ main_loop:
 next_h:
 	LD L, 0x0
 	INC H
-	// if(H == 10) main_end
+	// if(H == 11) main_end
 	LD A, H
-	LD C, 0xa
+	LD C, 0xb
 	SUB A, C
 	JP Z, :main_end
 	JP :main_loop
@@ -111,15 +104,27 @@ mu_end:
 
 
 
+
+// print out number in A to LCD display
+// (0 <= A <=9)
+print_number_1digit:
+	LD F, 0x30
+	ADD A, F
+	OUT 0, A
+	RET
+
+
 	
-	
+// print out number in A register to LCD display
+// valid range: 0-99
 print_number_2digit:
 	LD E, H
 	LD D, 0xa
+	// H: Number of tens
 	LD H, 0x0
 
 pn_loop:
-	//if(A < 10) pn_end else B++
+	//if(A < 10) pn_end else { A -= 10; H++; }
 	LD B, A
 	SUB A, D
 	JP C, :pn_end
@@ -137,11 +142,13 @@ pn_end:
 	JP Z, :pn_last_dig
 
 	ADD H, F
-	OUT 0, H
+	LD A, H
+	OUT 0, A
 
 pn_last_dig:
 	ADD B, F
-	OUT 0, B
+	LD A, B
+	OUT 0, A
 	
 	LD H, E
 

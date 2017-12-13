@@ -51,13 +51,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConvertLine_Tests.cs" />
+    <Compile Include="ConvertLineTokensToMachineCode_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResolveLabels_Tests.cs" />
-    <Compile Include="ConvertSource_Tests.cs" />
+    <Compile Include="ResolveLabelsAndDirectives_Tests.cs" />
+    <Compile Include="ConvertToTokens_Tests.cs" />
+    <Compile Include="ConvertTokensToMachineCode_Tests.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestSourceCode\Test_00.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestSourceCode\Test_06.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

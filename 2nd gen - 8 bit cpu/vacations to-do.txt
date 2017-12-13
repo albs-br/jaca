@@ -1,8 +1,4 @@
 -to finish assembler
-	#defmem
-	#org
-	#include
-
 -to finish tetris
 -learn easy eda and order an pcb
 -make protoboard circuit work (kkkk)

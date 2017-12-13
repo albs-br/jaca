@@ -7,18 +7,29 @@ using Assembler.Entities.Exceptions;
 namespace Assembler.Test
 {
     [TestClass]
-    public class ConvertLine_Tests
+    public class ConvertLineTokensToMachineCode_Tests
     {
+        private byte[] ArrangeAndAct(string lineSrc)
+        {
+            var asmSource = new AsmSource(lineSrc);
+            AssemblerClass.ConvertToTokens(asmSource);
+            AssemblerClass.ConvertTokensToMachineCode(asmSource);
+            var line = asmSource.Lines[0];
+
+            // Act
+            return AssemblerClass.ConvertLineTokensToMachineCode(line);
+        }
+
         #region LD instructions
 
         [TestMethod]
-        public void ConvertLine_LD_Imediate_1_Test()
+        public void ConvertLineTokensToMachineCodeLD_Imediate_1_Test()
         {
             // Arrange
-            var line = "LD    A, 0x01";
+            var line = "LD    A, 0x01"; // Lower case statement
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(4, bytes[0]);
@@ -27,13 +38,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Imediate_1a_Test()
+        public void ConvertLineTokensToMachineCodeLD_Imediate_1a_Test()
         {
             // Arrange
             var line = "ld    a, 0x01"; // Lower case statement
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(4, bytes[0]);
@@ -42,13 +53,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Imediate_1b_Test()
+        public void ConvertLineTokensToMachineCodeLD_Imediate_1b_Test()
         {
             // Arrange
             var line = "\t\tLD    A, 0x01"; // Tabs in front
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(4, bytes[0]);
@@ -57,13 +68,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Imediate_2_Test()
+        public void ConvertLineTokensToMachineCodeLD_Imediate_2_Test()
         {
             // Arrange
             var line = "LD B, 0x0a"; // address in lower case should work
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(4, bytes[0]);
@@ -72,13 +83,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Imediate_3_Test()
+        public void ConvertLineTokensToMachineCodeLD_Imediate_3_Test()
         {
             // Arrange
             var line = "LD C, 0XFF"; // X in upper case should work
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x06, bytes[0]);
@@ -88,23 +99,23 @@ namespace Assembler.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
-        public void ConvertLine_LD_Imediate_4_Test()
+        public void ConvertLineTokensToMachineCodeLD_Imediate_4_Test()
         {
             // Arrange
             var line = "LD AA, 0xFF";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
-        public void ConvertLine_LD_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_1_Test()
         {
             // Arrange
             var line = "LD A, B";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -113,13 +124,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_ByRegister_1a_Test()
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_1a_Test()
         {
             // Arrange
             var line = "LD A,B"; // Same as before, without space after comma
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -128,13 +139,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_ByRegister_1b_Test()
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_1b_Test()
         {
             // Arrange
             var line = "LD A, B" + Environment.NewLine;
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -143,13 +154,24 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_ByRegister_2_Test()
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_1c_Test()
+        {
+            // Arrange
+            var line = "LD A B"; // without comma
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_2_Test()
         {
             // Arrange
             var line = "LD B, A";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(8, bytes[0]);
@@ -158,13 +180,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_ByRegister_3_Test()
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_3_Test()
         {
             // Arrange
             var line = "LD D, F";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x0a, bytes[0]);
@@ -173,13 +195,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_ByRegister_4_Test()
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_4_Test()
         {
             // Arrange
             var line = "LD E, F";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x0b, bytes[0]);
@@ -188,13 +210,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_ByRegister_5_Test()
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_5_Test()
         {
             // Arrange
             var line = "LD A, H";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x08, bytes[0]);
@@ -204,23 +226,23 @@ namespace Assembler.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
-        public void ConvertLine_LD_ByRegister_56Test()
+        public void ConvertLineTokensToMachineCodeLD_ByRegister_6_Test()
         {
             // Arrange
             var line = "LD A, BB";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeLD_Direct_1_Test()
         {
             // Arrange
             var line = "LD A, [0x00C]"; // address with 12 bits (3 hexadecimal digits)
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(12, bytes[0]);
@@ -229,13 +251,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Direct_2_Test()
+        public void ConvertLineTokensToMachineCodeLD_Direct_2_Test()
         {
             // Arrange
             var line = "LD B, [0x8]";  // address with 4 bits (1 hexadecimal digit)
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(12, bytes[0]);
@@ -244,13 +266,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Direct_3_Test()
+        public void ConvertLineTokensToMachineCodeLD_Direct_3_Test()
         {
             // Arrange
             var line = "LD C, [0xFF]";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x0e, bytes[0]);
@@ -259,13 +281,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Direct_4_Test()
+        public void ConvertLineTokensToMachineCodeLD_Direct_4_Test()
         {
             // Arrange
             var line = "LD C, [0xFFF]";  // max addr possible with 12 bits
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x0e, bytes[0]);
@@ -274,13 +296,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_Direct_5_Test()
+        public void ConvertLineTokensToMachineCodeLD_Direct_5_Test()
         {
             // Arrange
             var line = "LD C, [0xfff]";  // same as above with addr in lowercase
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x0e, bytes[0]);
@@ -290,23 +312,23 @@ namespace Assembler.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
-        public void ConvertLine_LD_Direct_6_Test()
+        public void ConvertLineTokensToMachineCodeLD_Direct_6_Test()
         {
             // Arrange
             var line = "LD AA, [0x00C]";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
-        public void ConvertLine_LD_IndirectByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeLD_IndirectByRegister_1_Test()
         {
             // Arrange
             var line = "LD A, [HL]";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x10, bytes[0]);
@@ -315,13 +337,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_LD_IndirectByRegister_2_Test()
+        public void ConvertLineTokensToMachineCodeLD_IndirectByRegister_2_Test()
         {
             // Arrange
             var line = "LD B, [HL]";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x10, bytes[0]);
@@ -332,28 +354,30 @@ namespace Assembler.Test
         #endregion
 
         [TestMethod]
-        public void ConvertLine_CommentedLine_Test()
+        public void ConvertLineTokensToMachineCodeCommentedLine_Test()
         {
             // Arrange
             var line = "// Commented line";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var asmSource = new AsmSource(line);
+            AssemblerClass.ConvertToTokens(asmSource);
+            AssemblerClass.ConvertTokensToMachineCode(asmSource);
 
             // Assert
-            Assert.IsNull(bytes);
+            Assert.AreEqual(0, asmSource.Lines.Count);
         }
 
         #region ALU instructions
 
         [TestMethod]
-        public void ConvertLine_ADD_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeADD_ByRegister_1_Test()
         {
             // Arrange
             var line = "ADD A, E";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x80, bytes[0]);
@@ -363,67 +387,67 @@ namespace Assembler.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidRegisterException))]
-        public void ConvertLine_ADD_ByRegister_1a_Test()
+        public void ConvertLineTokensToMachineCodeADD_ByRegister_1a_Test()
         {
             // Arrange
             var line = "ADD A, B";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidRegisterException))]
-        public void ConvertLine_ADD_ByRegister_1b_Test()
+        public void ConvertLineTokensToMachineCodeADD_ByRegister_1b_Test()
         {
             // Arrange
             var line = "ADD C, D";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
-        public void ConvertLine_ADD_ByRegister_2_Test()
+        public void ConvertLineTokensToMachineCodeADD_ByRegister_2_Test()
         {
             // Arrange
             var line = "ADD A";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
-        public void ConvertLine_ADD_ByRegister_3_Test()
+        public void ConvertLineTokensToMachineCodeADD_ByRegister_3_Test()
         {
             // Arrange
             var line = "ADD AA, B";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidRegisterException))]
-        public void ConvertLine_ADD_ByRegister_4_Test()
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeADD_ByRegister_4_Test()
         {
             // Arrange
             var line = "ADD A, BB";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
-        public void ConvertLine_SUB_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeSUB_ByRegister_1_Test()
         {
             // Arrange
             var line = "SUB A, F";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x84, bytes[0]);
@@ -432,13 +456,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_NOT_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeNOT_ByRegister_1_Test()
         {
             // Arrange
             var line = "NOT A";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x88, bytes[0]);
@@ -447,13 +471,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_AND_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeAND_ByRegister_1_Test()
         {
             // Arrange
             var line = "AND B, E";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x8c, bytes[0]);
@@ -462,13 +486,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_OR_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeOR_ByRegister_1_Test()
         {
             // Arrange
             var line = "OR A, E";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x90, bytes[0]);
@@ -477,13 +501,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_XOR_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeXOR_ByRegister_1_Test()
         {
             // Arrange
             var line = "XOR A, E";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x94, bytes[0]);
@@ -492,13 +516,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_NOR_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeNOR_ByRegister_1_Test()
         {
             // Arrange
             var line = "NOR A, E";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x98, bytes[0]);
@@ -507,13 +531,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_XNOR_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeXNOR_ByRegister_1_Test()
         {
             // Arrange
             var line = "XNOR A, E";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x9c, bytes[0]);
@@ -522,13 +546,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_INC_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeINC_ByRegister_1_Test()
         {
             // Arrange
             var line = "INC L";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0xa1, bytes[0]);
@@ -538,45 +562,45 @@ namespace Assembler.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidRegisterException))]
-        public void ConvertLine_INC_ByRegister_1a_Test()
+        public void ConvertLineTokensToMachineCodeINC_ByRegister_1a_Test()
         {
             // Arrange
             var line = "INC C";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
-        public void ConvertLine_INC_ByRegister_2_Test()
+        public void ConvertLineTokensToMachineCodeINC_ByRegister_2_Test()
         {
             // Arrange
             var line = "INC";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
-        public void ConvertLine_INC_ByRegister_3_Test()
+        public void ConvertLineTokensToMachineCodeINC_ByRegister_3_Test()
         {
             // Arrange
             var line = "INC AA";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
-        public void ConvertLine_DEC_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeDEC_ByRegister_1_Test()
         {
             // Arrange
             var line = "DEC B";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0xa4, bytes[0]);
@@ -585,13 +609,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_DNW_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeDNW_ByRegister_1_Test()
         {
             // Arrange
             var line = "DNW H";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0xa9, bytes[0]);
@@ -600,13 +624,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_SHL_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeSHL_ByRegister_1_Test()
         {
             // Arrange
             var line = "SHL A";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0xb0, bytes[0]);
@@ -615,13 +639,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_SHR_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeSHR_ByRegister_1_Test()
         {
             // Arrange
             var line = "SHR A";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0xb4, bytes[0]);
@@ -630,13 +654,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_SUBM_ByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeSUBM_ByRegister_1_Test()
         {
             // Arrange
             var line = "SUBM A, C";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0xac, bytes[0]);
@@ -651,13 +675,13 @@ namespace Assembler.Test
         #region JP/CALL instructions
 
         [TestMethod]
-        public void ConvertLine_JP_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeJP_Direct_1_Test()
         {
             // Arrange
             var line = "JP 0xFFF";  // max addr possible with 12 bits
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x14, bytes[0]);
@@ -666,13 +690,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_JP_Z_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeJP_Z_Direct_1_Test()
         {
             // Arrange
             var line = "JP Z, 0xFFF";  // max addr possible with 12 bits
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x18, bytes[0]);
@@ -681,13 +705,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_JP_C_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeJP_C_Direct_1_Test()
         {
             // Arrange
             var line = "JP C, 0xFFF";  // max addr possible with 12 bits
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x30, bytes[0]);
@@ -696,13 +720,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_CALL_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeCALL_Direct_1_Test()
         {
             // Arrange
             var line = "CALL 0xFFF";  // max addr possible with 12 bits
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x1c, bytes[0]);
@@ -711,13 +735,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_CALL_Z_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeCALL_Z_Direct_1_Test()
         {
             // Arrange
             var line = "CALL Z, 0xFFF";  // max addr possible with 12 bits
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x20, bytes[0]);
@@ -726,13 +750,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_CALL_C_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeCALL_C_Direct_1_Test()
         {
             // Arrange
             var line = "CALL C, 0xFFF";  // max addr possible with 12 bits
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x34, bytes[0]);
@@ -741,13 +765,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_RET_Test()
+        public void ConvertLineTokensToMachineCodeRET_Test()
         {
             // Arrange
-            var line = "RET";  // max addr possible with 12 bits
+            var line = "RET";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x24, bytes[0]);
@@ -762,13 +786,13 @@ namespace Assembler.Test
         #region ST instructions
 
         [TestMethod]
-        public void ConvertLine_ST_Direct_1_Test()
+        public void ConvertLineTokensToMachineCodeST_Direct_1_Test()
         {
             // Arrange
             var line = "ST [0x00C], A"; // address with 12 bits (3 hexadecimal digits)
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x28, bytes[0]);
@@ -777,13 +801,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_ST_Direct_2_Test()
+        public void ConvertLineTokensToMachineCodeST_Direct_2_Test()
         {
             // Arrange
             var line = "ST [0x00C], B"; // address with 12 bits (3 hexadecimal digits)
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x28, bytes[0]);
@@ -792,13 +816,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_ST_IndirectByRegister_1_Test()
+        public void ConvertLineTokensToMachineCodeST_IndirectByRegister_1_Test()
         {
             // Arrange
             var line = "ST [HL], A";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x2c, bytes[0]);
@@ -807,13 +831,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_ST_IndirectByRegister_2_Test()
+        public void ConvertLineTokensToMachineCodeST_IndirectByRegister_2_Test()
         {
             // Arrange
             var line = "ST [HL], B";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x2c, bytes[0]);
@@ -828,13 +852,13 @@ namespace Assembler.Test
         #region IN/OUT instructions
 
         [TestMethod]
-        public void ConvertLine_OUT_1_Test()
+        public void ConvertLineTokensToMachineCodeOUT_1_Test()
         {
             // Arrange
             var line = "OUT 0, B";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x44, bytes[0]);
@@ -843,13 +867,13 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_OUT_2_Test()
+        public void ConvertLineTokensToMachineCodeOUT_2_Test()
         {
             // Arrange
             var line = "OUT 1, A, C";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x44, bytes[0]);
@@ -858,18 +882,51 @@ namespace Assembler.Test
         }
 
         [TestMethod]
-        public void ConvertLine_IN_1_Test()
+        public void ConvertLineTokensToMachineCodeIN_1_Test()
         {
             // Arrange
             var line = "IN 0, B";
 
             // Act
-            var bytes = Converter.ConvertLine(line);
+            var bytes = ArrangeAndAct(line);
 
             // Assert
             Assert.AreEqual(0x40, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidRegisterException))]
+        public void ConvertLineTokensToMachineCodeIN_2_Test()
+        {
+            // Arrange
+            var line = "IN 0, C";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidRegisterException))]
+        public void ConvertLineTokensToMachineCodeOUT_3_Test()
+        {
+            // Arrange
+            var line = "OUT 0, E";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidRegisterException))]
+        public void ConvertLineTokensToMachineCodeOUT_4_Test()
+        {
+            // Arrange
+            var line = "OUT 1, A, B";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
         }
 
         #endregion

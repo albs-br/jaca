@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assembler.Entities.Tokens
 {
-    public class LabelToken : Token
+    public class DirectiveToken : Token
     {
-        public LabelToken(string text)
+        public DirectiveToken(string text)
         {
             Text = text;
         }

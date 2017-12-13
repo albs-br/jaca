@@ -17,6 +17,44 @@ namespace Assembler
         public FormMain()
         {
             InitializeComponent();
+
+            this.Text = string.Format("Assembler for JACA Homebrew Computer v.{0}", Constants.VERSION);
+
+            // Command line for Notepad++:
+            // "C:\Users\albs_\Source\Repos\jaca\2nd gen - 8 bit cpu\Assembler\Assembler\bin\Debug\Assembler.exe" "$(FULL_CURRENT_PATH)" "C:\Users\albs_\Source\Repos\jaca\2nd gen - 8 bit cpu\compiled.bin"
+
+            string[] args = Environment.GetCommandLineArgs();
+
+            if (args.Length == 3)
+            {
+                try
+                {
+                    var sourceFullPath = args[1];
+                    var destinyFullPath = args[2];
+
+                    var source = File.OpenText(sourceFullPath).ReadToEnd();
+
+                    //var machineCodeProgram = Converter.ResolveLabels(source);
+                    //Converter.ConvertSource(machineCodeProgram);
+
+                    //var bytesAsText = machineCodeProgram.BytesAsText;
+
+                    var asmSource = AssemblerClass.SourceToMachineCode(source);
+
+                    SaveToLogisimBinFile(asmSource.BytesAsText, destinyFullPath);
+
+                    textBoxAssembly.Text = source;
+                    UpdateTextboxes();
+
+                    MessageBox.Show("Source compiled successfully",
+                        "Information");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while compiling. " + ex.Message,
+                        "Error");
+                }
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -32,19 +70,21 @@ namespace Assembler
                 textBoxLabels.Clear();
                 textBoxVariables.Clear();
 
-                var machineCodeProgram = Converter.ResolveLabels(textBoxAssembly.Text);
-                Converter.ConvertSource(machineCodeProgram);
+                //var machineCodeProgram = Converter.ResolveLabels(textBoxAssembly.Text);
+                //Converter.ConvertSource(machineCodeProgram);
 
-                textBoxBytes.Text = machineCodeProgram.BytesAsText;
+                var asmSource = AssemblerClass.SourceToMachineCode(textBoxAssembly.Text);
 
-                foreach (var label in machineCodeProgram.Labels)
+                textBoxBytes.Text = asmSource.BytesAsText;
+
+                foreach (var label in asmSource.Labels)
                 {
                     textBoxLabels.Text +=
                         string.Format("{0}  {1:x4}", label.Key.PadRight(10), label.Value) +
                         Environment.NewLine;
                 }
 
-                foreach (var variable in machineCodeProgram.Variables)
+                foreach (var variable in asmSource.Variables)
                 {
                     textBoxVariables.Text +=
                         string.Format("{0}  {1:x4}", variable.Key.PadRight(10), variable.Value) +
@@ -232,22 +272,25 @@ namespace Assembler
 
         private void BtnSaveLogisim_Click(object sender, EventArgs e)
         {
-            var filePath = @"C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\" + "FileGeneratedByJACAAssembler.txt";
-
-            var fileContent = "v2.0 raw" + Environment.NewLine;
-
             var source = textBoxBytes.Text.Replace(Environment.NewLine, " ");
+            var destiny = Constants.LOGISIM_BIN_FILEPATH;
+
+            SaveToLogisimBinFile(source, destiny);
+        }
+
+        private void SaveToLogisimBinFile(string source, string destiny)
+        {
+            var fileContent = "v2.0 raw" + Environment.NewLine + Environment.NewLine;
 
             foreach (var b in source.Split(' '))
             {
                 if (!string.IsNullOrWhiteSpace(b))
                 {
-                    fileContent += b + Environment.NewLine;
+                    fileContent += b + " ";
                 }
             }
 
-            File.WriteAllText(filePath, fileContent);
+            File.WriteAllText(destiny, fileContent);
         }
-
     }
 }

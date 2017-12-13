@@ -1,0 +1,5 @@
+
+
+OUT 0, B with char '9' (0x39) is breaking line
+OUT 0, A with char '9' (0x39) works fine
+

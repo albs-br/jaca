@@ -29,7 +29,7 @@ nov, 23th:
 
 dec, 4th:
 
--SHR (shift right) instruction (need one more signal in 
+-SHR (shift right) instruction (need one more signal in 		OK
  microcode store and an 8 bit tri-state buffer)
 
 -------------------------------------

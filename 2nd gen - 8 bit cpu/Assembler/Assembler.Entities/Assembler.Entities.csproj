@@ -55,9 +55,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AssemblerClass.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Tokens\DirectiveToken.cs" />
     <Compile Include="Tokens\AddressToken.cs" />
     <Compile Include="Tokens\CommandToken.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
+    <Compile Include="Tokens\IndirectByRegisterToken.cs" />
+    <Compile Include="Tokens\RegisterToken.cs" />
     <Compile Include="Tokens\LabelToken.cs" />
     <Compile Include="Tokens\LiteralToken.cs" />
     <Compile Include="Tokens\Token.cs" />
@@ -70,14 +74,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AsmSource.cs" />
-    <Compile Include="Converter.cs" />
     <Compile Include="Enum\EnumRegistersAllowed.cs" />
     <Compile Include="Exceptions\InvalidRegisterException.cs" />
     <Compile Include="Exceptions\VariableNotResolvedException.cs" />
     <Compile Include="Exceptions\LabelNotResolvedException.cs" />
     <Compile Include="Exceptions\InvalidCommandLineException.cs" />
     <Compile Include="Line.cs" />
-    <Compile Include="MachineCodeProgram.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

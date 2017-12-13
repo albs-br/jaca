@@ -1,0 +1,4 @@
+﻿			LD A, 5
+
+label_01:
+			INC A

@@ -8,5 +8,9 @@ namespace Assembler.Entities.Tokens
 {
     public class CommaToken : Token
     {
+        public CommaToken()
+        {
+            Text = ",";
+        }
     }
 }
