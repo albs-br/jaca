@@ -6,28 +6,11 @@ using System.Threading.Tasks;
 
 namespace Assembler.Entities.Tokens
 {
-    public class LiteralToken : Token
+    public class LiteralToken : NumericToken
     {
         public LiteralToken(string text)
         {
             Text = text;
-        }
-
-        public int NumericValue
-        {
-            get
-            {
-                int numericBase;
-                if (Text.ToLower().StartsWith("0x"))
-                {
-                    numericBase = 16;
-                }
-                else
-                {
-                    numericBase = 10;
-                }
-                return Convert.ToInt32(Text, numericBase);
-            }
         }
     }
 }

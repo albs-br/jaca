@@ -34,11 +34,6 @@ namespace Assembler
 
                     var source = File.OpenText(sourceFullPath).ReadToEnd();
 
-                    //var machineCodeProgram = Converter.ResolveLabels(source);
-                    //Converter.ConvertSource(machineCodeProgram);
-
-                    //var bytesAsText = machineCodeProgram.BytesAsText;
-
                     var asmSource = AssemblerClass.SourceToMachineCode(source);
 
                     SaveToLogisimBinFile(asmSource.BytesAsText, destinyFullPath);

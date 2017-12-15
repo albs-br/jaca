@@ -22,7 +22,6 @@ namespace Assembler.Test
             Assert.AreEqual(3, asmSource.Lines.Count);
 
             Assert.AreEqual("LD A, 5", asmSource.Lines[0].Text.Trim());
-            //Assert.AreEqual(0, asmSource.Lines[0].Address);
             Assert.AreEqual(4, asmSource.Lines[0].Tokens.Count);
             Assert.AreEqual("LD", asmSource.Lines[0].Tokens[0].Text);
             Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[0], typeof(CommandToken));
@@ -35,7 +34,6 @@ namespace Assembler.Test
             Assert.AreEqual(5, ((LiteralToken)asmSource.Lines[0].Tokens[3]).NumericValue);
 
             Assert.AreEqual("label_01:", asmSource.Lines[1].Text.Trim());
-            //Assert.AreEqual(3, asmSource.Lines[1].Address);
             Assert.AreEqual(1, asmSource.Lines[1].Tokens.Count);
             Assert.AreEqual("label_01", asmSource.Lines[1].Tokens[0].Text);
             Assert.IsInstanceOfType(asmSource.Lines[1].Tokens[0], typeof(LabelToken));

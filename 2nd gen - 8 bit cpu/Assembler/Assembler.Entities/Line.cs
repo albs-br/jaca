@@ -31,5 +31,13 @@ namespace Assembler.Entities
                     Tokens[1] is CommandToken &&
                     Tokens[0].Text == "defbyte");
         }
+
+        public bool IsOrgDirective()
+        {
+            return (Tokens.Count == 2 &&
+                    Tokens[0] is DirectiveToken &&
+                    Tokens[1] is LiteralToken &&
+                    Tokens[0].Text.ToLower() == "org");
+        }
     }
 }

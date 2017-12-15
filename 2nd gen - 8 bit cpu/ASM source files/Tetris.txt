@@ -1,0 +1,163 @@
+// Tetris for JACA-2 homebrew CPU
+// v.0.1.0
+
+
+#defbyte	current_piece
+#defbyte	current_piece_x
+#defbyte	current_piece_y
+#defbyte	current_piece_width
+#defbyte	current_piece_height
+
+
+// should be added to 0xb00
+// 4 bytes
+//#defbyte	current_piece_pattern
+
+
+
+
+main_init:
+
+	LD A, 2
+	ST #current_piece_x, A
+
+	LD A, 0
+	ST #current_piece_y, A
+	
+	LD A, 3
+	ST #current_piece_width, A
+	
+	LD A, 2
+	ST #current_piece_height, A
+	
+
+	// current_piece_pattern:
+	LD A, 0b00011000
+	ST [0xb00], A
+	LD A, 0b00110000
+	ST [0xb01], A
+	LD A, 0b00000000
+	ST [0xb02], A
+	LD A, 0b00000000
+	ST [0xb03], A
+	
+	
+	
+main_loop:
+
+	CALL :draw_piece
+
+	IN 0, B
+	LD E, B
+	
+	// check '6' key (move right)
+	LD D, 0x36
+	SUB B, D
+	JP Z, :move_right
+
+	LD B, E
+
+	// check '4' key (move left)
+	LD D, 0x34
+	SUB B, D
+	JP Z, :move_left
+
+	JP :main_loop
+	
+
+move_right:
+
+	LD A, #current_piece_x
+	INC A
+	LD C, #current_piece_width
+	LD B, A
+	ADD B, C
+	
+	// if ((x+1) + width == 8) { // dont let move right } else x++
+	LD C, 9
+	SUB B, C
+	
+	JP Z, :main_loop
+	
+	ST #current_piece_x, A
+
+	LD A, [0xb00]
+	SHR A
+	ST [0xb00], A
+	
+	LD A, [0xb01]
+	SHR A
+	ST [0xb01], A
+	
+	LD A, [0xb02]
+	SHR A
+	ST [0xb02], A
+	
+	LD A, [0xb03]
+	SHR A
+	ST [0xb03], A
+
+	JP :main_loop
+
+
+	
+move_left:
+
+	LD A, #current_piece_x
+	DNW A
+	JP Z, :main_loop
+
+	DEC A
+	ST #current_piece_x, A
+
+	LD A, [0xb00]
+	SHL A
+	ST [0xb00], A
+	
+	LD A, [0xb01]
+	SHL A
+	ST [0xb01], A
+	
+	LD A, [0xb02]
+	SHL A
+	ST [0xb02], A
+	
+	LD A, [0xb03]
+	SHL A
+	ST [0xb03], A
+	
+	JP :main_loop
+
+	
+	
+
+draw_piece:
+	
+	LD B, #current_piece_y
+	LD C, B
+	
+	LD A, [0xb00]
+	OUT 1, A, C
+	
+	INC B
+	LD C, B
+	
+	LD A, [0xb01]
+	OUT 1, A, C
+	
+	INC B
+	LD C, B
+
+	LD A, [0xb02]
+	OUT 1, A, C
+	
+	INC B
+	LD C, B
+
+	LD A, [0xb03]
+	OUT 1, A, C
+	
+	LD C, 8	// constant to refresh screen
+	OUT 1, A, C
+
+	RET

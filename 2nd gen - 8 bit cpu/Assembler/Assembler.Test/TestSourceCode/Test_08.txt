@@ -1,0 +1,10 @@
+﻿// Test the #org directive
+
+#org 0
+
+	LD A, 7
+	CALL :print_number_1digit
+	jp 0
+
+
+#include	TestSourceCode/Test_08a.txt

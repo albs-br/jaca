@@ -11,6 +11,7 @@ namespace Assembler.Test
         private AsmSource ArrangeAndAct(string source)
         {
             var asmSource = new AsmSource(source);
+            AssemblerClass.ResolveIncludes(asmSource);
             AssemblerClass.ConvertToTokens(asmSource);
             AssemblerClass.ResolveLabelsAndDirectives(asmSource);
             AssemblerClass.ConvertTokensToMachineCode(asmSource);
@@ -163,5 +164,118 @@ namespace Assembler.Test
             var actual = ((List<byte>)asmSource.Bytes);
             CollectionAssert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ConvertSource_7_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_07"));
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x00a, asmSource.Labels["print_number_1digit"]);
+
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0x07,
+                0x1c, 0x00, 0x0a,
+                0x14, 0x00, 0x00,
+
+                0x00, 
+
+                0x07, 0x80, 0x30,
+                0x80, 0x70, 0x00,
+                0x44, 0x00, 0x00,
+                0x24, 0x00, 0x00,
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ConvertSource_8_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_08"));
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x00a, asmSource.Labels["print_number_1digit"]);
+
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0x07,
+                0x1c, 0x00, 0x0a,
+                0x14, 0x00, 0x00,
+
+                0x00,
+
+                0x07, 0x80, 0x30,
+                0x80, 0x70, 0x00,
+                0x44, 0x00, 0x00,
+                0x24, 0x00, 0x00,
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ConvertSource_9_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_09"));
+
+            // Assert
+            Assert.AreEqual(5, asmSource.Labels.Count);
+            Assert.AreEqual(0x010, asmSource.Labels["print_number_1digit"]);
+            Assert.AreEqual(30, asmSource.Labels["print_number_2digit"]);
+            Assert.AreEqual(39, asmSource.Labels["pn_loop"]);
+            Assert.AreEqual(60, asmSource.Labels["pn_end"]);
+            Assert.AreEqual(78, asmSource.Labels["pn_last_dig"]);
+
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0x04,
+                0x1c, 0x00, 0x10,
+                0x04, 0x00, 0x63,
+                0x1c, 0x00, 0x1e,
+                0x14, 0x00, 0x0c,
+                
+                0x00,
+
+                0x07, 0x80, 0x30,
+                0x80, 0x70, 0x00,
+                0x44, 0x00, 0x00,
+                0x24, 0x00, 0x00,
+
+                0x00, 0x00,
+
+                0x0b, 0x20, 0x00,
+                0x06, 0x80, 0x0a,
+                0x05, 0x00, 0x00,
+                0x08, 0x80, 0x00,
+                0x84, 0x50, 0x00,
+                0x30, 0x00, 0x3c,
+                0x84, 0xd0, 0x00,
+                0x08, 0x10, 0x00,
+                0xa1, 0x00, 0x00,
+                0x14, 0x00, 0x27,
+                0x07, 0x80, 0x30,
+                0xa9, 0x00, 0x00,
+                0x18, 0x00, 0x4e,
+                0x81, 0x70, 0x00,
+                0x08, 0x20, 0x00,
+                0x44, 0x00, 0x00,
+                0x80, 0xf0, 0x00,
+                0x08, 0x10, 0x00,
+                0x44, 0x00, 0x00,
+                0x09, 0x60, 0x00,
+                0x24, 0x00, 0x00,
+
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
     }
 }

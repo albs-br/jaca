@@ -1,7 +1,8 @@
 -to finish assembler
 	#defmem
-	#org
-	#include
+	#org			OK
+	#include		OK
+	binary literal (0b)	OK
 
 -to finish tetris
 -learn easy eda and order an pcb

@@ -133,5 +133,32 @@ namespace Assembler.Test
 
             Assert.AreEqual(0, asmSource.Variables.Count);
         }
+
+        [TestMethod]
+        public void ResolveLabelsAndDirectives_7_Test()
+        {
+            // Arrange
+            var asmSource = new AsmSource(Utilities.GetFromFile("Test_07"));
+            AssemblerClass.ConvertToTokens(asmSource);
+
+            // Act
+            AssemblerClass.ResolveLabelsAndDirectives(asmSource);
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x00a, asmSource.Labels["print_number_1digit"]);
+
+            Assert.AreEqual(7, asmSource.Lines.Count);
+            Assert.AreEqual(0x000, asmSource.Lines[0].Address);
+            Assert.AreEqual(0x003, asmSource.Lines[1].Address);
+            Assert.AreEqual(0x006, asmSource.Lines[2].Address);
+            Assert.AreEqual(0x00a, asmSource.Lines[3].Address);
+            Assert.AreEqual(0x00d, asmSource.Lines[4].Address);
+            Assert.AreEqual(0x010, asmSource.Lines[5].Address);
+            Assert.AreEqual(0x013, asmSource.Lines[6].Address);
+
+            Assert.AreEqual(0, asmSource.Variables.Count);
+        }
+
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="Tokens\RegisterToken.cs" />
     <Compile Include="Tokens\LabelToken.cs" />
     <Compile Include="Tokens\LiteralToken.cs" />
+    <Compile Include="Tokens\NumericToken.cs" />
     <Compile Include="Tokens\Token.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

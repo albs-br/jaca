@@ -9,7 +9,7 @@ current_piece_height = 0;
 current_piece_pattern_addr = 0xdf8; // ends in 0xdfb
 
 
-// screen_pattren = 8 bytes
+// screen_pattern = 8 bytes
 screen_pattern_addr = 0xdf0 // ends in 0xdf7
 
 

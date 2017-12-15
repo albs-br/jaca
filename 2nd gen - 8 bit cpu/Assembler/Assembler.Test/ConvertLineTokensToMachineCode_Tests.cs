@@ -26,15 +26,124 @@ namespace Assembler.Test
         public void ConvertLineTokensToMachineCodeLD_Imediate_1_Test()
         {
             // Arrange
-            var line = "LD    A, 0x01"; // Lower case statement
+            var line = "LD    A, 0x01"; // Upper case statement
 
             // Act
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(4, bytes[0]);
             Assert.AreEqual(0, bytes[1]);
             Assert.AreEqual(1, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10_Test()
+        {
+            // Arrange
+            var line = "LD    A, 1"; // Decimal literal
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(1, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10a_Test()
+        {
+            // Arrange
+            var line = "LD    A, 0b00000011"; // Binary literal
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(3, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ab_Test()
+        {
+            // Arrange
+            var line = "LD    A, 0b11111111"; // Binary literal
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(255, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ac_Test()
+        {
+            // Arrange
+            var line = "LD    A, 0b00012301"; // Binary literal with wrong digits
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10b_Test()
+        {
+            // Arrange
+            var line = "LD    A, 000abaab01"; // number with letters
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ba_Test()
+        {
+            // Arrange
+            var line = "LD    A, 0x0gj5"; // hexadecimal number with wrong letters
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_1aa_Test()
+        {
+            // Arrange
+            var line = "LD    A, 0x01   // Commentary";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(1, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_1ab_Test()
+        {
+            // Arrange
+            var line = "LD    A, 0x01// Commentary";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
         }
 
         [TestMethod]
@@ -47,6 +156,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(4, bytes[0]);
             Assert.AreEqual(0, bytes[1]);
             Assert.AreEqual(1, bytes[2]);
@@ -62,6 +172,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(4, bytes[0]);
             Assert.AreEqual(0, bytes[1]);
             Assert.AreEqual(1, bytes[2]);
@@ -77,6 +188,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(4, bytes[0]);
             Assert.AreEqual(128, bytes[1]);
             Assert.AreEqual(10, bytes[2]);
@@ -92,6 +204,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x06, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -118,6 +231,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(8, bytes[0]);
             Assert.AreEqual(16, bytes[1]);
             Assert.AreEqual(0, bytes[2]);
@@ -133,6 +247,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(8, bytes[0]);
             Assert.AreEqual(16, bytes[1]);
             Assert.AreEqual(0, bytes[2]);
@@ -148,6 +263,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(8, bytes[0]);
             Assert.AreEqual(16, bytes[1]);
             Assert.AreEqual(0, bytes[2]);
@@ -174,6 +290,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(8, bytes[0]);
             Assert.AreEqual(128, bytes[1]);
             Assert.AreEqual(0, bytes[2]);
@@ -189,6 +306,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x0a, bytes[0]);
             Assert.AreEqual(0xf0, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -204,6 +322,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x0b, bytes[0]);
             Assert.AreEqual(0x70, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -219,6 +338,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x08, bytes[0]);
             Assert.AreEqual(0x20, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -245,6 +365,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(12, bytes[0]);
             Assert.AreEqual(0, bytes[1]);
             Assert.AreEqual(12, bytes[2]);
@@ -260,6 +381,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(12, bytes[0]);
             Assert.AreEqual(128, bytes[1]);
             Assert.AreEqual(8, bytes[2]);
@@ -275,6 +397,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x0e, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -290,6 +413,39 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(0x0e, bytes[0]);
+            Assert.AreEqual(0x0f, bytes[1]);
+            Assert.AreEqual(0xff, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Direct_4a_Test()
+        {
+            // Arrange
+            var line = "LD C, [4095]";  // max addr possible with 12 bits in decimal
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(0x0e, bytes[0]);
+            Assert.AreEqual(0x0f, bytes[1]);
+            Assert.AreEqual(0xff, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Direct_4b_Test()
+        {
+            // Arrange
+            var line = "LD C, [0b111111111111]";  // max addr possible with 12 bits in binary
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x0e, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -305,6 +461,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x0e, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -331,6 +488,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x10, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -346,6 +504,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x10, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -380,6 +539,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x80, bytes[0]);
             Assert.AreEqual(0x60, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -450,6 +610,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x84, bytes[0]);
             Assert.AreEqual(0x70, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -465,6 +626,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x88, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -480,6 +642,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x8c, bytes[0]);
             Assert.AreEqual(0xe0, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -495,6 +658,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x90, bytes[0]);
             Assert.AreEqual(0x60, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -510,6 +674,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x94, bytes[0]);
             Assert.AreEqual(0x60, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -525,6 +690,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x98, bytes[0]);
             Assert.AreEqual(0x60, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -540,6 +706,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x9c, bytes[0]);
             Assert.AreEqual(0x60, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -555,6 +722,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0xa1, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -603,6 +771,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0xa4, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -618,6 +787,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0xa9, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -633,6 +803,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0xb0, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -648,6 +819,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0xb4, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -663,6 +835,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0xac, bytes[0]);
             Assert.AreEqual(0x40, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -684,6 +857,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x14, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -699,6 +873,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x18, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -714,6 +889,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x30, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -729,6 +905,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x1c, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -744,6 +921,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x20, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -759,6 +937,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x34, bytes[0]);
             Assert.AreEqual(0x0f, bytes[1]);
             Assert.AreEqual(0xff, bytes[2]);
@@ -774,6 +953,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x24, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -795,6 +975,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x28, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x0c, bytes[2]);
@@ -810,6 +991,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x28, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x0c, bytes[2]);
@@ -825,6 +1007,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x2c, bytes[0]);
             Assert.AreEqual(0x00, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -840,6 +1023,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x2c, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -861,6 +1045,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x44, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -876,6 +1061,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x44, bytes[0]);
             Assert.AreEqual(0x42, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);
@@ -891,6 +1077,7 @@ namespace Assembler.Test
             var bytes = ArrangeAndAct(line);
 
             // Assert
+            Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(0x40, bytes[0]);
             Assert.AreEqual(0x80, bytes[1]);
             Assert.AreEqual(0x00, bytes[2]);

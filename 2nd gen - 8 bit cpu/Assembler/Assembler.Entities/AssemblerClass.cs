@@ -3,6 +3,7 @@ using Assembler.Entities.Exceptions;
 using Assembler.Entities.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,42 @@ namespace Assembler.Entities
         {
             var asmSource = new AsmSource(source);
 
+            AssemblerClass.ResolveIncludes(asmSource);
             AssemblerClass.ConvertToTokens(asmSource);
             AssemblerClass.ResolveLabelsAndDirectives(asmSource);
             AssemblerClass.ConvertTokensToMachineCode(asmSource);
 
             return asmSource;
+        }
+
+        public static void ResolveIncludes(AsmSource asmSource)
+        {
+            string[] lines = asmSource.Text.Split(
+                new[] { Environment.NewLine },
+                StringSplitOptions.None
+            );
+
+            string newText = "";
+            foreach (var line in lines)
+            {
+                if (line.Trim().ToLower().StartsWith("#include"))
+                {
+                    var fileName = line.Trim().Substring(8).Trim();
+
+                    var linesIncludeFile = File.ReadAllLines(fileName);
+
+                    foreach (var lineInclude in linesIncludeFile)
+                    {
+                        newText += lineInclude + Environment.NewLine;
+                    }
+                }
+                else
+                {
+                    newText += line + Environment.NewLine;
+                }
+            }
+
+            asmSource.Text = newText;
         }
 
         #region auxiliary code
@@ -54,6 +86,18 @@ namespace Assembler.Entities
             ch = ch.ToString().ToLower().ElementAt(0);
 
             if (Char.IsDigit(ch) || hexaAlfaDigits.Contains(ch))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsBinaryDigit(char ch)
+        {
+            char[] binaryDigits = { '0', '1' };
+
+            if (binaryDigits.Contains(ch))
             {
                 return true;
             }
@@ -226,44 +270,57 @@ namespace Assembler.Entities
 
                     case StateMachine.LiteralStarted:
 
-                        currentToken = CheckLiteral(currentToken, currentChar);
+                        var isValidLiteral = CheckLiteral(ref currentToken, currentChar);
 
-                        if (irrelevantChars.Contains(currentChar) || currentChar == ',')
+                        if (!isValidLiteral)
                         {
-                            state = StateMachine.None;
-                            newLine.Tokens.Add(new LiteralToken(currentToken));
-                            currentToken = "";
-
-                            if (currentChar == ',')
+                            if (irrelevantChars.Contains(currentChar) || currentChar == ',')
                             {
-                                newLine.Tokens.Add(new CommaToken());
+                                state = StateMachine.None;
+                                newLine.Tokens.Add(new LiteralToken(currentToken));
+                                currentToken = "";
+
+                                if (currentChar == ',')
+                                {
+                                    newLine.Tokens.Add(new CommaToken());
+                                }
+                            }
+                            else
+                            {
+                                throw new InvalidCommandLineException(line);
                             }
                         }
                         break;
 
                     case StateMachine.AddressStarted:
 
-                        currentToken = CheckLiteral(currentToken, currentChar);
+                        var isValidLiteralAddress = CheckLiteral(ref currentToken, currentChar);
 
-                        if ((currentChar.ToString().ToUpper() == "H" && currentToken == "") ||
-                           (currentChar.ToString().ToUpper() == "L" && currentToken.ToUpper() == "H"))
+                        if (!isValidLiteralAddress)
                         {
-                            currentToken += currentChar;
-                        }
-
-                        if (currentChar == ']')
-                        {
-                            if (currentToken.ToUpper() == "HL")
+                            if ((currentChar.ToString().ToUpper() == "H" && currentToken == "") ||
+                               (currentChar.ToString().ToUpper() == "L" && currentToken.ToUpper() == "H"))
                             {
-                                newLine.Tokens.Add(new IndirectByRegisterToken(currentToken));
+                                currentToken += currentChar;
+                            }
+                            else if (currentChar == ']')
+                            {
+                                if (currentToken.ToUpper() == "HL")
+                                {
+                                    newLine.Tokens.Add(new IndirectByRegisterToken(currentToken));
+                                }
+                                else
+                                {
+                                    newLine.Tokens.Add(new AddressToken(currentToken));
+                                }
+
+                                state = StateMachine.None;
+                                currentToken = "";
                             }
                             else
                             {
-                                newLine.Tokens.Add(new AddressToken(currentToken));
+                                throw new InvalidCommandLineException(line);
                             }
-
-                            state = StateMachine.None;
-                            currentToken = "";
                         }
                         break;
 
@@ -301,6 +358,10 @@ namespace Assembler.Entities
                             newLine.Tokens.Add(new DirectiveToken(currentToken));
                             break;
 
+                        case StateMachine.CommentStarted:
+                            // do nothing (commands at the end of line are ignored)
+                            break;
+
                         default:
                             break;
                     }
@@ -310,20 +371,44 @@ namespace Assembler.Entities
             return newLine;
         }
 
-        private static string CheckLiteral(string currentToken, char currentChar)
+        private static bool CheckLiteral(ref string currentToken, char currentChar)
         {
-            if (Char.IsDigit(currentChar) ||
-                (currentToken == "0" && (currentChar == 'x' || currentChar == 'X')))
+            // Check second char
+            if (
+                (Char.IsDigit(currentChar) &&
+                 currentToken.Length == 1 && Char.IsDigit(currentToken.ElementAt(0))) ||
+
+                (currentToken + currentChar).ToLower() == "0x" ||
+                
+                (currentToken + currentChar).ToLower() == "0b")
             {
                 currentToken += currentChar;
+                return true;
             }
+
+            // Third char onwards
             else if (currentToken.ToLower().StartsWith("0x") &&
                 IsHexaDigit(currentChar))
             {
                 currentToken += currentChar;
+                return true;
+            }
+            else if (currentToken.ToLower().StartsWith("0b") &&
+                IsBinaryDigit(currentChar))
+            {
+                currentToken += currentChar;
+                return true;
+            }
+            else if (
+                !currentToken.ToLower().StartsWith("0x") &&
+                !currentToken.ToLower().StartsWith("0b") &&
+                Char.IsDigit(currentChar))
+            {
+                currentToken += currentChar;
+                return true;
             }
 
-            return currentToken;
+            return false;
         }
 
         /// <summary>
@@ -351,8 +436,13 @@ namespace Assembler.Entities
 
                     varAddress++;
                 }
+                else if (line.IsOrgDirective())
+                {
+                    programAddress = ((LiteralToken)line.Tokens[1]).NumericValue;
+                }
                 else
                 {
+                    line.Address = programAddress;
                     programAddress += 3;
                 }
             }
@@ -360,40 +450,49 @@ namespace Assembler.Entities
             IList<Line> newLines = new List<Line>();
             foreach (var line in asmSource.Lines)
             {
-                // if is label definition or defbyte, drop line
-                if(line.IsLabelDefinition() || line.IsVariableDefinition())
+                try
                 {
-                    continue;
-                }
+                    // if is label definition or defbyte, drop line
+                    if (line.IsLabelDefinition() ||
+                       line.IsVariableDefinition() ||
+                       line.IsOrgDirective())
+                    {
+                        continue;
+                    }
 
-                // if has label or variable in line, resolve it 
-                // (convert to corresponding memory address)
-                IList<Token> newTokens = new List<Token>();
-                foreach (var token in line.Tokens)
+                    // if has label or variable in line, resolve it 
+                    // (convert to corresponding memory address)
+                    IList<Token> newTokens = new List<Token>();
+                    foreach (var token in line.Tokens)
+                    {
+                        if (token is LabelToken)
+                        {
+                            var literal = asmSource.Labels[token.Text].ToString();
+                            var literalToken = new LiteralToken(literal);
+
+                            newTokens.Add(literalToken);
+                        }
+                        else if (token is DirectiveToken)
+                        {
+                            var address = asmSource.Variables[token.Text].ToString();
+                            var addressToken = new AddressToken(address);
+
+                            newTokens.Add(addressToken);
+                        }
+                        else
+                        {
+                            newTokens.Add(token);
+                        }
+                    }
+                    line.Tokens.Clear();
+                    line.Tokens = newTokens;
+
+                    newLines.Add(line);
+                }
+                catch (Exception ex)
                 {
-                    if (token is LabelToken)
-                    {
-                        var literal = asmSource.Labels[token.Text].ToString();
-                        var literalToken = new LiteralToken(literal);
-
-                        newTokens.Add(literalToken);
-                    }
-                    else if (token is DirectiveToken)
-                    {
-                        var address = asmSource.Variables[token.Text].ToString();
-                        var addressToken = new AddressToken(address);
-
-                        newTokens.Add(addressToken);
-                    }
-                    else
-                    {
-                        newTokens.Add(token);
-                    }
+                    throw new Exception("Error in line: " + line.Text, ex);
                 }
-                line.Tokens.Clear();
-                line.Tokens = newTokens;
-
-                newLines.Add(line);
             }
             asmSource.Lines.Clear();
             asmSource.Lines = newLines;
@@ -401,9 +500,20 @@ namespace Assembler.Entities
 
         public static void ConvertTokensToMachineCode(AsmSource asmSource)
         {
+            var counter = 0;
             foreach (var line in asmSource.Lines)
             {
+                // Fill bytes with zeroes when there is a gap between 
+                // instructions (caused by an #org directive)
+                var start = counter;
+                for (var i = start; i < line.Address; i++)
+                {
+                    asmSource.Bytes.Add(0);
+                    counter++;
+                }
+
                 asmSource.Bytes.AddRange(ConvertLineTokensToMachineCode(line));
+                counter += 3;
             }
         }
 

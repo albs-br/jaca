@@ -1,4 +1,3 @@
-
 // 0x20	space
 // 0x3d	=
 // 0x78	x
@@ -91,84 +90,7 @@ next_h:
 main_end:
 	JP :main_end
 
-
-
 	
 	
-// multiply A x B, result in A
-
-#org	0x100
-
-multiply:
-	LD D, A
-	LD A, 0x0
-	DNW B
-mu_loop:
-	JP Z, :mu_end
-	ADD A, D
-	DEC B
-	JP :mu_loop
-mu_end:
-	RET
-
-
-
-
-// print out number in A to LCD display
-// (0 <= A <=9)
-
-#org	0x200
-
-print_number_1digit:
-	LD F, 0x30
-	ADD A, F
-	OUT 0, A
-	RET
-
-
-
-	
-	
-// print out number in A register to LCD display
-// valid range: 0-99
-
-#org	0x300
-
-print_number_2digit:
-	LD E, H
-	LD D, 0xa
-	// H: Number of tens
-	LD H, 0x0
-
-pn_loop:
-	//if(A < 10) pn_end else { A -= 10; H++; }
-	LD B, A
-	SUB A, D
-	JP C, :pn_end
-
-	//A -= 10
-	SUB B, D
-	LD A, B
-	INC H
-	JP :pn_loop
-	
-pn_end:
-	LD F, 0x30
-
-	DNW H
-	JP Z, :pn_last_dig
-
-	ADD H, F
-	LD A, H
-	OUT 0, A
-
-pn_last_dig:
-	ADD B, F
-	LD A, B
-	OUT 0, A
-	
-	LD H, E
-
-	RET
-
-	
+#include	C:\Users\albs_\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_Multiply.asm
+#include	C:\Users\albs_\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_PrintNumber.asm
