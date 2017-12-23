@@ -75,14 +75,14 @@ namespace Assembler
                 foreach (var label in asmSource.Labels)
                 {
                     textBoxLabels.Text +=
-                        string.Format("{0}  {1:x4}", label.Key.PadRight(10), label.Value) +
+                        string.Format("{0} {1:x4}", label.Key.PadRight(20), label.Value) +
                         Environment.NewLine;
                 }
 
                 foreach (var variable in asmSource.Variables)
                 {
                     textBoxVariables.Text +=
-                        string.Format("{0}  {1:x4}", variable.Key.PadRight(10), variable.Value) +
+                        string.Format("{0} {1:x4}", variable.Key.PadRight(20), variable.Value) +
                         Environment.NewLine;
                 }
 

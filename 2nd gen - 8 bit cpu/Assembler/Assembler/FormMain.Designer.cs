@@ -91,7 +91,7 @@
             this.textBoxAssembly.AcceptsTab = true;
             this.textBoxAssembly.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxAssembly.Location = new System.Drawing.Point(17, 86);
-            this.textBoxAssembly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxAssembly.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxAssembly.Multiline = true;
             this.textBoxAssembly.Name = "textBoxAssembly";
             this.textBoxAssembly.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -103,7 +103,7 @@
             // 
             this.textBoxBytes.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxBytes.Location = new System.Drawing.Point(573, 86);
-            this.textBoxBytes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxBytes.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxBytes.Multiline = true;
             this.textBoxBytes.Name = "textBoxBytes";
             this.textBoxBytes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -122,7 +122,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1285, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1333, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -386,11 +386,11 @@
             // 
             this.textBoxLabels.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxLabels.Location = new System.Drawing.Point(713, 86);
-            this.textBoxLabels.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxLabels.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxLabels.Multiline = true;
             this.textBoxLabels.Name = "textBoxLabels";
             this.textBoxLabels.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLabels.Size = new System.Drawing.Size(217, 403);
+            this.textBoxLabels.Size = new System.Drawing.Size(304, 403);
             this.textBoxLabels.TabIndex = 5;
             this.textBoxLabels.TextChanged += new System.EventHandler(this.textBoxLabels_TextChanged);
             // 
@@ -405,7 +405,7 @@
             // BtnCopyMachineCodeToClipboard
             // 
             this.BtnCopyMachineCodeToClipboard.Location = new System.Drawing.Point(576, 495);
-            this.BtnCopyMachineCodeToClipboard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnCopyMachineCodeToClipboard.Margin = new System.Windows.Forms.Padding(4);
             this.BtnCopyMachineCodeToClipboard.Name = "BtnCopyMachineCodeToClipboard";
             this.BtnCopyMachineCodeToClipboard.Size = new System.Drawing.Size(131, 31);
             this.BtnCopyMachineCodeToClipboard.TabIndex = 8;
@@ -429,7 +429,7 @@
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 28);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1285, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1333, 27);
             this.toolStrip1.TabIndex = 9;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -524,7 +524,7 @@
             // BtnUpdateTextboxes
             // 
             this.BtnUpdateTextboxes.Location = new System.Drawing.Point(20, 495);
-            this.BtnUpdateTextboxes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnUpdateTextboxes.Margin = new System.Windows.Forms.Padding(4);
             this.BtnUpdateTextboxes.Name = "BtnUpdateTextboxes";
             this.BtnUpdateTextboxes.Size = new System.Drawing.Size(100, 28);
             this.BtnUpdateTextboxes.TabIndex = 10;
@@ -535,18 +535,18 @@
             // textBoxVariables
             // 
             this.textBoxVariables.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxVariables.Location = new System.Drawing.Point(940, 86);
-            this.textBoxVariables.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxVariables.Location = new System.Drawing.Point(1025, 86);
+            this.textBoxVariables.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxVariables.Multiline = true;
             this.textBoxVariables.Name = "textBoxVariables";
             this.textBoxVariables.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxVariables.Size = new System.Drawing.Size(217, 403);
+            this.textBoxVariables.Size = new System.Drawing.Size(304, 403);
             this.textBoxVariables.TabIndex = 11;
             // 
             // labelVariables
             // 
             this.labelVariables.AutoSize = true;
-            this.labelVariables.Location = new System.Drawing.Point(936, 66);
+            this.labelVariables.Location = new System.Drawing.Point(1022, 66);
             this.labelVariables.Name = "labelVariables";
             this.labelVariables.Size = new System.Drawing.Size(71, 17);
             this.labelVariables.TabIndex = 12;
@@ -555,7 +555,7 @@
             // BtnSaveLogisim
             // 
             this.BtnSaveLogisim.Location = new System.Drawing.Point(577, 533);
-            this.BtnSaveLogisim.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnSaveLogisim.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSaveLogisim.Name = "BtnSaveLogisim";
             this.BtnSaveLogisim.Size = new System.Drawing.Size(131, 43);
             this.BtnSaveLogisim.TabIndex = 13;
@@ -567,7 +567,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1285, 657);
+            this.ClientSize = new System.Drawing.Size(1333, 657);
             this.Controls.Add(this.BtnSaveLogisim);
             this.Controls.Add(this.labelVariables);
             this.Controls.Add(this.textBoxVariables);
@@ -584,7 +584,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMain";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
