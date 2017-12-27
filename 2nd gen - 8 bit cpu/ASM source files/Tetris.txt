@@ -229,6 +229,7 @@ place_piece_loop:
 	JP :place_piece_loop
 
 
+// TODO: remove (not being used anymore)
 move_down_end:
 
 	RET
