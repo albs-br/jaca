@@ -14,6 +14,7 @@ namespace Assembler.Entities
             Lines = new List<Line>();
             Labels = new Dictionary<string, int>();
             Variables = new Dictionary<string, int>();
+            DefMems = new Dictionary<int, int>();
             Bytes = new List<byte>();
         }
 
@@ -21,6 +22,7 @@ namespace Assembler.Entities
         public IList<Line> Lines { get; set; }
         public IDictionary<string, int> Labels { get; set; }
         public IDictionary<string, int> Variables { get; set; }
+        public IDictionary<int, int> DefMems { get; set; }
 
         public List<byte> Bytes { get; set; }
 

@@ -39,5 +39,18 @@ namespace Assembler.Entities
                     Tokens[1] is LiteralToken &&
                     Tokens[0].Text.ToLower() == "org");
         }
+
+        public bool IsDefMemDirective()
+        {
+            return (Tokens.Count == 3 &&
+                    Tokens[0] is DirectiveToken &&
+                    Tokens[1] is LiteralToken &&
+                    Tokens[2] is LiteralToken &&
+                    Tokens[0].Text.ToLower() == "defmem") ||
+                   (Tokens.Count == 2 &&
+                    Tokens[0] is DirectiveToken &&
+                    Tokens[1] is LiteralToken &&
+                    Tokens[0].Text.ToLower() == "defmem");
+        }
     }
 }

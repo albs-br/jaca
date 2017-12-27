@@ -277,5 +277,79 @@ namespace Assembler.Test
             CollectionAssert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void ConvertSource_10_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_10"));
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x0, asmSource.Labels["start"]);
+            Assert.AreEqual(1, asmSource.DefMems.Count);
+            //Assert.AreEqual(1, asmSource.DefMems[0]);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0xff,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00,
+                97
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ConvertSource_11_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_11"));
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x0, asmSource.Labels["start"]);
+            Assert.AreEqual(2, asmSource.DefMems.Count);
+            //Assert.AreEqual(1, asmSource.DefMems[0]);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0xff,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00,
+                97,
+                0x00,
+                0xf0
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ConvertSource_12_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_12"));
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x0, asmSource.Labels["start"]);
+            Assert.AreEqual(4, asmSource.DefMems.Count);
+            //Assert.AreEqual(1, asmSource.DefMems[0]);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0xff,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00,
+                97,
+                0xf0,
+                0b0000_0001,
+                0x00,
+                0x20
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }
 }

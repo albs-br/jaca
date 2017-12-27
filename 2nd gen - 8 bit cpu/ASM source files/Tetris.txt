@@ -24,35 +24,35 @@
 
 
 
-// piece number 1:
+// piece #0:
 
-//#defmem	0x0b20		0b00011000	// piece pattern
-//#defmem				0b00110000
-//#defmem				0b00000000
-//#defmem				0b00000000
-//#defmem				3			// width
-//#defmem				2			// height
+#defmem				2			// width
+#defmem	0x0b20		0b00011000	// piece pattern
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
 
-//#defmem				0b00100000	// piece pattern
-//#defmem				0b00110000
-//#defmem				0b00010000
-//#defmem				0b00000000
-//#defmem				2			// width
-//#defmem				3			// height
+#defmem				0b00100000	// piece pattern
+#defmem				0b00110000
+#defmem				0b00010000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
 
-//#defmem				0b00011000	// piece pattern
-//#defmem				0b00110000
-//#defmem				0b00000000
-//#defmem				0b00000000
-//#defmem				3			// width
-//#defmem				2			// height
+#defmem				0b00011000	// piece pattern
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
 
-//#defmem				0b00100000	// piece pattern
-//#defmem				0b00110000
-//#defmem				0b00010000
-//#defmem				0b00000000
-//#defmem				2			// width
-//#defmem				3			// height
+#defmem				0b00100000	// piece pattern
+#defmem				0b00110000
+#defmem				0b00010000
+#defmem				0b00000000
+#defmem				3			// height
 
 
 

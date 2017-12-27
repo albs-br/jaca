@@ -419,6 +419,7 @@ namespace Assembler.Entities
         {
             var programAddress = 0;
             var varAddress = 0xc00;
+            var defMemLastAddress = 0;
 
             foreach (var line in asmSource.Lines)
             {
@@ -440,6 +441,30 @@ namespace Assembler.Entities
                 {
                     programAddress = ((LiteralToken)line.Tokens[1]).NumericValue;
                 }
+                else if (line.IsDefMemDirective())
+                {
+                    var address = 0;
+                    var value = 0;
+                    if (line.Tokens.Count == 3)
+                    {
+                        address = ((LiteralToken)line.Tokens[1]).NumericValue;
+                        defMemLastAddress = address;
+
+                        value = ((LiteralToken)line.Tokens[2]).NumericValue;
+                    }
+                    else if (line.Tokens.Count == 2)
+                    {
+                        defMemLastAddress++;
+                        address = defMemLastAddress;
+
+                        value = ((LiteralToken)line.Tokens[1]).NumericValue;
+                    }
+
+
+                    asmSource.DefMems.Add(new KeyValuePair<int, int>(
+                        address,
+                        value));
+                }
                 else
                 {
                     line.Address = programAddress;
@@ -455,7 +480,8 @@ namespace Assembler.Entities
                     // if is label definition or defbyte, drop line
                     if (line.IsLabelDefinition() ||
                        line.IsVariableDefinition() ||
-                       line.IsOrgDirective())
+                       line.IsOrgDirective() ||
+                       line.IsDefMemDirective())
                     {
                         continue;
                     }
@@ -500,20 +526,38 @@ namespace Assembler.Entities
 
         public static void ConvertTokensToMachineCode(AsmSource asmSource)
         {
-            var counter = 0;
+            var programAddressCounter = 0;
             foreach (var line in asmSource.Lines)
             {
                 // Fill bytes with zeroes when there is a gap between 
                 // instructions (caused by an #org directive)
-                var start = counter;
+                var start = programAddressCounter;
                 for (var i = start; i < line.Address; i++)
                 {
                     asmSource.Bytes.Add(0);
-                    counter++;
+                    programAddressCounter++;
                 }
 
                 asmSource.Bytes.AddRange(ConvertLineTokensToMachineCode(line));
-                counter += 3;
+                programAddressCounter += 3;
+            }
+
+            var lastAddr = programAddressCounter;
+            foreach (var defMem in asmSource.DefMems)
+            {
+                var address = defMem.Key;
+                var value = defMem.Value;
+
+                // Fill space between end of program (or last defmem addr)
+                // and defmem addr
+                for (int i = lastAddr; i < address; i++)
+                {
+                    asmSource.Bytes.Add(0);
+                    lastAddr++;
+                }
+
+                asmSource.Bytes.Add(Convert.ToByte(value));
+                lastAddr++;
             }
         }
 

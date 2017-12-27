@@ -1,0 +1,9 @@
+﻿// test defmem directive
+// basic syntax:
+// #defmem		address		value
+
+#defmem		0x0a	97
+#defmem		0x0c	0xf0
+
+start:
+	LD A, 255
