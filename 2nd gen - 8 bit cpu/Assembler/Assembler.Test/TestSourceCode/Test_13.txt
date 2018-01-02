@@ -1,0 +1,13 @@
+﻿// test defmem directive
+// advanced syntax:
+// #defmem					value
+
+#defmem		0x0a	97
+#defmem				0xf0			// next address (0x0b) implicit
+#defmem				0b00000001
+#defmem		0x0e	0x20
+
+#org 3
+
+start:
+	LD A, 255

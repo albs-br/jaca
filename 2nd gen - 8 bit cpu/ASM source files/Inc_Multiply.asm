@@ -1,6 +1,7 @@
-// multiply A x B, result in A
+// Multiply A x B, result in A (8 bits, max value 255)
+// Destroys A, B, D
 
-#org	0x100
+#org	0xd00
 
 multiply:
 	LD D, A

@@ -1,5 +1,5 @@
 -to finish assembler
-	#defmem
+	#defmem			OK
 	#org			OK
 	#include		OK
 	binary literal (0b)	OK

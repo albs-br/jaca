@@ -351,5 +351,93 @@ namespace Assembler.Test
             var actual = ((List<byte>)asmSource.Bytes);
             CollectionAssert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ConvertSource_13_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_13"));
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x3, asmSource.Labels["start"]);
+            Assert.AreEqual(4, asmSource.DefMems.Count);
+            //Assert.AreEqual(1, asmSource.DefMems[0]);
+
+            var expected = new List<byte>(new byte[] {
+                0x00, 0x00, 0x00,
+                0x04, 0x00, 0xff,
+                0x00, 0x00, 0x00,
+                0x00,
+                97,
+                0xf0,
+                0b0000_0001,
+                0x00,
+                0x20
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ConvertSource_14_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_14"));
+
+            // Assert
+            Assert.AreEqual(5, asmSource.Labels.Count);
+            Assert.AreEqual(0x3, asmSource.Labels["start"]);
+            Assert.AreEqual(30, asmSource.Labels["print_number_2digit"]);
+            Assert.AreEqual(39, asmSource.Labels["pn_loop"]);
+            Assert.AreEqual(60, asmSource.Labels["pn_end"]);
+            Assert.AreEqual(78, asmSource.Labels["pn_last_dig"]);
+
+            Assert.AreEqual(4, asmSource.DefMems.Count);
+            //Assert.AreEqual(1, asmSource.DefMems[0]);
+
+            var expected = new List<byte>(new byte[] {
+                0x00, 0x00, 0x00,
+                0x04, 0x00, 0xff,
+                0x00, 0x00, 0x00,
+                0x00,
+                97,
+                0xf0,
+                0b0000_0001,
+                0x00,
+                0x20,
+
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00, 
+
+                0x0b, 0x20, 0x00,
+                0x06, 0x80, 0x0a,
+                0x05, 0x00, 0x00,
+                0x08, 0x80, 0x00,
+                0x84, 0x50, 0x00,
+                0x30, 0x00, 0x3c,
+                0x84, 0xd0, 0x00,
+                0x08, 0x10, 0x00,
+                0xa1, 0x00, 0x00,
+                0x14, 0x00, 0x27,
+                0x07, 0x80, 0x30,
+                0xa9, 0x00, 0x00,
+                0x18, 0x00, 0x4e,
+                0x81, 0x70, 0x00,
+                0x08, 0x20, 0x00,
+                0x44, 0x00, 0x00,
+                0x80, 0xf0, 0x00,
+                0x08, 0x10, 0x00,
+                0x44, 0x00, 0x00,
+                0x09, 0x60, 0x00,
+                0x24, 0x00, 0x00,
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }
 }

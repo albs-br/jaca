@@ -1,6 +1,6 @@
 ﻿// Test the #org directive
 
-#org 0
+//#org 0
 
 	LD A, 4
 	CALL :print_number_1digit
@@ -10,4 +10,6 @@
 
 
 #include	TestSourceCode/Test_09a.txt
-#include	TestSourceCode/Test_09b.txt
+
+// Filename with space:
+#include	TestSourceCode/Test 09b.txt

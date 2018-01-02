@@ -1,5 +1,17 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.4.0
+// v.0.5.0
+
+
+// memory mapping:
+// start			end
+// 0x000 (0)		0x2e8(so far...)		program code
+// 0xb00 (2816)		0xb03					current piece pattern
+// 0xb10 (2832)		0xb17					screen pattern
+// 0xb20 (2848)		0xbc8					piece pattern data
+// 0xc00 (3072)								variables (standard of the system)
+// 0xd00 (3328)								include multiply
+
+
 
 
 #defbyte	current_piece_num		// 0 to 6 (7 pieces available)
@@ -9,9 +21,6 @@
 #defbyte	current_piece_width
 #defbyte	current_piece_height
 
-
-// addr of piece pattern in memory:
-// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
 
 
 // start 0xb00, end 0xb03
@@ -24,9 +33,11 @@
 
 
 
+// initial x coord always = 2; y always 0
+// using 24 bytes / piece; 7x24 = 168 bytes total
+
 // piece #0:
 
-#defmem				2			// width
 #defmem	0x0b20		0b00011000	// piece pattern
 #defmem				0b00110000
 #defmem				0b00000000
@@ -59,6 +70,7 @@
 
 
 
+//#org	0x000
 
 	// pattern of clear screen
 	LD A, 0
@@ -74,28 +86,56 @@
 	
 next_piece:
 
+	// addr of piece pattern in memory:
+	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
+
+	// base addr oF piece in memory
+	// calc this addr using formula above
+	LD H, 0x0b
+	LD L, 0x20
+
+	// current_piece_pattern:
+	LD A, [HL]
+	ST [0xb00], A
+	
+	INC L
+	LD A, [HL]
+	ST [0xb01], A
+	
+	INC L
+	LD A, [HL]
+	ST [0xb02], A
+	
+	INC L
+	LD A, [HL]
+	ST [0xb03], A
+
+	
+	INC L
+	LD A, [HL]
+	ST #current_piece_width, A
+	
+	INC L
+	LD A, [HL]
+	ST #current_piece_height, A
+	
 	LD A, 2
 	ST #current_piece_x, A
 
 	LD A, 0
 	ST #current_piece_y, A
 	
-	LD A, 3
-	ST #current_piece_width, A
-	
-	LD A, 2
-	ST #current_piece_height, A
 	
 
 	// current_piece_pattern:
-	LD A, 0b00011000
-	ST [0xb00], A
-	LD A, 0b00110000
-	ST [0xb01], A
-	LD A, 0b00000000
-	ST [0xb02], A
-	LD A, 0b00000000
-	ST [0xb03], A
+	//LD A, 0b00011000
+	//ST [0xb00], A
+	//LD A, 0b00110000
+	//ST [0xb01], A
+	//LD A, 0b00000000
+	//ST [0xb02], A
+	//LD A, 0b00000000
+	//ST [0xb03], A
 	
 // --- Draw screen
 	LD D, 8
@@ -544,3 +584,7 @@ game_over:
 	OUT 0, A
 game_over_1:
 	JP :game_over_1
+
+	
+	
+//#include	C:\Users\albs_\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_Multiply.asm
