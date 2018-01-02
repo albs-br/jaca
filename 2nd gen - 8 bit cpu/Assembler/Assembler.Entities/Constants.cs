@@ -8,7 +8,7 @@ namespace Assembler.Entities
 {
     public static class Constants
     {
-        public static string VERSION = "0.11.0";
+        public static string VERSION = "0.11.1";
 
         // Work
         //public static string BASE_PATH = @"C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\";

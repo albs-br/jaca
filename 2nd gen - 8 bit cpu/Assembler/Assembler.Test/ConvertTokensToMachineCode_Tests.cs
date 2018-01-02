@@ -8,8 +8,10 @@ namespace Assembler.Test
     [TestClass]
     public class ConvertTokensToMachineCode_Tests
     {
-        private AsmSource ArrangeAndAct(string source)
+        private AsmSource ArrangeAndAct(string filename)
         {
+            var source = Utilities.GetFromFile(filename);
+
             var asmSource = new AsmSource(source);
             AssemblerClass.ResolveIncludes(asmSource);
             AssemblerClass.ConvertToTokens(asmSource);
@@ -24,7 +26,7 @@ namespace Assembler.Test
         public void ConvertTokensToMachineCode_1_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_01"));
+            var asmSource = ArrangeAndAct("Test_01");
 
             // Assert
             Assert.AreEqual(1, asmSource.Labels.Count);
@@ -35,7 +37,7 @@ namespace Assembler.Test
         public void ConvertSource_2_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_02"));
+            var asmSource = ArrangeAndAct("Test_02");
 
             // Assert
             Assert.AreEqual(2, asmSource.Labels.Count);
@@ -59,7 +61,7 @@ namespace Assembler.Test
         public void ConvertSource_3_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_03"));
+            var asmSource = ArrangeAndAct("Test_03");
 
             // Assert
             Assert.AreEqual(2, asmSource.Labels.Count);
@@ -83,7 +85,7 @@ namespace Assembler.Test
         public void ConvertSource_4_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_04"));
+            var asmSource = ArrangeAndAct("Test_04");
 
             // Assert
             Assert.AreEqual(2, asmSource.Labels.Count);
@@ -115,7 +117,7 @@ namespace Assembler.Test
         public void ConvertSource_5_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_05"));
+            var asmSource = ArrangeAndAct("Test_05");
 
             // Assert
             Assert.AreEqual(2, asmSource.Labels.Count);
@@ -147,7 +149,7 @@ namespace Assembler.Test
         public void ConvertSource_6_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_06"));
+            var asmSource = ArrangeAndAct("Test_06");
 
             // Assert
             Assert.AreEqual(2, asmSource.Labels.Count);
@@ -169,7 +171,7 @@ namespace Assembler.Test
         public void ConvertSource_7_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_07"));
+            var asmSource = ArrangeAndAct("Test_07");
 
             // Assert
             Assert.AreEqual(1, asmSource.Labels.Count);
@@ -196,7 +198,7 @@ namespace Assembler.Test
         public void ConvertSource_8_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_08"));
+            var asmSource = ArrangeAndAct("Test_08");
 
             // Assert
             Assert.AreEqual(1, asmSource.Labels.Count);
@@ -223,7 +225,7 @@ namespace Assembler.Test
         public void ConvertSource_9_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_09"));
+            var asmSource = ArrangeAndAct("Test_09");
 
             // Assert
             Assert.AreEqual(5, asmSource.Labels.Count);
@@ -281,7 +283,7 @@ namespace Assembler.Test
         public void ConvertSource_10_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_10"));
+            var asmSource = ArrangeAndAct("Test_10");
 
             // Assert
             Assert.AreEqual(1, asmSource.Labels.Count);
@@ -304,7 +306,32 @@ namespace Assembler.Test
         public void ConvertSource_11_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_11"));
+            var asmSource = ArrangeAndAct("Test_11");
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x0, asmSource.Labels["start"]);
+            Assert.AreEqual(2, asmSource.DefMems.Count);
+            //Assert.AreEqual(1, asmSource.DefMems[0]);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0xff,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00,
+                97,
+                0x00,
+                0xf0
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ConvertSource_11a_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct("Test_11a");
 
             // Assert
             Assert.AreEqual(1, asmSource.Labels.Count);
@@ -329,7 +356,7 @@ namespace Assembler.Test
         public void ConvertSource_12_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_12"));
+            var asmSource = ArrangeAndAct("Test_12");
 
             // Assert
             Assert.AreEqual(1, asmSource.Labels.Count);
@@ -344,7 +371,7 @@ namespace Assembler.Test
                 0x00,
                 97,
                 0xf0,
-                0b0000_0001,
+                0x01, //0b0000_0001, // binary literals only in C#7.0 (.net 4.6.2)
                 0x00,
                 0x20
             });
@@ -356,7 +383,7 @@ namespace Assembler.Test
         public void ConvertSource_13_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_13"));
+            var asmSource = ArrangeAndAct("Test_13");
 
             // Assert
             Assert.AreEqual(1, asmSource.Labels.Count);
@@ -371,7 +398,7 @@ namespace Assembler.Test
                 0x00,
                 97,
                 0xf0,
-                0b0000_0001,
+                0x01, //0b0000_0001,
                 0x00,
                 0x20
             });
@@ -383,7 +410,7 @@ namespace Assembler.Test
         public void ConvertSource_14_Test()
         {
             // Arrange & Act
-            var asmSource = ArrangeAndAct(Utilities.GetFromFile("Test_14"));
+            var asmSource = ArrangeAndAct("Test_14");
 
             // Assert
             Assert.AreEqual(5, asmSource.Labels.Count);
@@ -403,7 +430,7 @@ namespace Assembler.Test
                 0x00,
                 97,
                 0xf0,
-                0b0000_0001,
+                0x01, //0b0000_0001,
                 0x00,
                 0x20,
 
@@ -412,7 +439,6 @@ namespace Assembler.Test
                 0x00, 0x00, 0x00,
                 0x00, 0x00, 0x00,
                 0x00, 0x00, 0x00,
-                0x00, 
 
                 0x0b, 0x20, 0x00,
                 0x06, 0x80, 0x0a,

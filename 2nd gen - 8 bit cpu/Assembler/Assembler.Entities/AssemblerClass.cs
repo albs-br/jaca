@@ -546,18 +546,26 @@ namespace Assembler.Entities
             foreach (var defMem in asmSource.DefMems)
             {
                 var address = defMem.Key;
-                var value = defMem.Value;
+                var value = Convert.ToByte(defMem.Value);
 
-                // Fill space between end of program (or last defmem addr)
-                // and defmem addr
-                for (int i = lastAddr; i < address; i++)
+                if (address >= lastAddr)
                 {
-                    asmSource.Bytes.Add(0);
+                    // Fill space between end of program (or last defmem addr)
+                    // and defmem addr
+                    for (int i = lastAddr; i < address; i++)
+                    {
+                        asmSource.Bytes.Add(0);
+                        lastAddr++;
+                    }
+
+                    asmSource.Bytes.Add(value);
                     lastAddr++;
                 }
+                else
+                {
+                    asmSource.Bytes[address] = value;
+                }
 
-                asmSource.Bytes.Add(Convert.ToByte(value));
-                lastAddr++;
             }
         }
 
