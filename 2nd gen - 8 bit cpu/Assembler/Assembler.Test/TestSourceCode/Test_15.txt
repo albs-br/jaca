@@ -1,4 +1,6 @@
-﻿// test defmem with include
+﻿// test defmem with include in the beginning
+
+#include	TestSourceCode/Test 09b.txt
 
 #defmem		0x0a	97
 #defmem				0xf0			// next address (0x0b) implicit
@@ -9,5 +11,3 @@
 
 start:
 	LD A, 255
-
-#include	TestSourceCode/Test 09b.txt

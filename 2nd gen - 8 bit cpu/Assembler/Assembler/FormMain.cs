@@ -65,24 +65,25 @@ namespace Assembler
                 textBoxLabels.Clear();
                 textBoxVariables.Clear();
 
-                //var machineCodeProgram = Converter.ResolveLabels(textBoxAssembly.Text);
-                //Converter.ConvertSource(machineCodeProgram);
-
                 var asmSource = AssemblerClass.SourceToMachineCode(textBoxAssembly.Text);
 
                 textBoxBytes.Text = asmSource.BytesAsText;
 
                 foreach (var label in asmSource.Labels)
                 {
+                    var key = (label.Key.Length > 24) ? label.Key.Substring(0, 21) + "..." : label.Key.PadRight(24);
+
                     textBoxLabels.Text +=
-                        string.Format("{0} {1:x4}", label.Key.PadRight(20), label.Value) +
+                        string.Format("{0} {1:x4}", key, label.Value) +
                         Environment.NewLine;
                 }
 
                 foreach (var variable in asmSource.Variables)
                 {
+                    var key = (variable.Key.Length > 24) ? variable.Key.Substring(0, 21) + "..." : variable.Key.PadRight(24);
+
                     textBoxVariables.Text +=
-                        string.Format("{0} {1:x4}", variable.Key.PadRight(20), variable.Value) +
+                        string.Format("{0} {1:x4}", key, variable.Value) +
                         Environment.NewLine;
                 }
 

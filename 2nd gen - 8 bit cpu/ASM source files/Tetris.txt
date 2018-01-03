@@ -1,7 +1,6 @@
 // Tetris for JACA-2 homebrew CPU
 // v.0.5.0
 
-
 // memory mapping:
 // start			end
 // 0x000 (0)		0x2e8(so far...)		program code
@@ -33,44 +32,172 @@
 
 
 
+// ------------- Pieces data -------------
+
 // initial x coord always = 2; y always 0
 // using 24 bytes / piece; 7x24 = 168 bytes total
 
 // piece #0:
 
-#defmem	0x0b20		0b00011000	// piece pattern
+#defmem	0x0b20		0b00011000	// piece pattern (position 0)
 #defmem				0b00110000
 #defmem				0b00000000
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
 
-#defmem				0b00100000	// piece pattern
+#defmem				0b00100000	// piece pattern (position 1)
 #defmem				0b00110000
 #defmem				0b00010000
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
 
-#defmem				0b00011000	// piece pattern
+#defmem				0b00011000	// piece pattern (position 2)
 #defmem				0b00110000
 #defmem				0b00000000
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
 
-#defmem				0b00100000	// piece pattern
+#defmem				0b00100000	// piece pattern (position 3)
 #defmem				0b00110000
 #defmem				0b00010000
 #defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+
+// piece #1:
+
+#defmem				0b00110000	// piece pattern (position 0)
+#defmem				0b00011000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00010000	// piece pattern (position 1)
+#defmem				0b00110000
+#defmem				0b00100000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+#defmem				0b00110000	// piece pattern (position 2)
+#defmem				0b00011000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00010000	// piece pattern (position 3)
+#defmem				0b00110000
+#defmem				0b00100000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+
+// piece #2:
+
+#defmem				0b00001000	// piece pattern (position 0)
+#defmem				0b00111000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00110000	// piece pattern (position 1)
+#defmem				0b00010000
+#defmem				0b00010000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+#defmem				0b00111000	// piece pattern (position 2)
+#defmem				0b00100000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00100000	// piece pattern (position 3)
+#defmem				0b00100000
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+
+// piece #3:
+
+#defmem				0b00100000	// piece pattern (position 0)
+#defmem				0b00111000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00010000	// piece pattern (position 1)
+#defmem				0b00010000
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+#defmem				0b00111000	// piece pattern (position 2)
+#defmem				0b00001000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00110000	// piece pattern (position 3)
+#defmem				0b00100000
+#defmem				0b00100000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+
+// piece #4:
+
+#defmem				0b00010000	// piece pattern (position 0)
+#defmem				0b00111000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00010000	// piece pattern (position 1)
+#defmem				0b00110000
+#defmem				0b00010000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				3			// height
+
+#defmem				0b00111000	// piece pattern (position 2)
+#defmem				0b00010000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				3			// width
+#defmem				2			// height
+
+#defmem				0b00100000	// piece pattern (position 3)
+#defmem				0b00110000
+#defmem				0b00100000
+#defmem				0b00000000
+#defmem				2			// width
 #defmem				3			// height
 
 
 
 
 
+#org	0x000
 
-//#org	0x000
+main_init:
 
 	// pattern of clear screen
 	LD A, 0
@@ -84,15 +211,38 @@
 	//LD A, 0b00001100
 	ST [0xb17], A
 	
+	// initialize variables
+	LD A, 4
+	ST #current_piece_num, A
+	LD A, 2
+	ST #current_piece_position, A
+	
+	
 next_piece:
 
 	// addr of piece pattern in memory:
 	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
+	
+	LD A, #current_piece_num
+	LD B, 24
+	CALL :multiply
+	
+	LD C, A
+    
+	LD A, #current_piece_position
+	LD B, 6
+	CALL :multiply
+	
+	ADD A, C
+	LD C, 0x20
+	ADD A, C
+	LD L, A
 
-	// base addr oF piece in memory
+	
+	// base addr of piece in memory
 	// calc this addr using formula above
 	LD H, 0x0b
-	LD L, 0x20
+	//LD L, 0x20
 
 	// current_piece_pattern:
 	LD A, [HL]
@@ -587,4 +737,5 @@ game_over_1:
 
 	
 	
-//#include	C:\Users\albs_\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_Multiply.asm
+
+#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_Multiply.asm

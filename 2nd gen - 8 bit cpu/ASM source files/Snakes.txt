@@ -53,15 +53,16 @@ main_loop:
 	// C register contains #snake_h_dir
 	// D register contains #snake_v_dir
 	// H register contains #snake_patt
-	if(C == 0xff) // 1 pixel to left
-	{
-		//Shift left #snake_patt
-		SHL H
-	}
-	else if(C == 0x1) // 1 pixel to right
-	{
-		//Shift right #snake_patt
-	}
+	//if(C == 0xff) // 1 pixel to left
+	//{
+	//	//Shift left #snake_patt
+	//	SHL H
+	//}
+	//else if(C == 0x1) // 1 pixel to right
+	//{
+	//	//Shift right #snake_patt
+	//	SHR H
+	//}
 
 	
 	// B register contains #snake_y

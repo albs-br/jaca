@@ -8,7 +8,7 @@ namespace Assembler.Entities
 {
     public static class Constants
     {
-        public static string VERSION = "0.11.1";
+        public static string VERSION = "0.11.2";
 
         // Work
         //public static string BASE_PATH = @"C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\";
@@ -27,16 +27,17 @@ namespace Assembler.Entities
 
         public static string[] REGISTERS_BANK_A = { "A", "B", "H", "L" };
         public static string[] REGISTERS_BANK_B = { "C", "D", "E", "F" };
+        
+        // The position in this array is significative, as it will be added to 32 to give the operation opcode
         public static string[] ALU_INSTRUCTIONS = {
             "ADD", "SUB", "NOT", "AND",
             "OR", "XOR", "NOR", "XNOR",
             "INC", "DEC", "DNW", "SUBM",
             "SHL", "SHR"
         };
+
         public static string[] SINGLE_OPERAND_ALU_INSTRUCTIONS = {
             "NOT", "INC", "DEC", "DNW", "SHL", "SHR"
         };
-
-
     }
 }
