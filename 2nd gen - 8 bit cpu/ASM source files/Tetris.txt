@@ -1,5 +1,5 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.5.0
+// v.0.7.0
 
 // memory mapping:
 // start			end
@@ -192,6 +192,66 @@
 #defmem				3			// height
 
 
+// piece #5:
+
+#defmem				0b00111100	// piece pattern (position 0)
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				4			// width
+#defmem				1			// height
+
+#defmem				0b00100000	// piece pattern (position 1)
+#defmem				0b00100000
+#defmem				0b00100000
+#defmem				0b00100000
+#defmem				1			// width
+#defmem				4			// height
+
+#defmem				0b00111100	// piece pattern (position 2)
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				4			// width
+#defmem				1			// height
+
+#defmem				0b00100000	// piece pattern (position 3)
+#defmem				0b00100000
+#defmem				0b00100000
+#defmem				0b00100000
+#defmem				1			// width
+#defmem				4			// height
+
+
+// piece #6:
+
+#defmem				0b00110000	// piece pattern (position 0)
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				2			// height
+
+#defmem				0b00110000	// piece pattern (position 1)
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				2			// height
+
+#defmem				0b00110000	// piece pattern (position 2)
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				2			// height
+
+#defmem				0b00110000	// piece pattern (position 3)
+#defmem				0b00110000
+#defmem				0b00000000
+#defmem				0b00000000
+#defmem				2			// width
+#defmem				2			// height
 
 
 
@@ -212,18 +272,34 @@ main_init:
 	ST [0xb17], A
 	
 	// initialize variables
-	LD A, 4
+	LD A, 3
 	ST #current_piece_num, A
-	LD A, 2
+	LD A, 0
 	ST #current_piece_position, A
 	
 	
 next_piece:
 
-	// addr of piece pattern in memory:
+	// Address of piece pattern in memory:
 	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
+	LD H, 0x0b
 	
 	LD A, #current_piece_num
+	INC A
+	
+	// if(current_piece_num == 7) current_piece_num = 0
+	LD B, A
+	LD C, 7		
+	SUB B, C
+	JP Z, :reset_current_piece_num
+	JP :next_piece_1
+	
+reset_current_piece_num:
+	LD A, 0
+
+next_piece_1:
+
+	ST #current_piece_num, A
 	LD B, 24
 	CALL :multiply
 	
@@ -239,10 +315,6 @@ next_piece:
 	LD L, A
 
 	
-	// base addr of piece in memory
-	// calc this addr using formula above
-	LD H, 0x0b
-	//LD L, 0x20
 
 	// current_piece_pattern:
 	LD A, [HL]
