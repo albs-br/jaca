@@ -1,0 +1,6 @@
+﻿// test defmem directive after code
+
+start:
+	LD A, 255
+
+#defmem		0x0a	97

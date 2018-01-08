@@ -1,5 +1,6 @@
 - JACA homebew computer
 - AT28C256 EEPROM programmer with Arduino Mega
 - Gameboy Zero
+-tic tac box arduino nano mini game with 6110 display
 - VGA controller for JACA homebrew computer
  -PS/2 keyboard interface for JACA homebrew computer

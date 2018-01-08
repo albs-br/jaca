@@ -303,6 +303,29 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        public void ConvertSource_10a_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct("Test_10a");
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(0x0, asmSource.Labels["start"]);
+            Assert.AreEqual(1, asmSource.DefMems.Count);
+            //Assert.AreEqual(1, asmSource.DefMems[0]);
+
+            var expected = new List<byte>(new byte[] {
+                0x04, 0x00, 0xff,
+                0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00,
+                0x00,
+                97
+            });
+            var actual = ((List<byte>)asmSource.Bytes);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void ConvertSource_11_Test()
         {
             // Arrange & Act

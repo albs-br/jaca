@@ -526,23 +526,34 @@ namespace Assembler.Entities
 
         public static void ConvertTokensToMachineCode(AsmSource asmSource)
         {
-            var programAddressCounter = 0;
+            var nextProgramAddress = 0;
             foreach (var line in asmSource.Lines)
             {
-                // Fill bytes with zeroes when there is a gap between 
-                // instructions (caused by an #org directive)
-                var start = programAddressCounter;
-                for (var i = start; i < line.Address; i++)
+                if (line.Address >= nextProgramAddress)
                 {
-                    asmSource.Bytes.Add(0);
-                    programAddressCounter++;
-                }
+                    // Fill bytes with zeroes when there is a gap between 
+                    // instructions (caused by an #org directive)
+                    var start = nextProgramAddress;
+                    for (var i = start; i < line.Address; i++)
+                    {
+                        asmSource.Bytes.Add(0);
+                        nextProgramAddress++;
+                    }
 
-                asmSource.Bytes.AddRange(ConvertLineTokensToMachineCode(line));
-                programAddressCounter += 3;
+                    asmSource.Bytes.AddRange(ConvertLineTokensToMachineCode(line));
+                    nextProgramAddress += 3;
+                }
+                else
+                {
+                    var bytes = ConvertLineTokensToMachineCode(line);
+
+                    asmSource.Bytes[line.Address] = bytes[0];
+                    asmSource.Bytes[line.Address + 1] = bytes[1];
+                    asmSource.Bytes[line.Address + 2] = bytes[2];
+                }
             }
 
-            var lastAddr = programAddressCounter;
+            var lastAddr = nextProgramAddress;
             foreach (var defMem in asmSource.DefMems)
             {
                 var address = defMem.Key;

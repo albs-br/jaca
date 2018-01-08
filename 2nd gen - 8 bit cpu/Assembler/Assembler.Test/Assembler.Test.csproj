@@ -62,6 +62,9 @@
     <Content Include="TestSourceCode\Test_00.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestSourceCode\Test_10a.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestSourceCode\Test_11a.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
