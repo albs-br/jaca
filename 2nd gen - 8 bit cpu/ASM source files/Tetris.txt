@@ -1,5 +1,7 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.7.0
+// v.0.8.0
+
+#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_Multiply.asm
 
 // memory mapping:
 // start			end
@@ -280,10 +282,7 @@ main_init:
 	
 next_piece:
 
-	// Address of piece pattern in memory:
-	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
-	LD H, 0x0b
-	
+	// current_piece_num++
 	LD A, #current_piece_num
 	INC A
 	
@@ -300,6 +299,16 @@ reset_current_piece_num:
 next_piece_1:
 
 	ST #current_piece_num, A
+
+
+
+	// --- Load piece from memory
+
+	// Calc address of piece pattern in memory:
+	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
+	LD H, 0x0b
+
+	LD A, #current_piece_num
 	LD B, 24
 	CALL :multiply
 	
@@ -316,7 +325,7 @@ next_piece_1:
 
 	
 
-	// current_piece_pattern:
+	// Load current_piece_pattern:
 	LD A, [HL]
 	ST [0xb00], A
 	
@@ -340,7 +349,11 @@ next_piece_1:
 	INC L
 	LD A, [HL]
 	ST #current_piece_height, A
+	// ---- End Load piece
 	
+	
+	
+	// Place piece in the starting position
 	LD A, 2
 	ST #current_piece_x, A
 
@@ -810,4 +823,4 @@ game_over_1:
 	
 	
 
-#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_Multiply.asm
+
