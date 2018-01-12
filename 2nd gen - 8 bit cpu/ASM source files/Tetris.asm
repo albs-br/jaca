@@ -1,7 +1,7 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.8.0
+// v.0.9.0
 
-#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Inc_Multiply.asm
+//#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Sub_Multiply.asm
 
 // memory mapping:
 // start			end
@@ -302,54 +302,7 @@ next_piece_1:
 
 
 
-	// --- Load piece from memory
-
-	// Calc address of piece pattern in memory:
-	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
-	LD H, 0x0b
-
-	LD A, #current_piece_num
-	LD B, 24
-	CALL :multiply
-	
-	LD C, A
-    
-	LD A, #current_piece_position
-	LD B, 6
-	CALL :multiply
-	
-	ADD A, C
-	LD C, 0x20
-	ADD A, C
-	LD L, A
-
-	
-
-	// Load current_piece_pattern:
-	LD A, [HL]
-	ST [0xb00], A
-	
-	INC L
-	LD A, [HL]
-	ST [0xb01], A
-	
-	INC L
-	LD A, [HL]
-	ST [0xb02], A
-	
-	INC L
-	LD A, [HL]
-	ST [0xb03], A
-
-	
-	INC L
-	LD A, [HL]
-	ST #current_piece_width, A
-	
-	INC L
-	LD A, [HL]
-	ST #current_piece_height, A
-	// ---- End Load piece
+	CALL :load_piece
 	
 	
 	
@@ -410,14 +363,19 @@ main_loop:
 	SUB B, D
 	JP Z, :move_right
 
-main_loop_0:
-
 	LD B, E
 
 	// check '4' key (move left)
 	LD D, 0x34
 	SUB B, D
 	JP Z, :move_left
+
+	LD B, E
+
+	// check '8' key (rotate piece)
+	LD D, 0x38
+	SUB B, D
+	JP Z, :rotate_piece
 
 main_loop_1:
 
@@ -511,6 +469,80 @@ move_down_end:
 
 
 
+// Load piece from memory, based in current_piece_num and current_piece_position variables
+load_piece:
+
+	// Calc address of piece pattern in memory:
+	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
+	LD H, 0x0b
+
+	LD A, #current_piece_num
+	LD B, 24
+	
+	// It's nto possible to have a subroutine (CALL) inside another
+	//CALL :multiply
+		LD D, A
+		LD A, 0x0
+		DNW B
+	mu_loop:
+		JP Z, :mu_end
+		ADD A, D
+		DEC B
+		JP :mu_loop
+	mu_end:
+	
+	LD C, A
+    
+	LD A, #current_piece_position
+	LD B, 6
+	
+	//CALL :multiply
+		LD D, A
+		LD A, 0x0
+		DNW B
+	mu_loop_1:
+		JP Z, :mu_end_1
+		ADD A, D
+		DEC B
+		JP :mu_loop_1
+	mu_end_1:
+
+	ADD A, C
+	LD C, 0x20
+	ADD A, C
+	LD L, A
+
+	
+
+	// Load current_piece_pattern:
+	LD A, [HL]
+	ST [0xb00], A
+	
+	INC L
+	LD A, [HL]
+	ST [0xb01], A
+	
+	INC L
+	LD A, [HL]
+	ST [0xb02], A
+	
+	INC L
+	LD A, [HL]
+	ST [0xb03], A
+
+	
+	INC L
+	LD A, [HL]
+	ST #current_piece_width, A
+	
+	INC L
+	LD A, [HL]
+	ST #current_piece_height, A
+
+	RET
+
+
+	
 // check collision between piece and screen pattern
 // returns in Z flag: 0 - no collision; 	1 - collision
 // expect A with piece Y coord to be tested
@@ -575,7 +607,7 @@ move_right:
 	LD C, 9
 	SUB B, C
 	
-	JP Z, :main_loop_0
+	JP Z, :main_loop_1
 	
 	ST #current_piece_x, A
 
@@ -583,7 +615,7 @@ move_right:
 
 	LD A, #current_piece_y
 	CALL :check_collision
-	JP Z, :main_loop_0
+	JP Z, :main_loop_1
 
 move_right_undo:
 	
@@ -593,7 +625,7 @@ move_right_undo:
 
 	CALL :shl_piece_pattern
 
-	JP :main_loop_0
+	JP :main_loop_1
 
 
 
@@ -626,6 +658,44 @@ move_left_undo:
 
 	
 
+	
+rotate_piece:
+
+	// current_piece_position++
+	LD A, #current_piece_position
+	INC A
+
+	// if(current_piece_position == 4) current_piece_position == 0
+	LD C, 0b00000011		// mask to get only the last two bits
+	AND A, C
+
+	ST #current_piece_position, A
+
+	CALL :load_piece
+	
+	// if(check_collision) rotate_piece_undo else return;
+	LD A, #current_piece_y
+	CALL :check_collision
+	JP Z, :main_loop_1
+
+rotate_piece_undo:
+	
+	// current_piece_position--
+	LD A, #current_piece_position
+	DEC A
+
+	// if(current_piece_position == 0) current_piece_position == 3
+	LD C, 0b00000011		// mask to get only the last two bits
+	AND A, C
+
+	ST #current_piece_position, A
+
+	CALL :load_piece
+
+	JP :main_loop_1
+
+	
+	
 	
 // Shift left piece_pattern	
 shl_piece_pattern:
