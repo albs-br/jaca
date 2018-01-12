@@ -1,0 +1,4 @@
+﻿			LD A, 0b00000101	// binary literal
+
+label_01:
+			INC A

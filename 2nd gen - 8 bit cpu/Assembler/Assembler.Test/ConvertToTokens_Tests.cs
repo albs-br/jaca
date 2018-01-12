@@ -85,6 +85,80 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        public void ConvertToTokens_1a_Test()
+        {
+            // Arrange
+            var asmSource = new AsmSource(Utilities.GetFromFile("Test_01a"));
+
+            // Act
+            AssemblerClass.ConvertToTokens(asmSource);
+
+            // Assert
+            Assert.AreEqual(3, asmSource.Lines.Count);
+
+            Assert.AreEqual("LD A, 0b00000101	// binary literal", asmSource.Lines[0].Text.Trim());
+            Assert.AreEqual(4, asmSource.Lines[0].Tokens.Count);
+            Assert.AreEqual("LD", asmSource.Lines[0].Tokens[0].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[0], typeof(CommandToken));
+            Assert.AreEqual("A", asmSource.Lines[0].Tokens[1].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[1], typeof(RegisterToken));
+            Assert.AreEqual(",", asmSource.Lines[0].Tokens[2].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[2], typeof(CommaToken));
+            Assert.AreEqual("0b00000101", asmSource.Lines[0].Tokens[3].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[3], typeof(LiteralToken));
+            Assert.AreEqual(5, ((LiteralToken)asmSource.Lines[0].Tokens[3]).NumericValue);
+
+            Assert.AreEqual("label_01:", asmSource.Lines[1].Text.Trim());
+            Assert.AreEqual(1, asmSource.Lines[1].Tokens.Count);
+            Assert.AreEqual("label_01", asmSource.Lines[1].Tokens[0].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[1].Tokens[0], typeof(LabelToken));
+
+            Assert.AreEqual("INC A", asmSource.Lines[2].Text.Trim());
+            Assert.AreEqual(2, asmSource.Lines[2].Tokens.Count);
+            Assert.AreEqual("INC", asmSource.Lines[2].Tokens[0].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[2].Tokens[0], typeof(CommandToken));
+            Assert.AreEqual("A", asmSource.Lines[2].Tokens[1].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[2].Tokens[1], typeof(RegisterToken));
+        }
+
+        [TestMethod]
+        public void ConvertToTokens_1b_Test()
+        {
+            // Arrange
+            var asmSource = new AsmSource(Utilities.GetFromFile("Test_01b"));
+
+            // Act
+            AssemblerClass.ConvertToTokens(asmSource);
+
+            // Assert
+            Assert.AreEqual(3, asmSource.Lines.Count);
+
+            Assert.AreEqual("LD A, 'a'	// ASCII character", asmSource.Lines[0].Text.Trim());
+            Assert.AreEqual(4, asmSource.Lines[0].Tokens.Count);
+            Assert.AreEqual("LD", asmSource.Lines[0].Tokens[0].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[0], typeof(CommandToken));
+            Assert.AreEqual("A", asmSource.Lines[0].Tokens[1].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[1], typeof(RegisterToken));
+            Assert.AreEqual(",", asmSource.Lines[0].Tokens[2].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[2], typeof(CommaToken));
+            Assert.AreEqual("0b00000101", asmSource.Lines[0].Tokens[3].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[3], typeof(LiteralToken));
+            Assert.AreEqual(5, ((LiteralToken)asmSource.Lines[0].Tokens[3]).NumericValue);
+
+            Assert.AreEqual("label_01:", asmSource.Lines[1].Text.Trim());
+            Assert.AreEqual(1, asmSource.Lines[1].Tokens.Count);
+            Assert.AreEqual("label_01", asmSource.Lines[1].Tokens[0].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[1].Tokens[0], typeof(LabelToken));
+
+            Assert.AreEqual("INC A", asmSource.Lines[2].Text.Trim());
+            Assert.AreEqual(2, asmSource.Lines[2].Tokens.Count);
+            Assert.AreEqual("INC", asmSource.Lines[2].Tokens[0].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[2].Tokens[0], typeof(CommandToken));
+            Assert.AreEqual("A", asmSource.Lines[2].Tokens[1].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[2].Tokens[1], typeof(RegisterToken));
+        }
+
+        [TestMethod]
         public void ConvertToTokens_2_Test()
         {
             // Arrange

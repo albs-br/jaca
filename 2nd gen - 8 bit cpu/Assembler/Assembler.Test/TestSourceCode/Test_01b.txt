@@ -1,0 +1,4 @@
+﻿			LD A, 'a'	// ASCII character
+
+label_01:
+			INC A

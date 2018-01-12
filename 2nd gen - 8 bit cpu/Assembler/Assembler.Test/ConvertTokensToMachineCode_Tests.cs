@@ -34,6 +34,28 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        public void ConvertTokensToMachineCode_1a_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct("Test_01a");
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(3, asmSource.Labels["label_01"]);
+        }
+
+        [TestMethod]
+        public void ConvertTokensToMachineCode_1b_Test()
+        {
+            // Arrange & Act
+            var asmSource = ArrangeAndAct("Test_01b");
+
+            // Assert
+            Assert.AreEqual(1, asmSource.Labels.Count);
+            Assert.AreEqual(3, asmSource.Labels["label_01"]);
+        }
+
+        [TestMethod]
         public void ConvertSource_2_Test()
         {
             // Arrange & Act

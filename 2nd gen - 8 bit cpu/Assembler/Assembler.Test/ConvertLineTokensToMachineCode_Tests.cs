@@ -87,6 +87,22 @@ namespace Assembler.Test
         }
 
         [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10aba_Test()
+        {
+            // Arrange
+            var line = "LD    A, 'a'"; // ASCII character
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(97, bytes[1]);
+            Assert.AreEqual(255, bytes[2]);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidCommandLineException))]
         public void ConvertLineTokensToMachineCodeLD_Imediate_10ac_Test()
         {
