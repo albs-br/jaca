@@ -1,5 +1,5 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.9.0
+// v.0.9.1
 
 //#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Sub_Multiply.asm
 
@@ -47,6 +47,8 @@
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
+//TODO:
+//#defmem			0x27		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00100000	// piece pattern (position 1)
 #defmem				0b00110000
@@ -54,6 +56,8 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
+//TODO:
+//#defmem			0x20		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00011000	// piece pattern (position 2)
 #defmem				0b00110000
@@ -315,16 +319,6 @@ next_piece_1:
 	
 	
 
-	// current_piece_pattern:
-	//LD A, 0b00011000
-	//ST [0xb00], A
-	//LD A, 0b00110000
-	//ST [0xb01], A
-	//LD A, 0b00000000
-	//ST [0xb02], A
-	//LD A, 0b00000000
-	//ST [0xb03], A
-	
 // --- Draw screen
 	LD D, 8
 	LD C, 0
@@ -333,7 +327,7 @@ next_piece_1:
 
 loop_draw_screen:
 
-	LD A, [HL]
+	; LD A, [HL]
 	OUT 1, A, C
 	LD B, C
 	INC B
@@ -479,7 +473,7 @@ load_piece:
 	LD A, #current_piece_num
 	LD B, 24
 	
-	// It's nto possible to have a subroutine (CALL) inside another
+	// It's not possible to have a subroutine (CALL) inside another
 	//CALL :multiply
 		LD D, A
 		LD A, 0x0
@@ -671,7 +665,11 @@ rotate_piece:
 
 	ST #current_piece_position, A
 
+	// TODO: save current piece pattern to be used in rotate_piece_undo
+
 	CALL :load_piece
+
+	// TODO: shift left or right the piece just loaded based on current x position
 	
 	// if(check_collision) rotate_piece_undo else return;
 	LD A, #current_piece_y
