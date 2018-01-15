@@ -1,5 +1,5 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.9.1
+// v.0.10.0
 
 //#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Sub_Multiply.asm
 
@@ -8,7 +8,8 @@
 // 0x000 (0)		0x2e8(so far...)		program code
 // 0xb00 (2816)		0xb03					current piece pattern
 // 0xb10 (2832)		0xb17					screen pattern
-// 0xb20 (2848)		0xbc8					piece pattern data
+// 0xb20 (2848)		0xb26					piece index
+// 0xb30 (2864)		0xb99					piece pattern data
 // 0xc00 (3072)								variables (standard of the system)
 // 0xd00 (3328)								include multiply
 
@@ -16,39 +17,40 @@
 
 
 #defbyte	current_piece_num		// 0 to 6 (7 pieces available)
-#defbyte	current_piece_position	// 0 to 3 (4 positions)
 #defbyte	current_piece_x			// 0 to 7
 #defbyte	current_piece_y			// 0 to 7
 #defbyte	current_piece_width
 #defbyte	current_piece_height
+#defbyte	curr_p_next_posit_addr
 
 
 
-// start 0xb00, end 0xb03
-// 4 bytes
-//#defmem	current_piece_pattern
-
-// start 0xb10, end 0xb17
-// 8 bytes
-//#defmem	screen_pattern
 
 
+
+// ------------- Pieces data index -------------
+#defmem	0x0b20		0x30	// piece 0
+#defmem				0x3e	// piece 1
+#defmem				0x4c	// piece 2
+#defmem				0x5a	// piece 3
+#defmem				0x68  	// piece 4
+#defmem				0x84  	// piece 5
+#defmem				0x92  	// piece 6
 
 // ------------- Pieces data -------------
 
 // initial x coord always = 2; y always 0
-// using 24 bytes / piece; 7x24 = 168 bytes total
+// using 7 bytes / piece position; 7 x 15 = 105 bytes total
 
 // piece #0:
 
-#defmem	0x0b20		0b00011000	// piece pattern (position 0)
+#defmem	0x0b30		0b00011000	// piece pattern (position 0)
 #defmem				0b00110000
 #defmem				0b00000000
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
-//TODO:
-//#defmem			0x27		// piece next position address (low byte); zero means piece cannot rotate
+#defmem				0x37		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00100000	// piece pattern (position 1)
 #defmem				0b00110000
@@ -56,22 +58,7 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
-//TODO:
-//#defmem			0x20		// piece next position address (low byte); zero means piece cannot rotate
-
-#defmem				0b00011000	// piece pattern (position 2)
-#defmem				0b00110000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				3			// width
-#defmem				2			// height
-
-#defmem				0b00100000	// piece pattern (position 3)
-#defmem				0b00110000
-#defmem				0b00010000
-#defmem				0b00000000
-#defmem				2			// width
-#defmem				3			// height
+#defmem				0x30		// piece next position address (low byte); zero means piece cannot rotate
 
 
 // piece #1:
@@ -82,6 +69,7 @@
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
+#defmem				0x45		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00010000	// piece pattern (position 1)
 #defmem				0b00110000
@@ -89,20 +77,7 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
-
-#defmem				0b00110000	// piece pattern (position 2)
-#defmem				0b00011000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				3			// width
-#defmem				2			// height
-
-#defmem				0b00010000	// piece pattern (position 3)
-#defmem				0b00110000
-#defmem				0b00100000
-#defmem				0b00000000
-#defmem				2			// width
-#defmem				3			// height
+#defmem				0x3e		// piece next position address (low byte); zero means piece cannot rotate
 
 
 // piece #2:
@@ -113,6 +88,7 @@
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
+#defmem				0x53		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00110000	// piece pattern (position 1)
 #defmem				0b00010000
@@ -120,20 +96,7 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
-
-#defmem				0b00111000	// piece pattern (position 2)
-#defmem				0b00100000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				3			// width
-#defmem				2			// height
-
-#defmem				0b00100000	// piece pattern (position 3)
-#defmem				0b00100000
-#defmem				0b00110000
-#defmem				0b00000000
-#defmem				2			// width
-#defmem				3			// height
+#defmem				0x4c		// piece next position address (low byte); zero means piece cannot rotate
 
 
 // piece #3:
@@ -144,6 +107,7 @@
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
+#defmem				0x61		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00010000	// piece pattern (position 1)
 #defmem				0b00010000
@@ -151,20 +115,7 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
-
-#defmem				0b00111000	// piece pattern (position 2)
-#defmem				0b00001000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				3			// width
-#defmem				2			// height
-
-#defmem				0b00110000	// piece pattern (position 3)
-#defmem				0b00100000
-#defmem				0b00100000
-#defmem				0b00000000
-#defmem				2			// width
-#defmem				3			// height
+#defmem				0x5a		// piece next position address (low byte); zero means piece cannot rotate
 
 
 // piece #4:
@@ -175,6 +126,7 @@
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
+#defmem				0x6f		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00010000	// piece pattern (position 1)
 #defmem				0b00110000
@@ -182,6 +134,7 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
+#defmem				0x76		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00111000	// piece pattern (position 2)
 #defmem				0b00010000
@@ -189,6 +142,7 @@
 #defmem				0b00000000
 #defmem				3			// width
 #defmem				2			// height
+#defmem				0x7d		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00100000	// piece pattern (position 3)
 #defmem				0b00110000
@@ -196,6 +150,7 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				3			// height
+#defmem				0x68		// piece next position address (low byte); zero means piece cannot rotate
 
 
 // piece #5:
@@ -206,6 +161,7 @@
 #defmem				0b00000000
 #defmem				4			// width
 #defmem				1			// height
+#defmem				0x8b		// piece next position address (low byte); zero means piece cannot rotate
 
 #defmem				0b00100000	// piece pattern (position 1)
 #defmem				0b00100000
@@ -213,20 +169,7 @@
 #defmem				0b00100000
 #defmem				1			// width
 #defmem				4			// height
-
-#defmem				0b00111100	// piece pattern (position 2)
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				4			// width
-#defmem				1			// height
-
-#defmem				0b00100000	// piece pattern (position 3)
-#defmem				0b00100000
-#defmem				0b00100000
-#defmem				0b00100000
-#defmem				1			// width
-#defmem				4			// height
+#defmem				0x84		// piece next position address (low byte); zero means piece cannot rotate
 
 
 // piece #6:
@@ -237,27 +180,8 @@
 #defmem				0b00000000
 #defmem				2			// width
 #defmem				2			// height
+#defmem				0x0			// piece next position address (low byte); zero means piece cannot rotate
 
-#defmem				0b00110000	// piece pattern (position 1)
-#defmem				0b00110000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				2			// width
-#defmem				2			// height
-
-#defmem				0b00110000	// piece pattern (position 2)
-#defmem				0b00110000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				2			// width
-#defmem				2			// height
-
-#defmem				0b00110000	// piece pattern (position 3)
-#defmem				0b00110000
-#defmem				0b00000000
-#defmem				0b00000000
-#defmem				2			// width
-#defmem				2			// height
 
 
 
@@ -280,8 +204,6 @@ main_init:
 	// initialize variables
 	LD A, 3
 	ST #current_piece_num, A
-	LD A, 0
-	ST #current_piece_position, A
 	
 	
 next_piece:
@@ -463,48 +385,21 @@ move_down_end:
 
 
 
-// Load piece from memory, based in current_piece_num and current_piece_position variables
+// Load piece from memory, based in current_piece_num variable
 load_piece:
 
-	// Calc address of piece pattern in memory:
-	// =base addr (0xb20) + (current_piece_num * (4*6)) + (current_piece_position * 6)
-	LD H, 0x0b
-
+	// Calc address of piece index
+	// =base addr (0xb20) + current_piece_num
+	LD H, 0x0b		// piece index base addr
+	LD L, 0x20
 	LD A, #current_piece_num
-	LD B, 24
-	
-	// It's not possible to have a subroutine (CALL) inside another
-	//CALL :multiply
-		LD D, A
-		LD A, 0x0
-		DNW B
-	mu_loop:
-		JP Z, :mu_end
-		ADD A, D
-		DEC B
-		JP :mu_loop
-	mu_end:
-	
 	LD C, A
-    
-	LD A, #current_piece_position
-	LD B, 6
+	ADD L, C
 	
-	//CALL :multiply
-		LD D, A
-		LD A, 0x0
-		DNW B
-	mu_loop_1:
-		JP Z, :mu_end_1
-		ADD A, D
-		DEC B
-		JP :mu_loop_1
-	mu_end_1:
-
-	ADD A, C
-	LD C, 0x20
-	ADD A, C
+	// Get the piece data base addr from piece index
+	LD A, [HL]		//TODO: test if LD L, [HL] works
 	LD L, A
+	
 
 	
 
@@ -532,6 +427,10 @@ load_piece:
 	INC L
 	LD A, [HL]
 	ST #current_piece_height, A
+
+	INC L
+	LD A, [HL]
+	ST #curr_p_next_posit_addr, A
 
 	RET
 
@@ -655,19 +554,21 @@ move_left_undo:
 	
 rotate_piece:
 
-	// current_piece_position++
-	LD A, #current_piece_position
-	INC A
+	//TODO: debug
+	JP :main_loop_1
 
-	// if(current_piece_position == 4) current_piece_position == 0
-	LD C, 0b00000011		// mask to get only the last two bits
-	AND A, C
+	LD A, #curr_p_next_posit_addr
+	
+	// curr_p_next_posit_addr = 0 means piece don't rotate
+	// if(curr_p_next_posit_addr == 0) return;
+	DNW A
+	JP Z, :main_loop_1
+	
 
-	ST #current_piece_position, A
 
 	// TODO: save current piece pattern to be used in rotate_piece_undo
 
-	CALL :load_piece
+	//CALL :load_piece
 
 	// TODO: shift left or right the piece just loaded based on current x position
 	
@@ -678,17 +579,7 @@ rotate_piece:
 
 rotate_piece_undo:
 	
-	// current_piece_position--
-	LD A, #current_piece_position
-	DEC A
-
-	// if(current_piece_position == 0) current_piece_position == 3
-	LD C, 0b00000011		// mask to get only the last two bits
-	AND A, C
-
-	ST #current_piece_position, A
-
-	CALL :load_piece
+	//CALL :load_piece
 
 	JP :main_loop_1
 
