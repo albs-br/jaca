@@ -1,5 +1,5 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.10.0
+// v.0.11.0
 
 //#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Sub_Multiply.asm
 
@@ -8,7 +8,7 @@
 // 0x000 (0)		0x2e8(so far...)		program code
 // 0xb00 (2816)		0xb03					current piece pattern
 // 0xb10 (2832)		0xb17					screen pattern
-// 0xb20 (2848)		0xb26					piece index
+// 0xb20 (2848)		0xb26					piece index table
 // 0xb30 (2864)		0xb99					piece pattern data
 // 0xc00 (3072)								variables (standard of the system)
 // 0xd00 (3328)								include multiply
@@ -22,13 +22,15 @@
 #defbyte	current_piece_width
 #defbyte	current_piece_height
 #defbyte	curr_p_next_posit_addr
+#defbyte	curr_piece_posit_addr
+#defbyte	temp
 
 
 
 
 
 
-// ------------- Pieces data index -------------
+// ------------- Pieces data index table -------------
 #defmem	0x0b20		0x30	// piece 0
 #defmem				0x3e	// piece 1
 #defmem				0x4c	// piece 2
@@ -202,7 +204,7 @@ main_init:
 	ST [0xb17], A
 	
 	// initialize variables
-	LD A, 3
+	LD A, 0
 	ST #current_piece_num, A
 	
 	
@@ -227,7 +229,20 @@ next_piece_1:
 	ST #current_piece_num, A
 
 
-
+	// Calc address of piece index
+	// =base addr (0xb20) + current_piece_num
+	LD H, 0x0b		// piece index base addr
+	LD L, 0x20
+	//LD A, #current_piece_num
+	LD C, A
+	ADD L, C
+	
+	// Get the piece data base addr from piece index
+	LD A, [HL]		//TODO: test if LD L, [HL] works
+	LD L, A
+	
+	ST #curr_piece_posit_addr, A
+	
 	CALL :load_piece
 	
 	
@@ -385,20 +400,21 @@ move_down_end:
 
 
 
-// Load piece from memory, based in current_piece_num variable
+// Load piece from memory, based in HL register pair
+// Destroys A, L
 load_piece:
 
-	// Calc address of piece index
-	// =base addr (0xb20) + current_piece_num
-	LD H, 0x0b		// piece index base addr
-	LD L, 0x20
-	LD A, #current_piece_num
-	LD C, A
-	ADD L, C
+	//// Calc address of piece index
+	//// =base addr (0xb20) + current_piece_num
+	//LD H, 0x0b		// piece index base addr
+	//LD L, 0x20
+	//LD A, #current_piece_num
+	//LD C, A
+	//ADD L, C
 	
-	// Get the piece data base addr from piece index
-	LD A, [HL]		//TODO: test if LD L, [HL] works
-	LD L, A
+	//// Get the piece data base addr from piece index
+	//LD A, [HL]		//TODO: test if LD L, [HL] works
+	//LD L, A
 	
 
 	
@@ -554,9 +570,6 @@ move_left_undo:
 	
 rotate_piece:
 
-	//TODO: debug
-	JP :main_loop_1
-
 	LD A, #curr_p_next_posit_addr
 	
 	// curr_p_next_posit_addr = 0 means piece don't rotate
@@ -564,22 +577,36 @@ rotate_piece:
 	DNW A
 	JP Z, :main_loop_1
 	
+	ST #temp, A		// saves curr_p_next_posit_addr for use in rotate_piece_done
+	
+	// Calc address of next piece position
+	LD H, 0x0b		// piece position base addr
+	LD L, A			// A contains curr_p_next_posit_addr
 
+	CALL :load_piece
 
-	// TODO: save current piece pattern to be used in rotate_piece_undo
-
-	//CALL :load_piece
-
+	// TODO: test if piece is out of screen limits
+	
 	// TODO: shift left or right the piece just loaded based on current x position
 	
 	// if(check_collision) rotate_piece_undo else return;
 	LD A, #current_piece_y
 	CALL :check_collision
-	JP Z, :main_loop_1
+	JP Z, :rotate_piece_done
+	JP :rotate_piece_undo
+
+rotate_piece_done:
+
+	LD A, #temp
+	ST #curr_piece_posit_addr, A
+	JP :main_loop_1
 
 rotate_piece_undo:
 	
-	//CALL :load_piece
+	LD H, 0x0b		// piece position base addr
+	LD L, #curr_piece_posit_addr
+
+	CALL :load_piece
 
 	JP :main_loop_1
 
@@ -730,26 +757,6 @@ draw_piece_1:
 	
 	
 	
-
-
-
-
-	//LD A, [0xb01]
-	//OUT 1, A, C
-	//
-	//INC B
-	//LD C, B
-    //
-	//LD A, [0xb02]
-	//OUT 1, A, C
-	//
-	//INC B
-	//LD C, B
-    //
-	//LD A, [0xb03]
-	//OUT 1, A, C
-	
-
 	// refresh screen
 	LD C, 8	// constant to refresh screen
 	OUT 1, A, C
