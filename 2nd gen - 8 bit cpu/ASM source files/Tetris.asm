@@ -1,5 +1,5 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.11.0
+// v.0.11.1
 
 //#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Sub_Multiply.asm
 
@@ -204,7 +204,7 @@ main_init:
 	ST [0xb17], A
 	
 	// initialize variables
-	LD A, 0
+	LD A, 5						// game will start in the next piece
 	ST #current_piece_num, A
 	
 	
@@ -238,8 +238,7 @@ next_piece_1:
 	ADD L, C
 	
 	// Get the piece data base addr from piece index
-	LD A, [HL]		//TODO: test if LD L, [HL] works
-	LD L, A
+	LD L, [HL]
 	
 	ST #curr_piece_posit_addr, A
 	
@@ -264,7 +263,7 @@ next_piece_1:
 
 loop_draw_screen:
 
-	; LD A, [HL]
+	LD A, [HL]
 	OUT 1, A, C
 	LD B, C
 	INC B
@@ -329,7 +328,6 @@ move_down:
 	LD C, 9
 	SUB B, C
 	
-	//JP Z, :move_down_end
 	JP Z, :place_piece
 	
 	LD B, A
@@ -393,31 +391,11 @@ place_piece_loop:
 	JP :place_piece_loop
 
 
-// TODO: remove (not being used anymore)
-move_down_end:
-
-	RET
-
 
 
 // Load piece from memory, based in HL register pair
 // Destroys A, L
 load_piece:
-
-	//// Calc address of piece index
-	//// =base addr (0xb20) + current_piece_num
-	//LD H, 0x0b		// piece index base addr
-	//LD L, 0x20
-	//LD A, #current_piece_num
-	//LD C, A
-	//ADD L, C
-	
-	//// Get the piece data base addr from piece index
-	//LD A, [HL]		//TODO: test if LD L, [HL] works
-	//LD L, A
-	
-
-	
 
 	// Load current_piece_pattern:
 	LD A, [HL]
@@ -585,7 +563,7 @@ rotate_piece:
 
 	CALL :load_piece
 
-	// TODO: test if piece is out of screen limits
+	// TODO: test if piece is out of screen limits after rotate
 	
 	// TODO: shift left or right the piece just loaded based on current x position
 	
