@@ -98,8 +98,57 @@ namespace Assembler.Test
             // Assert
             Assert.AreEqual(3, bytes.Length);
             Assert.AreEqual(4, bytes[0]);
-            Assert.AreEqual(97, bytes[1]);
-            Assert.AreEqual(255, bytes[2]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(97, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10abb_Test()
+        {
+            // Arrange
+            var line = "LD    A, '\r'"; // ASCII character
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(13, bytes[2]);
+        }
+
+        [TestMethod]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10abc_Test()
+        {
+            // Arrange
+            var line = "LD    A, ' '"; // ASCII character
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(32, bytes[2]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10abz_Test()
+        {
+            // Arrange
+            var line = "LD    A, 'ab'"; // invalid ASCII character
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+
+            // Assert
+            Assert.AreEqual(3, bytes.Length);
+            Assert.AreEqual(4, bytes[0]);
+            Assert.AreEqual(0, bytes[1]);
+            Assert.AreEqual(97, bytes[2]);
         }
 
         [TestMethod]
@@ -108,6 +157,83 @@ namespace Assembler.Test
         {
             // Arrange
             var line = "LD    A, 0b00012301"; // Binary literal with wrong digits
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ad_Test()
+        {
+            // Arrange
+            var line = "; LD    A, 1";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ae_Test()
+        {
+            // Arrange
+            var line = "/ LD    A, 1";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10af_Test()
+        {
+            // Arrange
+            var line = "LD    A, 1;";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ag_Test()
+        {
+            // Arrange
+            var line = "LD    A, 1 ;";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ah_Test()
+        {
+            // Arrange
+            var line = "LD    A, 1 /";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10ai_Test()
+        {
+            // Arrange
+            var line = "LD    A, 1/";
+
+            // Act
+            var bytes = ArrangeAndAct(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommandLineException))]
+        public void ConvertLineTokensToMachineCodeLD_Imediate_10aj_Test()
+        {
+            // Arrange
+            var line = "/";
 
             // Act
             var bytes = ArrangeAndAct(line);

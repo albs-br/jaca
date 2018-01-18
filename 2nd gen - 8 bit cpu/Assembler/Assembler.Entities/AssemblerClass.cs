@@ -61,6 +61,7 @@ namespace Assembler.Entities
             None,
             CommandStarted,
             LiteralStarted,
+            AscCharStarted,
             LabelStarted,
             CommentStarted,
             AddressStarted,
@@ -155,6 +156,10 @@ namespace Assembler.Entities
                         {
                             continue;
                         }
+                        else if (currentToken == "/" && currentChar != '/')
+                        {
+                            throw new InvalidCommandLineException("Invalid line: " + line);
+                        }
                         else if (currentChar == '/')
                         {
                             if (currentToken == "/")
@@ -176,6 +181,11 @@ namespace Assembler.Entities
                             state = StateMachine.LiteralStarted;
                             currentToken = currentChar.ToString();
                         }
+                        else if (currentChar == '\'')
+                        {
+                            state = StateMachine.AscCharStarted;
+                            currentToken = currentChar.ToString();
+                        }
                         else if (currentChar == ':')
                         {
                             state = StateMachine.LabelStarted;
@@ -192,7 +202,26 @@ namespace Assembler.Entities
                         {
                             state = StateMachine.DirectiveStarted;
                         }
+                        else
+                        {
+                            throw new InvalidCommandLineException("Invalid line: " + line);
+                        }
                         break;
+
+                    case StateMachine.AscCharStarted:
+                        {
+                            currentToken += currentChar;
+                            if (currentChar == '\'')
+                            {
+                                state = StateMachine.None;
+                                newLine.Tokens.Add(new AscCharToken(currentToken));
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                            break;
+                        }
 
                     case StateMachine.CommentStarted:
                         {
@@ -287,7 +316,7 @@ namespace Assembler.Entities
                             }
                             else
                             {
-                                throw new InvalidCommandLineException(line);
+                                throw new InvalidCommandLineException("Invalid literal in line: " + line);
                             }
                         }
                         break;
@@ -319,7 +348,7 @@ namespace Assembler.Entities
                             }
                             else
                             {
-                                throw new InvalidCommandLineException(line);
+                                throw new InvalidCommandLineException("Invalid literal address in line: " + line);
                             }
                         }
                         break;
@@ -333,6 +362,11 @@ namespace Assembler.Entities
                     switch (state)
                     {
                         case StateMachine.None:
+                            if (currentToken == "/")
+                            {
+                                throw new InvalidCommandLineException("Invalid line: " + line);
+                            }
+
                             break;
 
                         case StateMachine.CommandStarted:
@@ -344,6 +378,10 @@ namespace Assembler.Entities
                             {
                                 newLine.Tokens.Add(new CommandToken(currentToken));
                             }
+                            break;
+
+                        case StateMachine.AscCharStarted:
+                            newLine.Tokens.Add(new AscCharToken(currentToken));
                             break;
 
                         case StateMachine.LiteralStarted:

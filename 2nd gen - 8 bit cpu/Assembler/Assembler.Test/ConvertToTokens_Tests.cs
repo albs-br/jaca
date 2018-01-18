@@ -141,9 +141,9 @@ namespace Assembler.Test
             Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[1], typeof(RegisterToken));
             Assert.AreEqual(",", asmSource.Lines[0].Tokens[2].Text);
             Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[2], typeof(CommaToken));
-            Assert.AreEqual("0b00000101", asmSource.Lines[0].Tokens[3].Text);
-            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[3], typeof(LiteralToken));
-            Assert.AreEqual(5, ((LiteralToken)asmSource.Lines[0].Tokens[3]).NumericValue);
+            Assert.AreEqual("'a'", asmSource.Lines[0].Tokens[3].Text);
+            Assert.IsInstanceOfType(asmSource.Lines[0].Tokens[3], typeof(AscCharToken));
+            Assert.AreEqual(97, ((AscCharToken)asmSource.Lines[0].Tokens[3]).NumericValue);
 
             Assert.AreEqual("label_01:", asmSource.Lines[1].Text.Trim());
             Assert.AreEqual(1, asmSource.Lines[1].Tokens.Count);

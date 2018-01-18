@@ -743,23 +743,23 @@ draw_piece_1:
 
 	
 game_over:
-	LD A, 0x47	// 'G'
+	LD A, 'G'
 	OUT 0, A
-	LD A, 0x61	// 'a'
+	LD A, 'a'
 	OUT 0, A
-	LD A, 0x6d	// 'm'
+	LD A, 'm'
 	OUT 0, A
-	LD A, 0x65	// 'e'
+	LD A, 'e'
 	OUT 0, A
-	LD A, 0x20	// ' '
+	LD A, ' '
 	OUT 0, A
-	LD A, 0x4f	// 'O'
+	LD A, 'O'
 	OUT 0, A
-	LD A, 0x76	// 'v'
+	LD A, 'v'
 	OUT 0, A
-	LD A, 0x65	// 'e'
+	LD A, 'e'
 	OUT 0, A
-	LD A, 0x72	// 'r'
+	LD A, 'r'
 	OUT 0, A
 game_over_1:
 	JP :game_over_1

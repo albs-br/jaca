@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assembler.Entities.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,20 @@ namespace Assembler.Entities.Tokens
                 {
                     var tempText = Text.Substring(2); // Remove the "0b" prefix
                     return Convert.ToInt32(tempText, 2);
+                }
+                else if (this is AscCharToken)
+                {
+                    var tempText = Text.Substring(1, Text.Length-2); // Remove the single quote (') at beginning and end
+                    var charArray = tempText.ToCharArray();
+
+                    if (charArray.Length != 1)
+                    {
+                        throw new InvalidCommandLineException("Invalid char: " + Text);
+                    }
+
+                    var ch = charArray[0];
+                    
+                    return (int)ch;
                 }
                 else
                 {

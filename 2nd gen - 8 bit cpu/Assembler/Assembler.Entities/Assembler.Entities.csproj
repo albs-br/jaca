@@ -60,6 +60,7 @@
     <Compile Include="Tokens\CommandToken.cs" />
     <Compile Include="Tokens\CommaToken.cs" />
     <Compile Include="Tokens\IndirectByRegisterToken.cs" />
+    <Compile Include="Tokens\AscCharToken.cs" />
     <Compile Include="Tokens\RegisterToken.cs" />
     <Compile Include="Tokens\LabelToken.cs" />
     <Compile Include="Tokens\LiteralToken.cs" />
