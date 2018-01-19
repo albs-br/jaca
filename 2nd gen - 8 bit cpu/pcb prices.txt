@@ -1,5 +1,8 @@
 http://www.allpcb.com/online_quote.html
 
+
+all double layer
+
 sep 25th, 2017:
 width	height	qty	price	shipp	tot
 100	100	5	5	12	17	(x4 = 68)
@@ -10,3 +13,8 @@ nov 16th, 2017:
 100	100	10	5	free	5	(x6 = 30)
 200	200	5	60	free	60
 300	200	5	84	6	90
+
+jan 19th, 2018
+50	50	5	14	free	14
+100	100	5	23	free	23	
+

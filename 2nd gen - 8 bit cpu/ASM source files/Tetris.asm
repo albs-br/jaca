@@ -1,7 +1,6 @@
 // Tetris for JACA-2 homebrew CPU
-// v.0.11.1
+// v.0.11.2
 
-//#include	C:\Users\xdad\Source\Repos\jaca\2nd gen - 8 bit cpu\ASM source files\Sub_Multiply.asm
 
 // memory mapping:
 // start			end
@@ -11,7 +10,6 @@
 // 0xb20 (2848)		0xb26					piece index table
 // 0xb30 (2864)		0xb99					piece pattern data
 // 0xc00 (3072)								variables (standard of the system)
-// 0xd00 (3328)								include multiply
 
 
 
@@ -280,7 +278,13 @@ end_draw_screen:
 	OUT 1, A, C
 	
 	
-	
+// number of instructions in main loop best case:
+// - main_loop itself: 15
+// - draw_piece: 39
+// - move_down: 12
+// - check_collision: 18
+// TOTAL: 84 instructions, 4 cycles/instr, 336 cycles total
+// At 4KHz clock, max achievable is ~12 fps
 main_loop:
 
 	CALL :draw_piece

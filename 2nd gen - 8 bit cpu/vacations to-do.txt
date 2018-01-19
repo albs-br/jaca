@@ -1,9 +1,9 @@
 -to finish assembler
 	#defmem			OK
 	#org			OK
-	#include		OK
-	binary literal (0b)	OK
-	char			https://www.codeproject.com/Questions/516802/ConvertingpluscharsplustoplusASCIIplusinplusC
+	#include			OK
+	binary literal (0b)		OK
+	char			OK (18/01/2017)	https://www.codeproject.com/Questions/516802/ConvertingpluscharsplustoplusASCIIplusinplusC
 
 -to finish tetris
 -learn easy eda and order an pcb
