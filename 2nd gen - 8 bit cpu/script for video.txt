@@ -1,0 +1,10 @@
+1khz:
+08
+23
+24
+
+4khz
+11
+11a
+
+tetris (assemble and run)
