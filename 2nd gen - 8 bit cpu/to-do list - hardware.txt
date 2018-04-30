@@ -1,0 +1,8 @@
+-change the 74LS154 (4-to-15 decoder) by 74HCT238 (3-to-8 decoder)
+
+-connect ALU
+
+-make the register's output bus (banks A and B) with one 74LS244 to the register's input bus
+	at this point the copy of values from one register to another should be possible
+
+-implement the other registers
