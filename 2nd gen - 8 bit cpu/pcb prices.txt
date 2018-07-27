@@ -26,3 +26,10 @@ https://www.pcbway.com/orderonline.aspx?x=100&y=100&num=10&Layersquote=2&Thickne
 jan 24th, 2018
 100	100	5	5	12	17	(china post or e-packet are the cheapest options)
 200	200	5	67	21	88
+
+
+JLC PCB:
+https://jlcpcb.com
+
+may 10th, 2018
+100	100	5	2	6.66	8.66	(has option to combine PCB orders to ship together)
