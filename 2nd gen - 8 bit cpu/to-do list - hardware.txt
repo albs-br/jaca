@@ -1,4 +1,4 @@
--change the 74LS154 (4-to-15 decoder) by 74HCT238 (3-to-8 decoder)
+-change the 74LS154 (4-to-15 decoder) by 74HCT238 (3-to-8 decoder)				OK
 
 -connect ALU
 
@@ -6,3 +6,4 @@
 	at this point the copy of values from one register to another should be possible
 
 -implement the other registers
+	-register E	OK

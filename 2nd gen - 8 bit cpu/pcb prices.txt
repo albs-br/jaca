@@ -28,6 +28,13 @@ jan 24th, 2018
 200	200	5	67	21	88
 
 
+JLC PCB:
+https://jlcpcb.com
+
+may 10th, 2018
+100	100	5	2	6.66	8.66	(has option to combine PCB orders to ship together)
+
+
 jlcpcb (integrated with easyeda):
 jul 7th, 2018
 100	100	5	2	10	12	(registered air mail) us$ 2 just for first board, next boards on the same order will be US$ 5
