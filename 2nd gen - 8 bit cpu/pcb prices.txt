@@ -40,3 +40,6 @@ jul 7th, 2018
 100	100	5	2	10	12	(registered air mail) us$ 2 just for first board, next boards on the same order will be US$ 5
 two boards as above: 21
 three boards as above: 30
+
+sep 3rd, 2018
+200	100	5	16	14	30
