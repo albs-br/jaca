@@ -1,0 +1,41 @@
+registers module
+
+
+
+-inputs/outputs (using Logisim Tunnel name):
+
+			width		input/output
+INPUT			8
+IN_TO_R1		1
+
+IR_DATA			8
+IR_DATA_to_REG_IN	1
+
+OUT_REG_to_REG_IN	1
+
+MEM_DATA		8
+R1_to_MEM_DATA		1
+
+ALU_A_IN		8		O
+
+R1-Addr			3
+R2-Addr			3
+EN_R1_OUT		1
+
+REG_H_OUT		8
+REG_L_OUT		8
+
+OUTPUT			8		O
+R1_to_OUT		1
+
+CLOSE_REGS_BRIDGE	1
+
+REGS_BANK_B_OUT		8		O	(confirm, it looks like isn't used)
+
+ALU_B_IN		8		O
+ALU_OUT_to_REG_IN	1
+
+CLK_B			1
+Execute			1
+EN_REG_CLK		1
+Reset			1
