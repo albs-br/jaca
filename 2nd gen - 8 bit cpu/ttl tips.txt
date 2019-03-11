@@ -48,3 +48,5 @@ Rule of thumb:
 	330R - 3 inpuys;
 	240R - 4 inputs;
 	100R - 10 inputs.
+
+testing...
