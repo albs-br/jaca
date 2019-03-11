@@ -35,14 +35,14 @@ But you might be thinking, why use a pull-down resistor at all when a direct con
 
 
 Rule of thumb:
--Pull-up resistors:
+-Pull-up resistors (max):
 	55K per input;
 	27K - 2 inputs;
 	18K - 3 inpuys;
 	13K - 4 inputs;
 	4,7K - 10 inputs.
 
--Pull-down resistors:
+-Pull-down resistors (max):
 	1K per input;
 	470R - 2 inputs;
 	330R - 3 inpuys;

@@ -1,0 +1,45 @@
+ALU
+===
+74LS181		2
+74LS244		2
+74LS174		1
+74LS02		1
+74LS11		1
+7432		1
+7425		1
+
+Control Unit
+============
+28C256		4
+
+Registers
+=========
+74874		8
+74HCT238D,652	2
+74LS244		9
+74LS08		5
+74LS02		1
+74LS04		1
+
+Instruction Register
+====================
+DM74ALS874BNT	3
+HD74LS08P	1
+
+Clock & sequencer
+=================
+-LM555		2
+74HCT4017D	1
+MCP100-475DI/TO	1
+74LS00		1
+74LS02		1
+7414		1
+
+PC & Memory
+===========
+74LS161N	4
+DM74LS244N	2
+28C256		1
+62256P		1
+HD74LS02P	1
+

@@ -1,0 +1,30 @@
+#4
+Olá pessoal, eu vou apresentar o meu projeto, um computador de 8 bits, todo projetado por mim, a partir do zero. 
+Ele é formado somente por Circuitos Integrados TTL, da mesma família que o computador do Ben Eater, que o prof. Wagner montou numa série recente no canal WR Kits. Não estou usando um microprocessador comercial já existente, como o Z80, o microprocessador foi projetado e executado por mim, na verdade o computador inteiro é praticamente microprocessador, acrescentando apenas o gerador de clock, memória e outros.
+
+#5
+As especificações do computador: 8 bits, ou seja ele possui um barramento de DADOS de 8 bits, o que quer dizer que a cada vez que ele vai na memória buscar ou salvar um valor, são 8 bits ou um byte. Ele possui 8 registradores de 8 bits, sendo que dois deles (H e L) podem ser usados em conjunto pra endereçar a memória (essa característica eu copiei do antigo computador MSX que é mais velho deve lembrar). Ele é capaz de endereçar 64 Kbytes de memória total, que eu decidi dividir meio a meio entre ROM e RAM.
+
+#8
+A velocidade dele? Não sei, ainda. Até existe como calcular mas eu não tive tempo. Na prática a gente vai aumentando até parar de  funcionar. Eu acredito em uns 1 ou 2 Mhz. Por enquando o clock automático dele com 555 não passa de 1KHz.
+
+#9
+Como ele foi projetado?
+Bom, primeiramente eu fiz o projeto lógico num software chamado Logisim, que é excelente por sinal, e totalmente grátis. Aqui nós podemos ver alguns programas de teste simples sendo carregados e executados, e até mesmo um jogo Tetris bem simples visualizado na matriz 8x8.
+
+#10
+O projeto lógico foi a parte fácil. Pra implementação eu escolhi inicialmente usar breadboards (que alguns chamam de protoboards), o que foi uma PÉEEEEéssima decisão, pois os breadboards que eu comprei da China são de pessima qualidade, com maus contatos horríveis, tornando infernal e totalmente impossível o debug do sistema.
+
+#11
+Depois eu decidi fazer cada módulo em PCBs, usando o EasyEDA e fabricando com a JLC, ambos muito bons, recomendo. Por enquanto já chegaram 3 módulos, de um total de 6. O computador no momento está montado parte em PCBs e parte ainda nos breadboards, futuramente tudo estará em PCBs.
+
+#12
+Fiz também um programinha Assembler em C# para facilitar a programação dele, pra converter o programa na linguagem Assembly nos códigos que máquina, que são efetivamente a única coisa que o computadador entende.
+
+#13
+Aqui vemos a execução no modo de clock manual, de duas instruções bem simples, carregar o valor 32 no registrador A e o valor 1 no registrador E.
+
+#14
+Bem, isso é uma visão geral bem resumida do projeto. Vou colocar link pra documentaçaõ completa na descrição pra quem quiser ver.
+Voces desculpem a produçaõ do vídeo, totalmente amadora, nunca fiz isso antes.
+Espero que tenham gostado, até a próxima.
