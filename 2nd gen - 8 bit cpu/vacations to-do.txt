@@ -5,8 +5,9 @@
 	binary literal (0b)		OK
 	char			OK (18/01/2017)	https://www.codeproject.com/Questions/516802/ConvertingpluscharsplustoplusASCIIplusinplusC
 
--to finish tetris
--learn easy eda and order an pcb
--make protoboard circuit work (kkkk)
--build nespi
--build gb zero
+-to finish tetris			OK
+-learn easy eda and order an pcb	OK
+-make protoboard circuit work (kkkk)	x
+-build nespi				OK
+-build gb zero				x
+
