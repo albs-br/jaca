@@ -1,4 +1,5 @@
-#defmem	0x0ff		0x30	// this address should be not greater than 255 (or even 63)
+#defmem	0x0ff		0x30	// this address should be not greater than 255 (or even 63), because the breadboard test circuit has a limited address space
+#defmem	0x0ef		0x11
 
 				// load values to all registers
 				LD A, 1
@@ -12,13 +13,14 @@
 				LD F, 255
 
 				// copy from one register to another
-				LD A, B		// from bank A to bank A (B = 1)
+				LD A, B		// from bank A to bank A (A = 2)
 				LD D, E		// from bank B to bank B (D = 128)
 				LD A, F		// from bank A to bank B (A = 255)
 				LD C, H		// from bank B to bank A (C = 3)
 
 loop:			
-				SHL B
+				LD H, 0x80
+				SRL H		// not a 74181 function, it's implemented by a 74HCT244
 				JP Z, :exit_loop
 				JP :loop
 
@@ -27,6 +29,8 @@ exit_loop:
 				LD C, 1
 				ADD A, C
 				JP C, :c_flag_ok
+				JP Z, :c_flag_ok	// just in case the JP C doesn't work
+				JP :exit_loop
 
 c_flag_ok:		
 				LD H, 15
@@ -45,6 +49,12 @@ c_flag_ok:
 				LD A, [0x0ff]		// A = 0x30
 				ST [0x0fe], A
 				LD H, [0x0fe]		// H = 0x30
+
+				LD H, 0x00
+				LD L, 0xef
+				LD A, [HL]			// A = 0x11
+				ST [HL], A
+				LD B, [HL]			// B = 0x11
 
 sub_add_h_f:	
 				ADD H, F
