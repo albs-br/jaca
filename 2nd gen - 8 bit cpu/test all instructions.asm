@@ -20,14 +20,13 @@
 
 loop:			
 				LD H, 0x80
-				SRL H		// not a 74181 function, it's implemented by a 74HCT244
+				SHR H		// Shift Right (divide by 2), not a 74181 function, it's implemented by a 74HCT244
 				JP Z, :exit_loop
 				JP :loop
 
 exit_loop:		
 				LD A, 255
-				LD C, 1
-				ADD A, C
+				INC A
 				JP C, :c_flag_ok
 				JP Z, :c_flag_ok	// just in case the JP C doesn't work
 				JP :exit_loop
@@ -39,11 +38,11 @@ c_flag_ok:
 
 				// test ALU ops
 				LD L, 63
-				LD F, 13
+				LD F, 13		// F = 0b00001101
 				SUB L, F		// L = 50
-				INC L			// L = 51 (0b00110011)
-				NOT L			// L = 0b11001100
-				OR L, F			// L = 0b11001101
+				DEC L			// L = 49 (0b00110001)
+				NOT L			// L = 0b11001110
+				OR L, F			// L = 0b11001111
 
 				// test get/store values from/to memory
 				LD A, [0x0ff]		// A = 0x30
