@@ -32,10 +32,6 @@ exit_loop:
 				JP :exit_loop
 
 c_flag_ok:		
-				LD H, 15
-				LD F, 1
-				CALL :sub_add_h_f	// H = 16
-
 				// test ALU ops
 				LD L, 63
 				LD F, 13		// F = 0b00001101
@@ -54,6 +50,11 @@ c_flag_ok:
 				LD A, [HL]			// A = 0x11
 				ST [HL], A
 				LD B, [HL]			// B = 0x11
+
+				// test CALL instr
+				LD H, 15
+				LD F, 1
+				CALL :sub_add_h_f	// H = 16
 
 sub_add_h_f:	
 				ADD H, F
